@@ -8,6 +8,7 @@ import android.view.View;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
 import com.yxkj.controller.base.BaseFragment;
+import com.yxkj.controller.fragment.AllGoodsFragment;
 import com.yxkj.controller.fragment.MainFragment;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CustomVideoView;
@@ -18,9 +19,13 @@ import java.io.File;
 /**
  * 主页
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainFragment.AllGoodsAndBetterGoodsListener {
+    /*轮播广告*/
     private CustomVideoView videoView;
+    /*用户输入购买商品页*/
     private MainFragment mainFragment;
+    /*全部商品页*/
+    private AllGoodsFragment allGoodsFragment;
 
     @Override
     public int getContentViewId() {
@@ -88,6 +93,7 @@ public class MainActivity extends BaseActivity {
         if (mainFragment == null) {
             mainFragment = new MainFragment();
             addFragment(getSupportFragmentManager().beginTransaction(), mainFragment);
+            mainFragment.setGoodsAndBetterGoodsListener(this);
         }
     }
 
@@ -97,5 +103,29 @@ public class MainActivity extends BaseActivity {
     private void addFragment(FragmentTransaction transaction, BaseFragment fragment) {
         transaction.add(R.id.layout_fragments, fragment, fragment.TAG);
         transaction.commit();
+    }
+
+    /**
+     * 显示全部商品页
+     */
+    @Override
+    public void onAllGoods() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(mainFragment);
+        if (allGoodsFragment == null) {
+            allGoodsFragment = new AllGoodsFragment();
+            addFragment(transaction, allGoodsFragment);
+            return;
+        }
+        transaction.show(allGoodsFragment);
+        transaction.commit();
+    }
+
+    /**
+     * 显示优质商品页
+     */
+    @Override
+    public void onBetterGoods() {
+        ToastUtil.showToast("敬请期待");
     }
 }

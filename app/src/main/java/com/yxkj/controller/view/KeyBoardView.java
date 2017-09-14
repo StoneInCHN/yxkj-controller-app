@@ -5,6 +5,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +18,7 @@ import com.yxkj.controller.R;
 
 
 /**
- *
+ * 键盘
  */
 
 public class KeyBoardView extends FrameLayout {
@@ -31,6 +32,10 @@ public class KeyBoardView extends FrameLayout {
             "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<-", "清空"};
     /*提示文字是否为初始化*/
     private boolean isInit = true;
+    /*输入结束监听*/
+    private InputEndListener listener;
+    /*判断输入框是否是三个字*/
+    private boolean isEnd;
 
     public KeyBoardView(@NonNull Context context) {
         this(context, null);
@@ -44,6 +49,10 @@ public class KeyBoardView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         initLayout();
         initData();
+    }
+
+    public void setListener(InputEndListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -80,6 +89,34 @@ public class KeyBoardView extends FrameLayout {
                     break;
             }
         });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() >= 3) {
+                    if (isEnd) {
+                        return;
+                    }
+                    if (!isEnd) {
+                        isEnd = true;
+                    }
+                    if (listener != null) {
+                        listener.onEnd(editable.toString());
+                    }
+                } else {
+                    isEnd = false;
+                }
+            }
+        });
     }
 
     /**
@@ -96,5 +133,19 @@ public class KeyBoardView extends FrameLayout {
     public void initGoods() {
         editText.setHint(R.string.please_input_num);
         isInit = true;
+    }
+
+    /**
+     * 初始化
+     */
+    public void clear() {
+        editText.setText("");
+    }
+
+    /**
+     * 输入结束监听
+     */
+    public interface InputEndListener {
+        void onEnd(String param);
     }
 }

@@ -137,6 +137,10 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         if (value > minValue) {
             value = value - 1;
             tv_num.setText(value + "");
+            if (value == 0) {
+                btn_sub.setVisibility(INVISIBLE);
+                tv_num.setVisibility(INVISIBLE);
+            }
         }
     }
 
@@ -147,6 +151,10 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         if (value < maxValue) {
             value = value + 1;
             tv_num.setText(value + "");
+            if (value > 0) {
+                btn_sub.setVisibility(VISIBLE);
+                tv_num.setVisibility(VISIBLE);
+            }
         }
     }
 
