@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Controller</string>
+    <string name="toast_network_error">网络连接异常，请检查网络</string>
+    <string name="please_input_num">请输入商品购物编号</string>
+    <string name="all_goods">全部商品</string>
+    <string name="better_goods">优选商品</string>
+    <string name="no_select_goods">没有该编号商品，请重新输入</string>
+    <string name="clear_list">清空列表</string>
+    <string name="total_price">总计24.5</string>
+    <string name="immediate_pay">立即支付(60s)</string>
+
+</resources>
