@@ -8,22 +8,23 @@ import com.yxkj.controller.base.BaseViewHolder;
 
 
 /**
- * 搜索商品列表
+ * 全部商品列表
  */
 
-public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<String> {
-    public SearchGoodsAdapter(Context context) {
+public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<String> {
+
+    public CurrentPageGoodsAdapter(Context context) {
         super(context);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_test;
+        return R.layout.item_all_goods;
     }
 
     @Override
     public void onCorvert(BaseViewHolder holder, int position, String bean) {
-
+        holder.setText(R.id.tv_goods_name, "香飘飘");
     }
 
 }

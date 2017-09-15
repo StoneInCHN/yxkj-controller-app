@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.yxkj.controller.R;
+import com.yxkj.controller.callback.SelectListener;
 
 /**
  * 取消支付
@@ -55,9 +56,4 @@ public class CanclePayView extends LinearLayout {
         }));
     }
 
-    public interface SelectListener {
-        void onSure();
-
-        void onCancle();
-    }
 }

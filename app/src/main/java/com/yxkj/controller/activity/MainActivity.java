@@ -8,6 +8,8 @@ import android.view.View;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
 import com.yxkj.controller.base.BaseFragment;
+import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
+import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.fragment.AllGoodsFragment;
 import com.yxkj.controller.fragment.MainFragment;
 import com.yxkj.controller.util.ToastUtil;
@@ -19,7 +21,7 @@ import java.io.File;
 /**
  * 主页
  */
-public class MainActivity extends BaseActivity implements MainFragment.AllGoodsAndBetterGoodsListener {
+public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoodsListener, BackListener {
     /*轮播广告*/
     private CustomVideoView videoView;
     /*用户输入购买商品页*/
@@ -114,10 +116,12 @@ public class MainActivity extends BaseActivity implements MainFragment.AllGoodsA
         transaction.hide(mainFragment);
         if (allGoodsFragment == null) {
             allGoodsFragment = new AllGoodsFragment();
+            allGoodsFragment.setBackCallBack(this);
             addFragment(transaction, allGoodsFragment);
             return;
         }
         transaction.show(allGoodsFragment);
+        allGoodsFragment.restart();
         transaction.commit();
     }
 
@@ -127,5 +131,21 @@ public class MainActivity extends BaseActivity implements MainFragment.AllGoodsA
     @Override
     public void onBetterGoods() {
         ToastUtil.showToast("敬请期待");
+    }
+
+    /**
+     * 从全部商品页回来
+     */
+    @Override
+    public void onBack() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(allGoodsFragment);
+        if (mainFragment == null) {
+            mainFragment = new MainFragment();
+            addFragment(transaction, mainFragment);
+            return;
+        }
+        transaction.show(mainFragment);
+        transaction.commit();
     }
 }

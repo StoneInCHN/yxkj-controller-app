@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 
 import com.yxkj.controller.R;
+import com.yxkj.controller.callback.InputEndListener;
 
 
 /**
@@ -142,10 +143,4 @@ public class KeyBoardView extends FrameLayout {
         editText.setText("");
     }
 
-    /**
-     * 输入结束监听
-     */
-    public interface InputEndListener {
-        void onEnd(String param);
-    }
 }

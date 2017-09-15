@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SearchGoodsAdapter;
 import com.yxkj.controller.base.BaseFragment;
+import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
+import com.yxkj.controller.callback.InputEndListener;
+import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
@@ -28,7 +31,7 @@ import java.util.List;
 /**
  * 主页，用户输入购买商品页
  */
-public class MainFragment extends BaseFragment implements KeyBoardView.InputEndListener, CanclePayView.SelectListener {
+public class MainFragment extends BaseFragment implements InputEndListener, SelectListener {
     /*键盘*/
     private KeyBoardView keyboardView;
     /* 底部广告视频*/
@@ -149,13 +152,11 @@ public class MainFragment extends BaseFragment implements KeyBoardView.InputEndL
             return true;//如果设置true就可以防止他弹出错误的提示框！
         });
         /*支付倒计时结束*/
-        payTimeCount.setCompleteListener(() -> {
-            onSure();
-        });
+        payTimeCount.setCompleteListener(() -> onSure());
         /*立即支付倒计时结束*/
-        payImTimeCount.setCompleteListener(() -> {
-            onSure();
-        });
+        payImTimeCount.setCompleteListener(() -> onSure());
+         /*关闭支付页面倒计时结束*/
+        closeTimeCount.setCompleteListener(() -> onSure());
     }
 
     @Override
@@ -196,7 +197,8 @@ public class MainFragment extends BaseFragment implements KeyBoardView.InputEndL
     @Override
     public void onEnd(String param) {
         goods.add(param);
-        adapter.setDatas(goods);
+        adapter.settList(goods);
+        payImTimeCount.cancle();
         /*显示立即支付*/
         payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付");
         tv_pay_immediate.setVisibility(View.VISIBLE);
@@ -229,16 +231,8 @@ public class MainFragment extends BaseFragment implements KeyBoardView.InputEndL
      */
     private void clearList() {
         goods.clear();/*清空商品数据*/
-        adapter.setDatas(goods);/*刷新列表*/
+        adapter.settList(goods);/*刷新列表*/
         tv_pay_immediate.setVisibility(View.GONE);/*隐藏立即支付按钮*/
     }
 
-    /**
-     * 点击了优质或者全部商品
-     */
-    public interface AllGoodsAndBetterGoodsListener {
-        void onAllGoods();
-
-        void onBetterGoods();
-    }
 }

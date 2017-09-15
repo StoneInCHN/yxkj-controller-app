@@ -96,6 +96,13 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     public void setValue(int value) {
         this.value = value;
         tv_num.setText(value + "");
+        if (value == 0) {
+            btn_sub.setVisibility(INVISIBLE);
+            tv_num.setVisibility(INVISIBLE);
+        } else {
+            btn_sub.setVisibility(VISIBLE);
+            tv_num.setVisibility(VISIBLE);
+        }
     }
 
     public int getMinValue() {

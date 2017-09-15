@@ -2,6 +2,8 @@ package com.yxkj.controller.util;
 
 import android.widget.TextView;
 
+import com.yxkj.controller.callback.CompleteListener;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -57,9 +59,5 @@ public class TimeCountUtl {
             if (!disposable.isDisposed())
                 disposable.dispose();
         }
-    }
-
-    public interface CompleteListener {
-        void onComplete();
     }
 }

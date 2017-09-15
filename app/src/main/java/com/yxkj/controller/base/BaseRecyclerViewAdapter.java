@@ -1,9 +1,5 @@
-
 package com.yxkj.controller.base;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,572 +7,166 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
- * RecyclerView Adapter基类
+ * Created by Lizhangfeng on 2016/9/13 0013.
+ * Description:
  */
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
-    protected String TAG = getClass().getSimpleName();
 
-    public static class VIEW_TYPE {
-        public static final int HEADER = 0x0010;
-        public static final int FOOTER = 0x0011;
-    }
+    public static final int TYPE_HEADER = 0;//type为0表示为headerView
 
-    /**
-     * Base config
-     */
-    public List<T> mData;
-    protected Context mContext;
-    private LayoutInflater mInflater;
+    public static final int TYPE_NORMAL = 1;//type为1表示为正常的item
+
+    protected Context context;
+    //adapte 加载的数据
+    public List<T> tList;
+
+    //添加headerView
+    private View headerView;
 
     /**
      * Listener
      */
-    private OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener itemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
-    private OnRecyclerViewItemChildClickListener mChildClickListener;
-    private OnRecyclerViewItemChildLongClickListener mChildLongClickListener;
-
-    /**
-     * View type
-     */
-    private Map<Integer, Integer> layoutIdMap, viewTypeMap;
-    private int mCurrentViewTypeValue = 0x0107;
-
-    /**
-     * Animation
-     */
-    private AnimationType mAnimationType;
-    private int mAnimationDuration = 300;
-    private boolean showItemAnimationEveryTime = false;
-    private Interpolator mItemAnimationInterpolator;
-    private CustomAnimator mCustomAnimator;
-    private int mLastItemPosition = -1;
-
-    /**
-     * header and footer
-     */
-    private LinearLayout mHeaderLayout;
-    private LinearLayout mFooterLayout;
-    private LinearLayout mCopyHeaderLayout = null;
-    private LinearLayout mCopyFooterLayout = null;
 
     public BaseRecyclerViewAdapter(Context context) {
-        this(context, null);
+        this.context = context;
     }
 
-    public BaseRecyclerViewAdapter(Context context, List<T> data) {
-        mData = null == data ? new ArrayList<T>() : data;
-        layoutIdMap = new HashMap<>();
-        viewTypeMap = new HashMap<>();
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
+    public void settList(List<T> tList) {
+        this.tList = tList;
+        notifyDataSetChanged();
     }
 
-    @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseViewHolder baseViewHolder;
-        switch (viewType) {
-            case VIEW_TYPE.HEADER:// header
-                baseViewHolder = new BaseViewHolder(mHeaderLayout, mContext);
-                break;
-            case VIEW_TYPE.FOOTER:// footer
-                baseViewHolder = new BaseViewHolder(mFooterLayout, mContext);
-                break;
-            default:
-                baseViewHolder = new BaseViewHolder(mInflater.inflate(layoutIdMap.get(viewType),
-                        parent, false), mContext);
-                initItemClickListener(baseViewHolder);
-                break;
+    public void setMoreList(List<T> list) {
+        if (tList == null) {
+            tList = new ArrayList<T>();
         }
-        return baseViewHolder;
+        this.tList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public List<T> gettList() {
+        return tList;
+    }
+
+    public View getHeaderView() {
+        return headerView;
+    }
+
+    public void setHeaderView(View headerView) {
+        this.headerView = headerView;
+        notifyItemInserted(0);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < getHeaderViewCount()) {
-            return VIEW_TYPE.HEADER;
-        } else if (position >= mData.size() + getHeaderViewCount()) {
-            return VIEW_TYPE.FOOTER;
-        } else {
-            int currentPosition = position - getHeaderViewCount();
-            int currentLayoutId = getItemViewLayoutId(currentPosition, mData.get(currentPosition));
-            if (!viewTypeMap.containsKey(currentLayoutId)) {
-                mCurrentViewTypeValue++;
-                viewTypeMap.put(currentLayoutId, mCurrentViewTypeValue);
-                layoutIdMap.put(viewTypeMap.get(currentLayoutId), currentLayoutId);
-            }
-            return viewTypeMap.get(currentLayoutId);
-        }
+        if (headerView != null && position == 0)
+            return TYPE_HEADER;
+        return TYPE_NORMAL;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
-        switch (getItemViewType(position)) {
-            case VIEW_TYPE.HEADER:
-                // Do nothing
-                break;
-            case VIEW_TYPE.FOOTER:
-                // Do nothing
-                break;
-            default:
-                convert(holder, getItem(position - getHeaderViewCount()), position -
-                        getHeaderViewCount());
-                addAnimation(holder);
-                break;
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (headerView != null && viewType == TYPE_HEADER) {
+            return new BaseViewHolder(headerView, context);
         }
+        return new BaseViewHolder(LayoutInflater.from(context).inflate(getLayoutId(), parent, false), context);
     }
 
-    protected final void addAnimation(final BaseViewHolder holder) {
-        int currentPosition = holder.getAdapterPosition();
-        if (null != mCustomAnimator) {
-            mCustomAnimator.getAnimator(holder.itemView).setDuration(mAnimationDuration).start();
-        } else if (null != mAnimationType) {
-            if (showItemAnimationEveryTime || currentPosition > mLastItemPosition) {
-                new AnimationUtil()
-                        .setAnimationType(mAnimationType)
-                        .setTargetView(holder.itemView)
-                        .setDuration(mAnimationDuration)
-                        .setInterpolator(mItemAnimationInterpolator)
-                        .start();
-                mLastItemPosition = currentPosition;
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, final int position) {
+
+        if (headerView != null && holder.getLayoutPosition() == 0)
+            return;
+
+        if (tList != null) {
+            int realPos = getRealPosition(holder);
+            if (realPos < tList.size()) {
+                final T bean = tList.get(realPos);
+                onCorvert(holder, realPos, bean);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (itemClickListener != null) {
+                            itemClickListener.onItemClick(position, bean);
+                        }
+                    }
+                });
+
             }
+
         }
     }
 
-    /**
-     * init the baseViewHolder to register mOnItemClickListener and
-     * mOnItemLongClickListener
-     *
-     * @param holder
-     */
-    protected final void initItemClickListener(final BaseViewHolder holder) {
-        if (null != mOnItemClickListener) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final int position = holder.getAdapterPosition() - getHeaderViewCount();
-                    mOnItemClickListener.onItemClick(view, position);
-                }
-            });
-        }
-
-        if (null != mOnItemLongClickListener) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    final int position = holder.getAdapterPosition() - getHeaderViewCount();
-                    mOnItemLongClickListener.onItemLongClick(v, position);
-                    return true;
-                }
-
-            });
-        }
+    public int getRealPosition(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        return headerView == null ? position : position - 1;
     }
 
-    /**
-     * Base api
-     */
-    protected abstract void convert(BaseViewHolder holder, T item, int position);
-
-    protected abstract int getItemViewLayoutId(int position, T item);
-
-    protected T getItem(int position) {
-        return mData.get(position);
-    }
 
     @Override
     public int getItemCount() {
-        return mData.size() + getHeaderViewCount() + getFooterViewCount();
+
+        if (headerView != null)
+            return tList == null ? 1 : tList.size() + 1;
+
+        return tList == null ? 0 : tList.size();
     }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+            final GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+
+                    int SpanSize = layoutManager.getSpanCount();//
+                    return getItemViewType(position) == 0 ? SpanSize : 1;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(BaseViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams && holder.getLayoutPosition() == 0) {
+            ((StaggeredGridLayoutManager.LayoutParams) lp).setFullSpan(true);
+        }
+
+    }
+
+    public abstract int getLayoutId();
+
+    public abstract void onCorvert(BaseViewHolder holder, int position, T bean);
+
 
     /**
-     * Listener api
-     */
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
-    }
-
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
-        mOnItemLongClickListener = onItemLongClickListener;
-    }
-
-    /**
-     * Register a callback to be invoked when childView in this AdapterView has
-     * been clicked and held {@link OnRecyclerViewItemChildClickListener}
+     * 处理item点击监听
      *
-     * @param childClickListener The callback that will run
+     * @param <T>
      */
-    public void setOnItemChildClickListener(
-            OnRecyclerViewItemChildClickListener childClickListener) {
-        this.mChildClickListener = childClickListener;
-    }
-
-    public class OnItemChildClickListener implements View.OnClickListener {
-        public RecyclerView.ViewHolder mViewHolder;
-
-        @Override
-        public void onClick(View v) {
-            if (mChildClickListener != null)
-                mChildClickListener.onItemChildClick(BaseRecyclerViewAdapter.this, v,
-                        mViewHolder.getLayoutPosition() - getHeaderViewCount());
-        }
-    }
-
-    /**
-     * Register a callback to be invoked when childView in this AdapterView has
-     * been longClicked and held
-     * {@link OnRecyclerViewItemChildLongClickListener}
-     *
-     * @param childLongClickListener The callback that will run
-     */
-    public void setOnItemChildLongClickListener(
-            OnRecyclerViewItemChildLongClickListener childLongClickListener) {
-        this.mChildLongClickListener = childLongClickListener;
-    }
-
-    public class OnItemChildLongClickListener implements View.OnLongClickListener {
-        public RecyclerView.ViewHolder mViewHolder;
-
-        @Override
-        public boolean onLongClick(View v) {
-            if (mChildLongClickListener != null) {
-                return mChildLongClickListener.onItemChildLongClick(BaseRecyclerViewAdapter.this, v,
-                        mViewHolder.getLayoutPosition() - getHeaderViewCount());
-            }
-            return false;
-        }
-    }
-
-    /**
-     * Animation api
-     */
-    public void setItemAnimation(AnimationType animationType) {
-        mAnimationType = animationType;
-    }
-
-    public void setItemAnimationDuration(int animationDuration) {
-        mAnimationDuration = animationDuration;
-    }
-
-    public void setItemAnimationInterpolator(Interpolator animationInterpolator) {
-        mItemAnimationInterpolator = animationInterpolator;
-    }
-
-    public void setShowItemAnimationEveryTime(boolean showItemAnimationEveryTime) {
-        this.showItemAnimationEveryTime = showItemAnimationEveryTime;
-    }
-
-    public void setCustomItemAnimator(CustomAnimator customAnimator) {
-        mCustomAnimator = customAnimator;
-    }
-
-    /**
-     * Header and footer api
-     */
-    public LinearLayout getHeaderLayout() {
-        return mHeaderLayout;
-    }
-
-    public LinearLayout getFooterLayout() {
-        return mFooterLayout;
-    }
-
-    public void addHeaderView(View header) {
-        addHeaderView(header, -1);
-    }
-
-    public void addHeaderView(View header, int index) {
-        if (mHeaderLayout == null) {
-            if (mCopyHeaderLayout == null) {
-                mHeaderLayout = new LinearLayout(header.getContext());
-                mHeaderLayout.setOrientation(LinearLayout.VERTICAL);
-                mHeaderLayout
-                        .setLayoutParams(new RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-                mCopyHeaderLayout = mHeaderLayout;
-            } else {
-                mHeaderLayout = mCopyHeaderLayout;
-            }
-        }
-        index = index >= mHeaderLayout.getChildCount() ? -1 : index;
-        mHeaderLayout.addView(header, index);
-        this.notifyDataSetChanged();
-    }
-
-    public void addFooterView(View footer) {
-        addFooterView(footer, -1);
-    }
-
-    public void addFooterView(View footer, int index) {
-        if (mFooterLayout == null) {
-            if (mCopyFooterLayout == null) {
-                mFooterLayout = new LinearLayout(footer.getContext());
-                mFooterLayout.setOrientation(LinearLayout.VERTICAL);
-                mFooterLayout
-                        .setLayoutParams(new RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-                mCopyFooterLayout = mFooterLayout;
-            } else {
-                mFooterLayout = mCopyFooterLayout;
-            }
-        }
-        index = index >= mFooterLayout.getChildCount() ? -1 : index;
-        mFooterLayout.addView(footer, index);
-        this.notifyDataSetChanged();
-    }
-
-    public void removeHeaderView(View header) {
-        if (mHeaderLayout == null)
-            return;
-
-        mHeaderLayout.removeView(header);
-        if (mHeaderLayout.getChildCount() == 0) {
-            mHeaderLayout = null;
-        }
-        this.notifyDataSetChanged();
-    }
-
-    public void removeFooterView(View footer) {
-        if (mFooterLayout == null)
-            return;
-
-        mFooterLayout.removeView(footer);
-        if (mFooterLayout.getChildCount() == 0) {
-            mFooterLayout = null;
-        }
-        this.notifyDataSetChanged();
-    }
-
-    public void removeAllHeaderView() {
-        if (mHeaderLayout == null)
-            return;
-
-        mHeaderLayout.removeAllViews();
-        mHeaderLayout = null;
-    }
-
-    public void removeAllFooterView() {
-        if (mFooterLayout == null)
-            return;
-
-        mFooterLayout.removeAllViews();
-        mFooterLayout = null;
-    }
-
-    public int getHeaderViewCount() {
-        return null == mHeaderLayout ? 0 : 1;
-    }
-
-    public int getFooterViewCount() {
-        return null == mFooterLayout ? 0 : 1;
-    }
-
-    /**
-     * Some interface
-     */
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+    public interface OnItemClickListener<T> {
+        void onItemClick(int position, T data);
     }
 
     public interface OnItemLongClickListener {
         void onItemLongClick(View view, int position);
-    }
-
-    public interface OnRecyclerViewItemChildClickListener {
-        void onItemChildClick(BaseRecyclerViewAdapter adapter, View view, int position);
-    }
-
-    public interface OnRecyclerViewItemChildLongClickListener {
-        boolean onItemChildLongClick(BaseRecyclerViewAdapter adapter, View view, int position);
-    }
-
-    public interface CustomAnimator {
-        Animator getAnimator(View itemView);
-    }
-
-    private SpanSizeLookup mSpanSizeLookup;
-
-    public interface SpanSizeLookup {
-        int getSpanSize(GridLayoutManager gridLayoutManager, int position);
-    }
-
-    /**
-     * @param spanSizeLookup instance to be used to query number of spans
-     *                       occupied by each item
-     */
-    public void setSpanSizeLookup(SpanSizeLookup spanSizeLookup) {
-        this.mSpanSizeLookup = spanSizeLookup;
-    }
-
-    // 处理GridLayoutManager添加头部以及添加底部的错误
-    @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if (manager instanceof GridLayoutManager) {
-            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
-            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    int type = getItemViewType(position - 1);
-                    if (mSpanSizeLookup == null)
-                        return (type == VIEW_TYPE.HEADER || type == VIEW_TYPE.FOOTER)
-                                ? gridManager.getSpanCount() : 1;
-                    else
-                        return (type == VIEW_TYPE.HEADER || type == VIEW_TYPE.FOOTER)
-                                ? gridManager.getSpanCount()
-                                : mSpanSizeLookup.getSpanSize(gridManager,
-                                position - getHeaderViewCount());
-                }
-            });
-        }
-    }
-
-    // 处理StaggeredGridLayoutManager添加头部以及添加底部的
-    @Override
-    public void onViewAttachedToWindow(BaseViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        super.onViewAttachedToWindow(holder);
-        int type = holder.getItemViewType();
-        if (type == VIEW_TYPE.HEADER || type == VIEW_TYPE.FOOTER) {
-            if (holder.itemView
-                    .getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
-                StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
-                        .getLayoutParams();
-                params.setFullSpan(true);
-            }
-        }
-    }
-
-    /**
-     * * 刷新数据，初始化数据
-     */
-    public void setDatas(List<T> list) {
-        if (this.mData != null) {
-            if (null != list) {
-                List<T> temp = new ArrayList<>();
-                temp.addAll(list);
-                this.mData.clear();
-                this.mData.addAll(temp);
-            } else {
-                this.mData.clear();
-            }
-        } else {
-            this.mData = list;
-        }
-        notifyDataSetChanged();
-    }
-
-    /**
-     * 加载更多数据
-     */
-    public void setLoadDatas(List<T> list) {
-//        if (this.mData != null) {
-//            if (null != list) {
-//                List<T> temp = new ArrayList<>();
-//                temp.addAll(list);
-//                this.mData.addAll(temp);
-//            } else {
-//                this.mData.clear();
-//            }
-//        } else {
-//            this.mData = list;
-//        }
-        if (list != null && list.size() > 0) {
-            mData.addAll(list);
-            notifyItemInserted(getItemCount() - list.size());
-        }
-    }
-
-    public enum AnimationType {
-        ALPHA, SCALE, SLIDE_FROM_BOTTOM, SLIDE_FROM_LEFT, SLIDE_FROM_RIGHT
-    }
-
-    public class AnimationUtil {
-        private AnimationType mAnimationType = AnimationType.ALPHA;
-        private Animator mCustomAnimator;
-        private View mTargetView;
-        private Interpolator mInterpolator;
-        private int mDuration = 300;
-
-        public AnimationUtil() {
-        }
-
-        public AnimationUtil setAnimationType(AnimationType animationType) {
-            mAnimationType = animationType;
-            return this;
-        }
-
-        public AnimationUtil setCustomAnimation(Animator animator) {
-            mCustomAnimator = animator;
-            return this;
-        }
-
-        public AnimationUtil setDuration(int duration) {
-            mDuration = duration;
-            return this;
-        }
-
-        public AnimationUtil setInterpolator(Interpolator interpolator) {
-            mInterpolator = interpolator;
-            return this;
-        }
-
-        public AnimationUtil setTargetView(View targetView) {
-            mTargetView = targetView;
-            return this;
-        }
-
-        public void start() {
-            if (null != mCustomAnimator) {
-                mCustomAnimator.start();
-            } else if (null == mTargetView) {
-                throw new IllegalArgumentException("You must set a target view!");
-            } else {
-                startAnimation(mAnimationType);
-            }
-        }
-
-        private void startAnimation(AnimationType animationType) {
-            AnimatorSet animatorSet = new AnimatorSet();
-            switch (animationType) {
-                case ALPHA:
-                    animatorSet.play(ObjectAnimator.ofFloat(mTargetView, "alpha", 0.7f, 1f));
-                    break;
-                case SCALE:
-                    animatorSet.playTogether(ObjectAnimator.ofFloat(mTargetView, "scaleX", 0.6f, 1f)
-                            , ObjectAnimator.ofFloat(mTargetView, "scaleY", 0.6f, 1f));
-                    break;
-                case SLIDE_FROM_BOTTOM:
-                    animatorSet.play(ObjectAnimator.ofFloat(mTargetView, "translationY", mTargetView
-                            .getMeasuredHeight(), 0));
-                    break;
-                case SLIDE_FROM_LEFT:
-                    animatorSet.play(ObjectAnimator.ofFloat(mTargetView, "translationX", -mTargetView
-                            .getRootView().getWidth(), 0));
-                    break;
-                case SLIDE_FROM_RIGHT:
-                    animatorSet.play(ObjectAnimator.ofFloat(mTargetView, "translationX", mTargetView
-                            .getRootView().getWidth(), 0));
-                    break;
-            }
-
-            if (null != mInterpolator) {
-                animatorSet.setInterpolator(mInterpolator);
-            }
-            animatorSet.setDuration(mDuration);
-            animatorSet.start();
-        }
     }
 }
