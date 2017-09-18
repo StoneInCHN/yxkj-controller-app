@@ -19,5 +19,6 @@
     <string name="after_pay">支付成功，请及时取走商品</string>
     <string name="close">关闭（5s）</string>
     <string name="main">首页</string>
+    <string name="goods_selecte">已选商品</string>
 
 </resources>

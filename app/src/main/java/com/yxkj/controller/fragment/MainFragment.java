@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 主页，用户输入购买商品页
  */
-public class MainFragment extends BaseFragment implements InputEndListener, SelectListener {
+public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener {
     /*键盘*/
     private KeyBoardView keyboardView;
     /* 底部广告视频*/

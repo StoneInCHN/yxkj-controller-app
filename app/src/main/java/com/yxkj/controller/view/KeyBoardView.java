@@ -34,7 +34,7 @@ public class KeyBoardView extends FrameLayout {
     /*提示文字是否为初始化*/
     private boolean isInit = true;
     /*输入结束监听*/
-    private InputEndListener listener;
+    private InputEndListener<String> listener;
     /*判断输入框是否是三个字*/
     private boolean isEnd;
 
@@ -52,7 +52,7 @@ public class KeyBoardView extends FrameLayout {
         initData();
     }
 
-    public void setListener(InputEndListener listener) {
+    public void setListener(InputEndListener<String> listener) {
         this.listener = listener;
     }
 

@@ -3,11 +3,14 @@ package com.yxkj.controller.fragment;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.AllGoodsPageAdapter;
 import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.BackListener;
+import com.yxkj.controller.callback.GoodsSelectListener;
+import com.yxkj.controller.view.SelectedGoodsList;
 import com.yxkj.controller.view.TitleView;
 import com.yxkj.controller.view.VerticalViewPager;
 
@@ -20,7 +23,7 @@ import io.reactivex.Observable;
  * 全部商品页面
  */
 
-public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSelectedListener, BackListener {
+public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSelectedListener, BackListener, GoodsSelectListener<List<String>> {
     /*顶底部TitleView*/
     private TitleView titleView, titleBotomView;
     /*顶部导航栏*/
@@ -33,7 +36,10 @@ public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSel
     private VerticalViewPager viewPager;
     /*商品页适配器*/
     private AllGoodsPageAdapter allGoodsPageAdapter;
-
+    /*选择的商品数量*/
+    private TextView tv_selected;
+    /*选择商品列表*/
+    private SelectedGoodsList seletedGoodsList;
     private int page = 1;
 
     private List<Integer> adapterList = new ArrayList<>();
@@ -61,6 +67,8 @@ public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSel
         viewPager = findViewByIdNoCast(R.id.viewPager);
         titleBotomView = findViewByIdNoCast(R.id.titleBotomView);
         titleView = findViewByIdNoCast(R.id.titleView);
+        tv_selected = findViewByIdNoCast(R.id.tv_selected);
+        seletedGoodsList = findViewByIdNoCast(R.id.seletedGoodsList);
     }
 
     @Override
@@ -70,11 +78,13 @@ public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSel
         viewPager.setAdapter(allGoodsPageAdapter);
         adapterList.add(page);
         allGoodsPageAdapter.setIntegers(adapterList);
+        allGoodsPageAdapter.setGoodsSelectListener(this);
+
     }
 
     @Override
     protected void setEvent() {
-        setOnClick(next);
+        setOnClick(next, tv_selected);
         /*设置TabLayout切换监听*/
         tabLayout.addOnTabSelectedListener(this);
         /*设置返回监听*/
@@ -91,6 +101,9 @@ public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSel
                 adapterList.add(page);
                 allGoodsPageAdapter.setIntegers(adapterList);
                 viewPager.setCurrentItem(page, true);
+                break;
+            case R.id.tv_selected:
+                seletedGoodsList.togle();
                 break;
         }
     }
@@ -142,5 +155,11 @@ public class AllGoodsFragment extends BaseFragment implements TabLayout.OnTabSel
     public void restart() {
         titleBotomView.restart();
         titleView.restart();
+    }
+
+    @Override
+    public void onGoodsSelect(List<String> goods) {
+        tv_selected.setText(goods.size() + "");
+        seletedGoodsList.setSelectedGoods(goods);
     }
 }
