@@ -212,7 +212,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         clearList();
         keyboardView.setVisibility(View.VISIBLE);/*显示键盘*/
         layout_pay.setVisibility(View.GONE)/*隐藏支付页面*/;
-        view_cancle_pay.setVisibility(View.GONE);
         img_code.setVisibility(View.VISIBLE);
         keyboardView.clear();
     }
@@ -222,7 +221,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      */
     @Override
     public void onCancle() {
-        view_cancle_pay.setVisibility(View.GONE);/*隐藏取消弹窗*/
         img_code.setVisibility(View.VISIBLE);/*显示二维码*/
     }
 

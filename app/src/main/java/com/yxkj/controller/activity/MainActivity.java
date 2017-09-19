@@ -2,18 +2,20 @@ package com.yxkj.controller.activity;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
-import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
-import com.yxkj.controller.callback.BackListener;
-import com.yxkj.controller.fragment.AllGoodsFragment;
+import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.fragment.MainFragment;
 import com.yxkj.controller.util.ToastUtil;
+import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CustomVideoView;
+import com.yxkj.controller.view.PayPopupWindow;
 
 import java.io.File;
 
@@ -21,13 +23,11 @@ import java.io.File;
 /**
  * 主页
  */
-public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoodsListener, BackListener {
+public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoodsListener, ShowPayPopupWindowListener {
     /*轮播广告*/
     private CustomVideoView videoView;
     /*用户输入购买商品页*/
     private MainFragment mainFragment;
-    /*全部商品页*/
-    private AllGoodsFragment allGoodsFragment;
 
     @Override
     public int getContentViewId() {
@@ -73,13 +73,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 //        downLoadVideoUtil.startDownload();
         videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
 
-        videoView.setOnPreparedListener((MediaPlayer mp) -> {
-            videoView.start();
-        });
+        videoView.setOnPreparedListener((MediaPlayer mp) -> videoView.start());
 
-        videoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> {
-            videoView.start();   /* 循环播放 */
-        });
+        videoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> videoView.start()   /* 循环播放 */);
 
         videoView.setOnErrorListener((MediaPlayer mediaPlayer, int what, int extra) -> {
             mediaPlayer.reset();
@@ -94,17 +90,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     private void initFragment() {
         if (mainFragment == null) {
             mainFragment = new MainFragment();
-            addFragment(getSupportFragmentManager().beginTransaction(), mainFragment);
+            addFragment(getSupportFragmentManager().beginTransaction(), mainFragment, "main");
             mainFragment.setGoodsAndBetterGoodsListener(this);
         }
-    }
-
-    /**
-     * 添加fragment
-     */
-    private void addFragment(FragmentTransaction transaction, BaseFragment fragment) {
-        transaction.add(R.id.layout_fragments, fragment, fragment.TAG);
-        transaction.commit();
     }
 
     /**
@@ -112,17 +100,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     @Override
     public void onAllGoods() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(mainFragment);
-        if (allGoodsFragment == null) {
-            allGoodsFragment = new AllGoodsFragment();
-            allGoodsFragment.setBackCallBack(this);
-            addFragment(transaction, allGoodsFragment);
-            return;
-        }
-        transaction.show(allGoodsFragment);
-        allGoodsFragment.restart();
-        transaction.commit();
+        AllGoodsPopupWindow popupWindow = new AllGoodsPopupWindow(this);
+        popupWindow.setListener(this);
+        popupWindow.showAtLocation(videoView, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
     }
 
     /**
@@ -134,18 +114,20 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     }
 
     /**
-     * 从全部商品页回来
+     * 添加fragment
+     */
+    private void addFragment(FragmentTransaction transaction, Fragment fragment, String tag) {
+        transaction.add(R.id.layout_fragments, fragment, tag);
+        transaction.commit();
+    }
+
+    /**
+     * 显示支付PopWindow
+     *
+     * @param popupWindow
      */
     @Override
-    public void onBack() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(allGoodsFragment);
-        if (mainFragment == null) {
-            mainFragment = new MainFragment();
-            addFragment(transaction, mainFragment);
-            return;
-        }
-        transaction.show(mainFragment);
-        transaction.commit();
+    public void showPayPopWindow(PayPopupWindow popupWindow) {
+        popupWindow.showAtLocation(videoView, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
     }
 }

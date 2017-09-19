@@ -67,11 +67,13 @@ public class TitleView extends LinearLayout implements CompleteListener {
         timeCountUtl.setCompleteListener(this);
         img_back.setOnClickListener((view -> {
             if (backListener != null) {
+                cancle();
                 backListener.onBack();
             }
         }));
         tv_desc.setOnClickListener((view -> {
             if (backListener != null) {
+                cancle();
                 backListener.onBack();
             }
         }));
@@ -80,6 +82,7 @@ public class TitleView extends LinearLayout implements CompleteListener {
     @Override
     public void onComplete() {
         if (backListener != null) {
+            cancle();
             backListener.onBack();
         }
     }

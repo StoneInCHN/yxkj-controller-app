@@ -46,11 +46,13 @@ public class CanclePayView extends LinearLayout {
         addView(view);
         btn_sure.setOnClickListener((view1) -> {
             if (selectListener != null) {
+                setVisibility(View.GONE);
                 selectListener.onSure();//点击了确认
             }
         });
         btn_cancle.setOnClickListener((view1 -> {
             if (selectListener != null) {
+                setVisibility(View.GONE);
                 selectListener.onCancle();//点击了取消
             }
         }));

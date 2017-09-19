@@ -46,6 +46,9 @@ public class SelectedGoodsList extends LinearLayout {
         recyclerView_selected.setAdapter(selectedGoodsAdapter);
     }
 
+    /**
+     * 初始化View
+     */
     private void init() {
         View view = View.inflate(getContext(), R.layout.view_selected_goods, null);
         recyclerView_selected = view.findViewById(R.id.recyclerView_selected);
@@ -54,17 +57,37 @@ public class SelectedGoodsList extends LinearLayout {
         addView(view);
     }
 
+    /**
+     * 选择的商品列表数据
+     *
+     * @param selectedGoods
+     */
     public void setSelectedGoods(List<String> selectedGoods) {
         this.selectedGoods.clear();
         this.selectedGoods.addAll(selectedGoods);
         selectedGoodsAdapter.settList(this.selectedGoods);
     }
 
+    /**
+     * 获得已选商品列表数据
+     *
+     * @return
+     */
+    public List<String> getSelectedGoods() {
+        return selectedGoods;
+    }
+
+    /**
+     * 清空列表
+     */
     public void clearList() {
         selectedGoods.clear();
         selectedGoodsAdapter.settList(selectedGoods);
     }
 
+    /**
+     * 收缩开关
+     */
     public void togle() {
         if (isShow) {
             isShow = false;
