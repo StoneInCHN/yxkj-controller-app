@@ -2,35 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <!--价格总览与清空列表-->
-    <RelativeLayout
+    android:background="@drawable/layout_bg">
+
+    <LinearLayout
         android:id="@+id/layout_clear"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingRight="@dimen/dp_20">
+        android:visibility="gone">
+        <!--价格总览与清空列表-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_weight="1"
+            android:paddingRight="@dimen/dp_20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/clear_list" />
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="@string/total_price" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray_text" />
 
         <TextView
+            android:id="@+id/tv_pay_immediate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear_list" />
-
-        <TextView
-            android:id="@+id/tv_total_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/total_price" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_pay_immediate"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:gravity="center"
-        android:text="@string/immediate_pay"
-        android:visibility="gone" />
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/immediate_pay" />
+    </LinearLayout>
 </LinearLayout>

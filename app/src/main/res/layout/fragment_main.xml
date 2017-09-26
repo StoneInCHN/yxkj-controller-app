@@ -18,7 +18,7 @@
             android:layout_weight="3"
             android:gravity="center_vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
@@ -27,12 +27,14 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/dp_10">
 
                     <TextView
                         android:id="@+id/tv_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:drawableLeft="@mipmap/ic_launcher"
                         android:gravity="center_vertical"
                         android:text="@string/all_goods" />
@@ -44,20 +46,26 @@
                         android:layout_alignParentRight="true"
                         android:drawableLeft="@mipmap/ic_launcher"
                         android:gravity="center_vertical"
-                        android:text="@string/better_goods" />
+                        android:text="@string/better_goods"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
+                <include
+                    android:id="@+id/botom_layout"
+                    layout="@layout/include_main_botom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/botom_layout"
+                    android:visibility="gone" />
 
-                <include layout="@layout/include_main_botom" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="0dp"

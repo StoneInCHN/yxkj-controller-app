@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 //            @Override
 //            public void onSuceess(File file) {
 //                videoView.setVideoURI(Uri.parse(file.toString()));
-//                downVideoView.setVideoURI(Uri.parse(file.toString()));
+////                downVideoView.setVideoURI(Uri.parse(file.toString()));
 //
 //            }
 //        });
