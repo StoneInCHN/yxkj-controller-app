@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -40,19 +41,18 @@ public class CanclePayView extends LinearLayout {
     }
 
     private void init() {
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         View view = View.inflate(getContext(), R.layout.view_canle_pay, null);
         btn_sure = view.findViewById(R.id.btn_sure);
         btn_cancle = view.findViewById(R.id.btn_cancle);
         addView(view);
         btn_sure.setOnClickListener((view1) -> {
             if (selectListener != null) {
-                setVisibility(View.GONE);
                 selectListener.onSure();//点击了确认
             }
         });
         btn_cancle.setOnClickListener((view1 -> {
             if (selectListener != null) {
-                setVisibility(View.GONE);
                 selectListener.onCancle();//点击了取消
             }
         }));

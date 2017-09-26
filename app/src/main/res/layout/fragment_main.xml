@@ -24,20 +24,24 @@
                 android:layout_weight="2"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/dp_10">
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/background"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_all"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:drawableLeft="@mipmap/ic_launcher"
-                        android:gravity="center_vertical"
-                        android:text="@string/all_goods" />
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="200dp"
+                        android:src="@mipmap/logo" />
+
+                    <ImageView
+                        android:id="@+id/img_all"
+                        android:layout_width="500dp"
+                        android:layout_height="350dp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:src="@mipmap/merchandise" />
 
                     <TextView
                         android:id="@+id/tv_better"
@@ -48,7 +52,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/better_goods"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </LinearLayout>
 
                 <include
                     android:id="@+id/botom_layout"
@@ -62,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@id/botom_layout"
+                    android:background="@color/white"
                     android:visibility="gone" />
 
 
@@ -70,7 +75,8 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3">
+                android:layout_weight="2"
+                android:background="@mipmap/keyboard">
 
                 <com.yxkj.controller.view.KeyBoardView
                     android:id="@+id/keyboardView"
@@ -84,37 +90,28 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <!--支付二维码-->
-                        <ImageView
-                            android:id="@+id/img_code"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/test" />
-                        <!--取消支付弹窗-->
-                        <com.yxkj.controller.view.CanclePayView
-                            android:id="@+id/view_cancle_pay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone" />
-                    </FrameLayout>
+                    <!--支付二维码-->
+                    <ImageView
+                        android:id="@+id/img_code"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/banner_center" />
 
                     <TextView
                         android:id="@+id/tv_count_down"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:text="@string/count_down" />
-
-                    <Button
-                        android:id="@+id/btn_cancle_pay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cancle_pay" />
+                        android:layout_marginLeft="@dimen/dp_60"
+                        android:layout_marginRight="@dimen/dp_60"
+                        android:layout_marginTop="@dimen/dp_40"
+                        android:background="@drawable/btn_cancle_pay"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingTop="@dimen/dp_10"
+                        android:text="@string/count_down"
+                        android:textColor="@color/white"
+                        android:textSize="28sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -138,14 +135,27 @@
                         android:gravity="center"
                         android:text="@string/close" />
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_canclePay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#20000000"
+                    android:visibility="gone">
+                    <!--取消支付弹窗-->
+                    <com.yxkj.controller.view.CanclePayView
+                        android:id="@+id/view_cancle_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="@dimen/dp_10">
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/img_left"
@@ -154,7 +164,7 @@
                 android:layout_margin="@dimen/dp_4"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/test" />
+                android:src="@mipmap/banner_left" />
 
             <ImageView
                 android:id="@+id/img_center"
@@ -163,7 +173,7 @@
                 android:layout_margin="@dimen/dp_4"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/test" />
+                android:src="@mipmap/banner_center" />
 
             <ImageView
                 android:id="@+id/img_right"
@@ -172,7 +182,7 @@
                 android:layout_margin="@dimen/dp_4"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/test" />
+                android:src="@mipmap/banner_right" />
         </LinearLayout>
     </LinearLayout>
 

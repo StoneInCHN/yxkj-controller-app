@@ -4,18 +4,22 @@ import android.content.Context;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 
 import com.yxkj.controller.R;
+import com.yxkj.controller.adapter.KeyBoardAdapter;
+import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.callback.InputEndListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,17 +30,18 @@ public class KeyBoardView extends FrameLayout {
     /*顶部输入框*/
     private EditText editText;
     /*列表*/
-    private GridView gridView;
+    private RecyclerView gridView;
     /*键盘内容集合*/
     private String[] contents = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
-            "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<-", "清空"};
+            "R", "S", "T", "U", "V", "X", "Y", "Z", "X", "重 置"};
     /*提示文字是否为初始化*/
     private boolean isInit = true;
     /*输入结束监听*/
     private InputEndListener<String> listener;
     /*判断输入框是否是三个字*/
     private boolean isEnd;
+    private KeyBoardAdapter adapter;
 
     public KeyBoardView(@NonNull Context context) {
         this(context, null);
@@ -71,23 +76,33 @@ public class KeyBoardView extends FrameLayout {
      */
     private void initData() {
         editText.setEnabled(false);
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.view_text, contents);
+//        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.view_text, contents);
+        adapter = new KeyBoardAdapter(getContext());
+        List<String> l = new ArrayList<>();
+        for (int i = 0; i < contents.length; i++) {
+            l.add(contents[i]);
+        }
+        adapter.settList(l);
+        gridView.setLayoutManager(new GridLayoutManager(getContext(), 8));
         gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
-            switch (i) {
-                case 37:
-                    editText.setText("");
-                    break;
-                case 36:
-                    Editable editable = editText.getText();
-                    editText.setText(editable.length() > 0 ? editable.delete(editable.length() - 1, editable.length()) : "");
-                    break;
-                default:
-                    if (!isInit) {
-                        initGoods();
-                    }
-                    editText.setText(editText.getText().append(contents[i]));
-                    break;
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(int position, String data) {
+                switch (position) {
+                    case 36:
+                        editText.setText("");
+                        break;
+                    case 35:
+                        Editable editable = editText.getText();
+                        editText.setText(editable.length() > 0 ? editable.delete(editable.length() - 1, editable.length()) : "");
+                        break;
+                    default:
+                        if (!isInit) {
+                            initGoods();
+                        }
+                        editText.setText(editText.getText().append(contents[position]));
+                        break;
+                }
             }
         });
         editText.addTextChangedListener(new TextWatcher() {

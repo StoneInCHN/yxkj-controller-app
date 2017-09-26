@@ -8,7 +8,6 @@ import android.support.v7.widget.TintTypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,8 +19,8 @@ import com.yxkj.controller.R;
  */
 public class NumberAddSubView extends LinearLayout implements View.OnClickListener {
 
-    private Button btn_sub;
-    private Button btn_add;
+    private TextView btn_sub;
+    private TextView btn_add;
     private TextView tv_num;
     private Context mContext;
 
@@ -77,9 +76,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
     private void initView(Context context) {
         //第三个参数：把当前View加载到NumberAddSubView控件上
         View.inflate(context, R.layout.number_add_sub_view, this);
-        btn_sub = (Button) findViewById(R.id.btn_sub);
-        btn_add = (Button) findViewById(R.id.btn_add);
-        tv_num = (TextView) findViewById(R.id.tv_num);
+        btn_sub = findViewById(R.id.btn_sub);
+        btn_add =  findViewById(R.id.btn_add);
+        tv_num =  findViewById(R.id.tv_num);
 
         btn_sub.setOnClickListener(this);
         btn_add.setOnClickListener(this);
