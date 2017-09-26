@@ -7,6 +7,12 @@
     <color name="app_bg">#FFF0F0F0</color>
     <color name="white">#fff</color>
     <color name="black">#000</color>
+    <color name="green">#34B944</color>
+    <color name="trans_green">#8034B944</color>
+    <color name="line_color">#ffcccccc</color>
+    <color name="vertical_line_color">#ffcccccc</color>
+    <color name="orange">#FF6C00</color>
+    <color name="color_ffafafaf">#ffafafaf</color>
 
     <!--常用颜色-->
     <color name="theme_orange">#FF853B</color>

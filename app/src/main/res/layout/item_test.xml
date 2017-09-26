@@ -3,30 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:padding="@dimen/dp_20">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="A21" />
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="140dp"
+        android:src="@color/colorAccent" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_20"
         android:layout_weight="1"
-        android:drawableLeft="@mipmap/ic_launcher_round"
-        android:gravity="center_vertical"
-        android:text="同意冰红茶" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A21"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:text="同意冰红茶"
+            android:textSize="28sp" />
+    </LinearLayout>
+
 
     <com.yxkj.controller.view.NumberAddSubView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:maxValue="100"
         app:minValue="0"
+        app:paddingEnd="@dimen/dp_20"
+        app:paddingStart="@dimen/dp_20"
         app:value="0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥10元" />
+        android:layout_marginLeft="@dimen/dp_20"
+        android:text="￥10元"
+        android:textColor="@color/orange"
+        android:textSize="28sp" />
 </LinearLayout>

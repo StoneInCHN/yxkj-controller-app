@@ -2,37 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="#30000000"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/dp_10">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_50"
-        android:gravity="center"
-        android:text="@string/sure_to_cancle_pay" />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:gravity="center"
-        android:weightSum="5">
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/sure" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:text="@string/sure_to_cancle_pay" />
 
-        <Button
-            android:id="@+id/btn_cancle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancle" />
+        <include layout="@layout/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="28sp"
+                android:background="@color/white"
+                android:text="@string/sure" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/line_color" />
+
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="0dp"
+                android:textSize="28sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:text="@string/cancle"
+                android:textColor="@color/green" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
