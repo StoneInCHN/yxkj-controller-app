@@ -58,7 +58,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     /*右侧静默广告*/
     private ImageView img_right;
     /*清空列表*/
-    private LinearLayout layout_clear;
+    private LinearLayout botom_layout;
     private TextView tv_clear;
     /*购买商品总价*/
     private TextView tv_total_price;
@@ -110,7 +110,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         img_left = findViewByIdNoCast(R.id.img_left);
         img_center = findViewByIdNoCast(R.id.img_center);
         img_right = findViewByIdNoCast(R.id.img_right);
-        layout_clear = findViewByIdNoCast(R.id.layout_clear);
+        botom_layout = findViewByIdNoCast(R.id.botom_layout);
         tv_clear = findViewByIdNoCast(R.id.tv_clear);
         tv_total_price = findViewByIdNoCast(R.id.tv_total_price);
         tv_pay_immediate = findViewByIdNoCast(R.id.tv_pay_immediate);
@@ -172,7 +172,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
                 payTimeCount.countDown(0, 120, tv_count_down, "取消支付");/*支付倒计时*/
                 payImTimeCount.cancle();
-                layout_clear.setVisibility(View.GONE);
+                botom_layout.setVisibility(View.GONE);
                 tv_totall_gray.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_count_down:/*取消支付*/
@@ -208,7 +208,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         recyclerView.setVisibility(View.VISIBLE);//显示商品列表
         /*显示立即支付*/
         payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付");
-        layout_clear.setVisibility(View.VISIBLE);//显示立即支付
+        botom_layout.setVisibility(View.VISIBLE);//显示立即支付
     }
 
     /**
@@ -219,7 +219,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         goods.clear();/*清空商品数据*/
         adapter.settList(goods);/*刷新列表*/
         tv_totall_gray.setVisibility(View.GONE);//隐藏灰色总价
-        layout_clear.setVisibility(View.GONE);/*隐藏立即支付按钮*/
+        botom_layout.setVisibility(View.GONE);/*隐藏立即支付按钮*/
         layout_canclePay.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);//隐藏商品列表
         img_all.setVisibility(View.VISIBLE);//显示全部商品
