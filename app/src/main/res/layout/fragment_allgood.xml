@@ -46,6 +46,8 @@
 
         <com.yxkj.controller.view.VerticalViewPager
             android:id="@+id/viewPager"
+            android:paddingLeft="15px"
+            android:background="@color/theme_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

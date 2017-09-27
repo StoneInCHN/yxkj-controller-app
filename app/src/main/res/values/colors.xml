@@ -19,5 +19,7 @@
     <color name="theme_orange">#FF853B</color>
     <color name="theme_green">#34B944</color>
     <color name="theme_red">#FF012F</color>
+    <color name="theme_gray">#EBEBEB</color>
+    <color name="bg_gray">#EBEBEB</color>
     <color name="bg_black_90trans">#E6303135</color>
 </resources>

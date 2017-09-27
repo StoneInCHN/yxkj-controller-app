@@ -1,6 +1,10 @@
 package com.yxkj.controller.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseRecyclerViewAdapter;
@@ -15,6 +19,7 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<String> {
 
     public CurrentPageGoodsAdapter(Context context) {
         super(context);
+
     }
 
     @Override

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:paddingLeft="20px"
         android:paddingRight="20px"
+        android:background="@color/theme_gray"
         android:layout_height="60px">
 
         <TextView
