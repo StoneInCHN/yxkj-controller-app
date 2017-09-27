@@ -2,6 +2,7 @@ package com.yxkj.controller.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.TintTypedArray;
@@ -57,13 +58,24 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
             int minValue = a.getInt(R.styleable.NumberAddSubView_minValue, 0);
             setMinValue(minValue);
 
+            int btnSubColor = a.getColor(R.styleable.NumberAddSubView_btnSubTextColor, Color.parseColor("#34B944"));
+            btn_sub.setTextColor(btnSubColor);
+
+            int textPadding = a.getDimensionPixelOffset(R.styleable.NumberAddSubView_textViewPadding, 0);
+            LinearLayout.LayoutParams layoutParams = (LayoutParams) tv_num.getLayoutParams();
+            layoutParams.setMargins(textPadding, 0, textPadding, 0);
+            tv_num.setLayoutParams(layoutParams);
+
+            int btnAddColor = a.getColor(R.styleable.NumberAddSubView_btnAddTextColor, Color.parseColor("#ffffff"));
+            btn_add.setTextColor(btnAddColor);
+
             Drawable btnSubBackground = a.getDrawable(R.styleable.NumberAddSubView_btnSubBackground);
             if (btnSubBackground != null)
                 btn_sub.setBackground(btnSubBackground);
 
             Drawable btnAddBackground = a.getDrawable(R.styleable.NumberAddSubView_btnAddBackground);
             if (btnAddBackground != null)
-                btn_sub.setBackground(btnAddBackground);
+                btn_add.setBackground(btnAddBackground);
 
             Drawable textViewBackground = a.getDrawable(R.styleable.NumberAddSubView_textViewBackground);
             if (textViewBackground != null)
@@ -78,8 +90,8 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         //第三个参数：把当前View加载到NumberAddSubView控件上
         View.inflate(context, R.layout.number_add_sub_view, this);
         btn_sub = findViewById(R.id.btn_sub);
-        btn_add =  findViewById(R.id.btn_add);
-        tv_num =  findViewById(R.id.tv_num);
+        btn_add = findViewById(R.id.btn_add);
+        tv_num = findViewById(R.id.tv_num);
 
         btn_sub.setOnClickListener(this);
         btn_add.setOnClickListener(this);

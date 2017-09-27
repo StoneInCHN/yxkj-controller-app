@@ -3,6 +3,7 @@ package com.yxkj.controller.fragment;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.SelectListener;
-import com.yxkj.controller.util.DividerItemDecoration;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
@@ -59,6 +59,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private ImageView img_right;
     /*清空列表*/
     private LinearLayout botom_layout;
+    private LinearLayout layout_clear;
     private TextView tv_clear;
     /*购买商品总价*/
     private TextView tv_total_price;
@@ -119,6 +120,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         layout_after_pay = findViewByIdNoCast(R.id.layout_after_pay);
         tv_close = findViewByIdNoCast(R.id.tv_close);
         tv_totall_gray = findViewByIdNoCast(R.id.tv_totall_gray);
+        layout_clear = findViewByIdNoCast(R.id.layout_clear);
     }
 
     @Override
@@ -128,7 +130,9 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         closeTimeCount = new TimeCountUtl();
         adapter = new SearchGoodsAdapter(getActivity());
         goods = new ArrayList<>();
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(R.drawable.divider_line));
+        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         downVideoView.setVideoURI(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
@@ -172,7 +176,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
                 payTimeCount.countDown(0, 120, tv_count_down, "取消支付");/*支付倒计时*/
                 payImTimeCount.cancle();
-                botom_layout.setVisibility(View.GONE);
+                layout_clear.setVisibility(View.GONE);
                 tv_totall_gray.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_count_down:/*取消支付*/
@@ -209,6 +213,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         /*显示立即支付*/
         payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付");
         botom_layout.setVisibility(View.VISIBLE);//显示立即支付
+        layout_clear.setVisibility(View.VISIBLE);//显示立即支付
     }
 
     /**

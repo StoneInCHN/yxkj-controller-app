@@ -6,32 +6,34 @@
 
     <Button
         android:id="@+id/btn_sub"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="36px"
+        android:layout_height="36px"
         android:background="@drawable/bg_btn_style_white"
-        android:text="-"
         android:gravity="center"
+        android:text="-"
+        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/green"
-        android:textSize="30dp" />
+        android:textSize="24px" />
 
     <TextView
         android:id="@+id/tv_num"
         android:layout_width="30px"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="2"
         android:textColor="@color/green"
-        android:textSize="21px" />
+        android:textSize="24px" />
 
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="36px"
+        android:layout_height="36px"
         android:background="@drawable/bg_tv_round_green"
-        android:text="+"
         android:gravity="center"
+        android:text="+"
+        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/white"
-        android:textSize="30dp" />
+        android:textSize="24px" />
 
 </LinearLayout>

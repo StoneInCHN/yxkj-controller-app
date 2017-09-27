@@ -43,9 +43,12 @@
     <com.yxkj.controller.view.NumberAddSubView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:btnAddBackground="@drawable/bg_btn_style_white"
+        app:btnAddTextColor="@color/green"
         app:maxValue="100"
         app:minValue="0"
-        app:value="0" />
+        app:textViewPadding="10px"
+        app:value="1" />
 
     <TextView
         android:layout_width="wrap_content"

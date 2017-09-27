@@ -7,5 +7,8 @@
         <attr name="btnAddBackground" format="reference" />
         <attr name="btnSubBackground" format="reference" />
         <attr name="textViewBackground" format="reference" />
+        <attr name="textViewPadding" format="dimension" />
+        <attr name="btnAddTextColor" format="color" />
+        <attr name="btnSubTextColor" format="color" />
     </declare-styleable>
 </resources>

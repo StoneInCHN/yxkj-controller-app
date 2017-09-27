@@ -72,20 +72,33 @@
         android:id="@+id/layout_success"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <ImageView
+            android:layout_width="155px"
+            android:layout_height="108px"
+            android:layout_marginTop="300px"
+            android:src="@mipmap/icon_pay" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
             android:gravity="center"
-            android:text="支付成功，请及时取走商品" />
+            android:text="支付成功，请及时取走商品"
+            android:textColor="@color/color_333333"
+            android:textSize="30px" />
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="返回首页:5s" />
+            android:layout_width="420px"
+            android:layout_height="50px"
+            android:layout_marginTop="25px"
+            android:background="@drawable/btn_cancle_pay"
+            android:text="返回首页:5s"
+            android:textColor="@color/white"
+            android:textSize="30px" />
     </LinearLayout>
 </RelativeLayout>

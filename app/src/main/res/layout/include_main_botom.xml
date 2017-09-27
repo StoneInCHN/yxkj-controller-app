@@ -15,7 +15,7 @@
         android:layout_height="60px"
         android:background="@drawable/layout_bg"
         android:gravity="center_vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <!--价格总览与清空列表-->
         <LinearLayout
             android:layout_width="300px"
