@@ -1,66 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="65dp"
-    android:layout_height="89dp"
+    android:layout_width="194px"
+    android:layout_height="268px"
     android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:paddingLeft="15px"
+    android:paddingRight="15px"
+    android:paddingTop="15px">
 
     <RelativeLayout
-        android:layout_width="54dp"
-        android:layout_height="54dp">
+        android:layout_width="162px"
+        android:layout_height="162px">
 
         <ImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@mipmap/test" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="9dp"
+            android:layout_height="27px"
             android:layout_alignParentBottom="true"
             android:background="@color/bg_black_90trans"
             android:gravity="center"
             android:text="常温"
             android:textColor="@color/white"
-            android:textSize="6dp" />
+            android:textSize="18px" />
 
     </RelativeLayout>
-
 
     <TextView
         android:id="@+id/tv_goods_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginTop="12px"
         android:ellipsize="end"
         android:lines="1"
         android:text="农夫山泉有点甜天天天天天"
-        android:textSize="6dp" />
+        android:textSize="18px" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:layout_marginTop="8px">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/theme_orange"
+            android:layout_centerVertical="true"
             android:text="￥2.50"
-            android:textSize="9dp" />
+            android:textColor="@color/theme_orange"
+            android:textSize="20px" />
 
         <com.yxkj.controller.view.NumberAddSubView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             app:maxValue="100"
             app:minValue="0"
-            app:value="0" />
+            app:value="1" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

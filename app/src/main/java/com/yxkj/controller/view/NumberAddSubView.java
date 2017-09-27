@@ -8,6 +8,7 @@ import android.support.v7.widget.TintTypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,8 +20,8 @@ import com.yxkj.controller.R;
  */
 public class NumberAddSubView extends LinearLayout implements View.OnClickListener {
 
-    private TextView btn_sub;
-    private TextView btn_add;
+    private Button btn_sub;
+    private Button btn_add;
     private TextView tv_num;
     private Context mContext;
 
