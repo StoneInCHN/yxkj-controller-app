@@ -5,33 +5,38 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center_vertical"
-    android:padding="@dimen/dp_20">
+    android:paddingBottom="13px"
+    android:paddingLeft="30px"
+    android:paddingRight="30px"
+    android:paddingTop="13px">
 
     <ImageView
-        android:layout_width="70dp"
-        android:layout_height="140dp"
+        android:layout_width="33px"
+        android:layout_height="63px"
         android:src="@color/colorAccent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="155px"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_weight="1"
+        android:layout_marginLeft="30px"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="A21"
-            android:textSize="28sp" />
+            android:textColor="@color/color_333333"
+            android:textSize="20px" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="10px"
             android:gravity="center_vertical"
             android:text="同意冰红茶"
-            android:textSize="28sp" />
+            android:textColor="@color/color_333333"
+            android:textSize="24px" />
     </LinearLayout>
 
 
@@ -40,15 +45,14 @@
         android:layout_height="wrap_content"
         app:maxValue="100"
         app:minValue="0"
-        app:paddingEnd="@dimen/dp_20"
-        app:paddingStart="@dimen/dp_20"
         app:value="0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:text="￥10元"
+        android:layout_marginLeft="30px"
+        android:gravity="center"
+        android:text="￥10.00"
         android:textColor="@color/orange"
-        android:textSize="28sp" />
+        android:textSize="26px" />
 </LinearLayout>

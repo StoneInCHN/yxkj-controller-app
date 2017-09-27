@@ -2,40 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#30000000"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="240dp"
+        android:layout_width="460px"
+        android:layout_height="240px"
         android:background="@drawable/dialog_bg"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="170px"
             android:gravity="center"
-            android:textSize="28sp"
-            android:text="@string/sure_to_cancle_pay" />
+            android:text="@string/sure_to_cancle_pay"
+            android:textSize="24px" />
 
         <include layout="@layout/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70px"
+            android:gravity="center"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:gravity="center">
+            android:paddingRight="5dp">
 
             <Button
                 android:id="@+id/btn_sure"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="28sp"
                 android:background="@color/white"
-                android:text="@string/sure" />
+                android:gravity="center"
+                android:text="@string/sure"
+                android:textSize="24px" />
 
             <View
                 android:layout_width="1dp"
@@ -45,12 +45,13 @@
             <Button
                 android:id="@+id/btn_cancle"
                 android:layout_width="0dp"
-                android:textSize="28sp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/white"
+                android:gravity="center"
                 android:text="@string/cancle"
-                android:textColor="@color/green" />
+                android:textColor="@color/green"
+                android:textSize="24px" />
         </LinearLayout>
     </LinearLayout>
 

@@ -2,65 +2,72 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_pay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#30000000"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="200dp"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="总计:25.80"
+            android:textColor="@color/orange"
+            android:textSize="28sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/goodList"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/tv_totalPrice" />
 
-        <RelativeLayout
+
+        <com.yxkj.controller.view.CanclePayView
+            android:id="@+id/cancle_pay"
+            android:layout_width="460px"
+            android:layout_height="240px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="280px"
+            android:layout_marginTop="330px"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20">
+            android:layout_marginTop="227px"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <com.yxkj.controller.view.CanclePayView
-                android:id="@+id/cancle_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/img_pay_code"
+                android:layout_width="238px"
+                android:layout_height="238px"
+                android:scaleType="fitXY"
+                android:src="@mipmap/banner_right" />
 
             <TextView
-                android:id="@+id/tv_totalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_20"
-                android:text="总计:25.80" />
-        </RelativeLayout>
+                android:id="@+id/tv_counter_down"
+                android:layout_width="386px"
+                android:layout_height="50px"
+                android:layout_marginTop="52px"
+                android:background="@drawable/btn_cancle_pay"
+                android:gravity="center"
+                android:text="取消支付120s"
+                android:textColor="@color/white"
+                android:textSize="28px" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_pay_code"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_20"
-            android:scaleType="fitXY"
-            android:src="@mipmap/test" />
 
-        <TextView
-            android:id="@+id/tv_counter_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="120s" />
-
-        <Button
-            android:id="@+id/btn_cancle_pay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="取消支付" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_success"

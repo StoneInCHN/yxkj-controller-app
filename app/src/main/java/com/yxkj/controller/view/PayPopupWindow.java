@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class PayPopupWindow extends PopupWindow implements CompleteListener {
     /*支付页面*/
-    private LinearLayout layout_pay;
+    private RelativeLayout layout_pay;
     /*支付成功*/
     private LinearLayout layout_success;
     /*返回首页*/
@@ -42,8 +43,8 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
     private TextView tv_counter_down;
     /*支付二维码*/
     private ImageView img_pay_code;
-    /*取消支付*/
-    private Button btn_cancle_pay;
+    /*二维码布局*/
+    private LinearLayout layout_code;
     /*适配器*/
     private PayGoodsAdapter payGoodsAdapter;
     /*确认取消支付弹窗*/
@@ -80,13 +81,14 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         tv_totalPrice = view.findViewById(R.id.tv_totalPrice);
         tv_counter_down = view.findViewById(R.id.tv_counter_down);
         img_pay_code = view.findViewById(R.id.img_pay_code);
-        btn_cancle_pay = view.findViewById(R.id.btn_cancle_pay);
+        layout_code = view.findViewById(R.id.layout_code);
         cancle_pay = view.findViewById(R.id.cancle_pay);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2 * (DisplayUtil.getScreenMetrics(mContext).y - DisplayUtil.getNavigationBarHeight(mContext) - DisplayUtil.getStatusBarHeight(mContext)) / 3);
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
-        btn_cancle_pay.setOnClickListener(view1 -> {
+        tv_counter_down.setOnClickListener(view1 -> {
+            layout_code.setVisibility(View.GONE);
             cancle_pay.setVisibility(View.VISIBLE);
         });
         cancle_pay.setSelectListener(new SelectListener() {
@@ -101,7 +103,8 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
 
             @Override
             public void onCancle() {
-
+                cancle_pay.setVisibility(View.GONE);
+                layout_code.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -115,7 +118,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         payGoodsAdapter = new PayGoodsAdapter(mContext);
         goodList.setLayoutManager(new LinearLayoutManager(mContext));
         goodList.setAdapter(payGoodsAdapter);
-        timeCountUtl.countDown(0, 120, tv_counter_down, "");
+        timeCountUtl.countDown(0, 120, tv_counter_down, "取消支付");
         timeCountUtl.setCompleteListener(this);
     }
 

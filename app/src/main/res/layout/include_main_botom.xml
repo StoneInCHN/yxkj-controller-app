@@ -12,27 +12,23 @@
     <LinearLayout
         android:id="@+id/layout_clear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60px"
         android:background="@drawable/layout_bg"
         android:gravity="center_vertical"
         android:visibility="gone">
         <!--价格总览与清空列表-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_weight="1"
+            android:layout_width="300px"
+            android:layout_height="match_parent"
             android:background="@color/white">
 
             <TextView
                 android:id="@+id/tv_clear"
-                android:layout_width="wrap_content"
+                android:layout_width="100px"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
                 android:text="@string/clear_list"
-                android:textSize="25sp" />
+                android:textSize="18px" />
 
             <View
                 android:layout_width="0.5dp"
@@ -41,39 +37,35 @@
 
             <TextView
                 android:id="@+id/tv_total_price"
-                android:layout_width="wrap_content"
+                android:layout_width="200px"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
                 android:text="@string/total_price"
-                android:textSize="25sp" />
+                android:textColor="@color/orange"
+                android:textSize="26px" />
 
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_pay_immediate"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="230px"
+            android:layout_height="match_parent"
             android:background="@color/orange"
             android:gravity="center"
-            android:paddingLeft="44dp"
-            android:paddingRight="44dp"
             android:text="@string/immediate_pay"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="28px" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_totall_gray"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60px"
         android:background="@color/color_ffafafaf"
         android:gravity="center"
         android:text="共计: ￥21.00"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="26px"
         android:visibility="gone" />
 </LinearLayout>

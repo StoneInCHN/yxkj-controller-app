@@ -2,26 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
     android:orientation="vertical"
-    android:padding="@dimen/dp_20">
+    android:padding="31px">
 
     <EditText
         android:id="@+id/et_content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/dp_10"
-        android:layout_weight="1"
+        android:layout_width="490px"
+        android:layout_height="80px"
         android:background="@mipmap/search"
         android:gravity="center"
         android:hint="@string/please_input_num"
         android:maxLength="3"
         android:textColor="@android:color/black"
-        android:textSize="28sp" />
+        android:textSize="30px" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="31px" />
 </LinearLayout>
