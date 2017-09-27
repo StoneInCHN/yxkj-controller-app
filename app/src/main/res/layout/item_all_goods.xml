@@ -63,7 +63,7 @@
             android:layout_alignParentTop="true"
             app:maxValue="100"
             app:minValue="0"
-            app:value="1" />
+            app:value="0" />
 
     </RelativeLayout>
 

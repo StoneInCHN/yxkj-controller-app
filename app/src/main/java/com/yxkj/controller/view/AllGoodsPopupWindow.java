@@ -90,7 +90,8 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         seletedGoodsList = view.findViewById(R.id.seletedGoodsList);
         tv_pay = view.findViewById(R.id.tv_pay);
         iv_back_main=view.findViewById(R.id.iv_back_main);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2 * (DisplayUtil.getScreenMetrics(mContext).y - DisplayUtil.getNavigationBarHeight(mContext) - DisplayUtil.getStatusBarHeight(mContext)) / 3);
+        //ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2 * (DisplayUtil.getScreenMetrics(mContext).y - DisplayUtil.getNavigationBarHeight(mContext) - DisplayUtil.getStatusBarHeight(mContext)) / 3);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1375- DisplayUtil.getStatusBarHeight(mContext));
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
