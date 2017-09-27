@@ -1,13 +1,14 @@
 package com.yxkj.controller.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
@@ -42,10 +43,13 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private AllGoodsPageAdapter allGoodsPageAdapter;
     /*选择的商品数量*/
     private TextView tv_selected;
+    /*点击商品购物车*/
+    private RelativeLayout rl_selected;
     /*选择商品列表*/
     private SelectedGoodsList seletedGoodsList;
     /*立即支付*/
-    private Button btn_pay;
+    private TextView tv_pay;
+    private ImageView iv_back_main;
     private int page = 1;
     private ShowPayPopupWindowListener listener;
 
@@ -82,10 +86,11 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         titleBotomView = view.findViewById(R.id.titleBotomView);
         titleView = view.findViewById(R.id.titleView);
         tv_selected = view.findViewById(R.id.tv_selected);
+        rl_selected = view.findViewById(R.id.rl_selected);
         seletedGoodsList = view.findViewById(R.id.seletedGoodsList);
-        btn_pay = view.findViewById(R.id.btn_pay);
-//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2 * (DisplayUtil.getScreenMetrics(mContext).y - DisplayUtil.getNavigationBarHeight(mContext) - DisplayUtil.getStatusBarHeight(mContext)) / 3);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1375- DisplayUtil.getStatusBarHeight(mContext));
+        tv_pay = view.findViewById(R.id.tv_pay);
+        iv_back_main=view.findViewById(R.id.iv_back_main);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2 * (DisplayUtil.getScreenMetrics(mContext).y - DisplayUtil.getNavigationBarHeight(mContext) - DisplayUtil.getStatusBarHeight(mContext)) / 3);
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
@@ -119,7 +124,8 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private void setEvent() {
         next.setOnClickListener(this);
         tv_selected.setOnClickListener(this);
-        btn_pay.setOnClickListener(this);
+        tv_pay.setOnClickListener(this);
+        iv_back_main.setOnClickListener(this);
         /*设置TabLayout切换监听*/
         tabLayout.addOnTabSelectedListener(this);
         /*设置返回监听*/
@@ -175,10 +181,10 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
                 allGoodsPageAdapter.setIntegers(adapterList);
                 viewPager.setCurrentItem(page, true);
                 break;
-            case R.id.tv_selected:
+            case R.id.rl_selected:
                 seletedGoodsList.togle();
                 break;
-            case R.id.btn_pay:
+            case R.id.tv_pay:
                 titleView.cancle();
                 titleBotomView.cancle();
                 PayPopupWindow payPopupWindow = new PayPopupWindow(mContext);
@@ -187,6 +193,9 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
                 if (listener != null) {
                     listener.showPayPopWindow(payPopupWindow);
                 }
+                break;
+            case R.id.iv_back_main:
+                dismiss();
                 break;
         }
     }

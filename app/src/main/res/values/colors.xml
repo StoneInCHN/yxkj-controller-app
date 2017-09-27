@@ -14,4 +14,10 @@
     <color name="orange">#FF6C00</color>
     <color name="color_ffafafaf">#ffafafaf</color>
     <color name="color_333333">#333333</color>
+
+    <!--常用颜色-->
+    <color name="theme_orange">#FF853B</color>
+    <color name="theme_green">#34B944</color>
+    <color name="theme_red">#FF012F</color>
+    <color name="bg_black_90trans">#E6303135</color>
 </resources>
