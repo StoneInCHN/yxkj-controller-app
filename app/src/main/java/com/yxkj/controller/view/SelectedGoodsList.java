@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * 已选择商品列表布局
  */
 
-public class SelectedGoodsList extends LinearLayout {
+public class SelectedGoodsList extends FrameLayout {
     /*已选择的商品列表*/
     private RecyclerView recyclerView_selected;
     /*已选择商品列表适配器*/
@@ -50,11 +51,10 @@ public class SelectedGoodsList extends LinearLayout {
      * 初始化View
      */
     private void init() {
-        View view = View.inflate(getContext(), R.layout.view_selected_goods, null);
+        View view = View.inflate(getContext(), R.layout.view_selected_goods, this);
         recyclerView_selected = view.findViewById(R.id.recyclerView_selected);
         tv_clear = view.findViewById(R.id.tv_clear);
         recyclerView_selected.setLayoutManager(new LinearLayoutManager(getContext()));
-        addView(view);
     }
 
     /**

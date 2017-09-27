@@ -6,11 +6,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50">
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:background="@color/theme_gray"
+        android:layout_height="60px">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="28px"
             android:layout_centerVertical="true"
             android:text="@string/goods_selecte" />
 
@@ -18,6 +22,7 @@
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="28px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/clear_list" />

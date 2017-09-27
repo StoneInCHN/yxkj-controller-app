@@ -47,7 +47,7 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
 
     private void initData() {
         allGoodsAdapter = new CurrentPageGoodsAdapter(getContext());
-        setLayoutManager(new GridLayoutManager(getContext(), 4));
+        setLayoutManager(new GridLayoutManager(getContext(), 5));
         setAdapter(allGoodsAdapter);
         getAllGoods();
         allGoodsAdapter.setOnItemClickListener(this);

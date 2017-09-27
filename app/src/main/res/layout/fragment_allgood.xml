@@ -9,16 +9,35 @@
     <com.yxkj.controller.view.TitleView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorPrimaryDark"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorPrimary" />
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back_main"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="21px"
+            android:clickable="true"
+            android:src="@mipmap/back_main" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30px"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/theme_green"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/theme_green"
+            app:tabTextAppearance="@style/TabLayoutTextStyle" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,6 +46,8 @@
 
         <com.yxkj.controller.view.VerticalViewPager
             android:id="@+id/viewPager"
+            android:paddingLeft="15px"
+            android:background="@color/theme_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -35,9 +56,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/ic_launcher_round"
+            android:visibility="gone" />
     </RelativeLayout>
 
+    <!--支付信息模块-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,29 +74,57 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="80px"
+            android:background="@color/bg_black_90trans"
+            android:paddingLeft="42px">
+
+            <RelativeLayout
+                android:id="@+id/rl_selected"
+                android:layout_width="75px"
+                android:layout_height="75px"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="69px"
+                    android:layout_height="69px"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/cart_logo" />
+
+                <TextView
+                    android:id="@+id/tv_selected"
+                    android:layout_width="24px"
+                    android:layout_height="24px"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bg_tv_round_red"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="18px" />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_selected"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/ic_launcher_round"
-                android:drawablePadding="@dimen/dp_4"
-                android:gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="end"
-                android:text="合计: ￥25.80" />
+                android:gravity="center"
+                android:text="共计: ￥25.80"
+                android:textColor="@color/white"
+                android:textSize="39px" />
 
-            <Button
-                android:id="@+id/btn_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="立即支付" />
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="366px"
+                android:layout_height="match_parent"
+                android:background="@color/theme_orange"
+                android:gravity="center"
+                android:text="去支付"
+                android:textColor="@color/white"
+                android:textSize="36px" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <com.yxkj.controller.view.TitleView

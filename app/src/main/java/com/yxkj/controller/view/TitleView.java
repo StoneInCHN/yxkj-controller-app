@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import com.yxkj.controller.util.TimeCountUtl;
  * 主题导航栏
  */
 
-public class TitleView extends LinearLayout implements CompleteListener {
+public class TitleView extends FrameLayout implements CompleteListener {
     /*描述：返回哪里*/
     private TextView tv_desc;
     /*倒计时*/
@@ -51,11 +52,11 @@ public class TitleView extends LinearLayout implements CompleteListener {
      * 初始化View
      */
     private void init() {
-        View view = View.inflate(getContext(), R.layout.view_title, null);
+        View view = View.inflate(getContext(), R.layout.view_title, this);
         tv_desc = view.findViewById(R.id.tv_desc);
         tv_rest_time = view.findViewById(R.id.tv_rest_time);
         img_back = view.findViewById(R.id.img_back);
-        addView(view);
+        //addView(view);
     }
 
     /**

@@ -1,41 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/bg_gray"
     android:orientation="vertical"
-    android:padding="@dimen/dp_10">
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/test" />
-
-    <TextView
-        android:id="@+id/tv_goods_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="农夫山泉" />
+    android:paddingTop="19px">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:gravity="center_vertical">
+        android:layout_width="194px"
+        android:layout_gravity="center"
+        android:layout_height="268px"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="15px"
+        android:paddingRight="15px"
+        android:paddingTop="15px">
+
+        <RelativeLayout
+            android:layout_width="162px"
+            android:layout_height="162px">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/test" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="27px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/bg_black_90trans"
+                android:gravity="center"
+                android:text="常温"
+                android:textColor="@color/white"
+                android:textSize="18px" />
+
+        </RelativeLayout>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="￥2.50" />
-
-        <com.yxkj.controller.view.NumberAddSubView
+            android:id="@+id/tv_goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:maxValue="100"
-            app:minValue="0"
-            app:value="0" />
+            android:layout_marginTop="12px"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="农夫山泉有点甜天天天天天"
+            android:textSize="18px" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="￥2.50"
+                android:textColor="@color/theme_orange"
+                android:textSize="20px" />
+
+            <com.yxkj.controller.view.NumberAddSubView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                app:maxValue="100"
+                app:minValue="0"
+                app:value="0" />
+
+        </RelativeLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+</FrameLayout>
