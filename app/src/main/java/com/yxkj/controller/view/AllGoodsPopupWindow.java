@@ -124,7 +124,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      */
     private void setEvent() {
         next.setOnClickListener(this);
-        tv_selected.setOnClickListener(this);
+        rl_selected.setOnClickListener(this);
         tv_pay.setOnClickListener(this);
         iv_back_main.setOnClickListener(this);
         /*设置TabLayout切换监听*/
