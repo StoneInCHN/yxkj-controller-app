@@ -18,6 +18,7 @@ import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.SelectListener;
+import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
@@ -130,12 +131,19 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         closeTimeCount = new TimeCountUtl();
         adapter = new SearchGoodsAdapter(getActivity());
         goods = new ArrayList<>();
-        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(R.drawable.divider_line));
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        downVideoView.setVideoURI(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
+        if (!SharePrefreceHelper.getInstence(getActivity()).getFirstBoolean("first", true)) {
+            setVideoView(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
+        }
+    }
+
+    public void setVideoView(Uri uri) {
+        downVideoView.setVideoURI(uri);
+        downVideoView.start();
     }
 
     @Override

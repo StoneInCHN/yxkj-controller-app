@@ -12,6 +12,8 @@ import com.yxkj.controller.base.BaseActivity;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.fragment.MainFragment;
+import com.yxkj.controller.share.SharePrefreceHelper;
+import com.yxkj.controller.util.DownLoadVideoUtil;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CustomVideoView;
@@ -61,21 +63,27 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     }
 
     public void initVideo() {
-//        DownLoadVideoUtil downLoadVideoUtil = new DownLoadVideoUtil("news.mp4", this);
-//        downLoadVideoUtil.setSaveSuceessListener(new DownLoadVideoUtil.SaveSuceessListener() {
-//            @Override
-//            public void onSuceess(File file) {
-//                videoView.setVideoURI(Uri.parse(file.toString()));
-////                downVideoView.setVideoURI(Uri.parse(file.toString()));
-//
-//            }
-//        });
-//        downLoadVideoUtil.startDownload();
-        videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
+        boolean isFirst = SharePrefreceHelper.getInstence(this).getFirstBoolean("first", true);
+        if (isFirst) {
+            DownLoadVideoUtil downLoadVideoUtil = new DownLoadVideoUtil("news.mp4", this);
+            downLoadVideoUtil.setSaveSuceessListener(new DownLoadVideoUtil.SaveSuceessListener() {
+                @Override
+                public void onSuceess(File file) {
+                    videoView.setVideoURI(Uri.parse(file.toString()));
+                    videoView.start();
+                    mainFragment.setVideoView(Uri.parse(file.toString()));
+                    SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
+                }
+            });
+            downLoadVideoUtil.startDownload();
+        } else {
+            videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
+            videoView.start();
+        }
 
-        videoView.setOnPreparedListener((MediaPlayer mp) -> videoView.start());
+        videoView.setOnPreparedListener((MediaPlayer mp) -> mp.start());
 
-        videoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> videoView.start()   /* 循环播放 */);
+        videoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> mediaPlayer.start()   /* 循环播放 */);
 
         videoView.setOnErrorListener((MediaPlayer mediaPlayer, int what, int extra) -> {
             mediaPlayer.reset();
