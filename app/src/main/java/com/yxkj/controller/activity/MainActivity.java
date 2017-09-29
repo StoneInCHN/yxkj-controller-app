@@ -14,6 +14,7 @@ import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.fragment.MainFragment;
 import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.DownLoadVideoUtil;
+import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CustomVideoView;
@@ -71,6 +72,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 public void onSuceess(File file) {
                     videoView.setVideoURI(Uri.parse(file.toString()));
                     videoView.start();
+                    videoView.requestFocus();
                     mainFragment.setVideoView(Uri.parse(file.toString()));
                     SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
                 }
@@ -79,18 +81,20 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         } else {
             videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
             videoView.start();
+            videoView.requestFocus();
         }
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.start();
+                mediaPlayer.setLooping(true);
             }
         });
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();  /* 循环播放 */
+//                mediaPlayer.start();  /* 循环播放 */
             }
         });
         videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -98,7 +102,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
                 mediaPlayer.reset();
                 ToastUtil.showToast("播放视频出错" + extra);
-                return true;
+                LogUtil.e("播放视频出错" + extra);
+                return false;
             }
         });
     }
