@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
@@ -66,18 +65,24 @@ public class TitleView extends FrameLayout implements CompleteListener {
         timeCountUtl = new TimeCountUtl();
         timeCountUtl.countDown(0, 120, tv_rest_time, "");
         timeCountUtl.setCompleteListener(this);
-        img_back.setOnClickListener((view -> {
-            if (backListener != null) {
-                cancle();
-                backListener.onBack();
+        img_back.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (backListener != null) {
+                    cancle();
+                    backListener.onBack();
+                }
             }
-        }));
-        tv_desc.setOnClickListener((view -> {
-            if (backListener != null) {
-                cancle();
-                backListener.onBack();
+        });
+        tv_desc.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (backListener != null) {
+                    cancle();
+                    backListener.onBack();
+                }
             }
-        }));
+        });
     }
 
     @Override

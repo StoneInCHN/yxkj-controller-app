@@ -84,10 +84,13 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
-        tv_counter_down.setOnClickListener(view1 -> {
-            img_pay_code.setVisibility(View.GONE);
-            tv_counter_down.setVisibility(View.GONE);
-            cancle_pay.setVisibility(View.VISIBLE);
+        tv_counter_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img_pay_code.setVisibility(View.GONE);
+                tv_counter_down.setVisibility(View.GONE);
+                cancle_pay.setVisibility(View.VISIBLE);
+            }
         });
         cancle_pay.setSelectListener(new SelectListener() {
             @Override

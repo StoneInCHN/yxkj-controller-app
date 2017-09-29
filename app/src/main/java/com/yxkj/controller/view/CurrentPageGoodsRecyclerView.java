@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -57,7 +59,12 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
      * 获取商品
      */
     private void getAllGoods() {
-        Observable.range(1, 12).subscribe(integer -> goods.add(integer + ""));
+        Observable.range(1, 12).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(@NonNull Integer integer) throws Exception {
+                goods.add(integer + "");
+            }
+        });
         allGoodsAdapter.settList(goods);
     }
 

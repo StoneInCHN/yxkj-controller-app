@@ -28,7 +28,7 @@ public class TimeCountUtl {
     /**
      * 支付倒计时
      */
-    public void countDown(long start, long end, TextView textView, String desc) {
+    public void countDown(long start, final long end, final TextView textView, final String desc) {
         Observable.intervalRange(start, end + 1, 0, 1, TimeUnit.SECONDS, Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Long>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {

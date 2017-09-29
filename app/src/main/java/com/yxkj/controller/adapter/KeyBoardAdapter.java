@@ -52,7 +52,7 @@ public class KeyBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof NormalViewHolder) {
             ((NormalViewHolder) holder).textView.setText(list[position]);
         }

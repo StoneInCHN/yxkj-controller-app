@@ -17,10 +17,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
@@ -73,21 +76,31 @@ public class DownLoadUtil {
     public void startDownload() {
         // Retrofit是基于OkHttpClient的，可以创建一个OkHttpClient进行一些配置
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor((Interceptor.Chain chain) -> {
-                    okhttp3.Response orginalResponse = chain.proceed(chain.request());
-                    return orginalResponse.newBuilder().body(new ProgressResponseBody(orginalResponse.body(), (long progress, long total, boolean done) -> {
+                .addNetworkInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        okhttp3.Response orginalResponse = chain.proceed(chain.request());
+                        return orginalResponse.newBuilder().body(new ProgressResponseBody(orginalResponse.body(), new ProgressListener() {
+                            @Override
+                            public void onProgress(long progress, long total, boolean done) {
                                 totalSize = total;
                                 currentDownload = progress;
                                 LogUtil.e(Looper.myLooper() + "");
                                 LogUtil.e("onProgress: " + "total ---->" + total + "done ---->" + progress);
-                            })
-                    ).build();
+                            }
+                        })).build();
+                    }
                 })
                 /*
                  *  这里可以添加一个HttpLoggingInterceptor，因为Retrofit封装好了从Http请求到解析，
                  *  出了bug很难找出来问题，添加HttpLoggingInterceptor拦截器方便调试接口
                  */
-                .addInterceptor(new HttpLoggingInterceptor(message -> LogUtil.e(message)).setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String message) {
+                        LogUtil.e(message);
+                    }
+                }).setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .connectTimeout(Constant.TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Constant.TIMEOUT, TimeUnit.SECONDS)
                 .build();
@@ -101,12 +114,19 @@ public class DownLoadUtil {
                 .client(httpClient)
                 .build()
                 .create(RetrofitService.class);
-
-        retrofitService.download().subscribeOn(Schedulers.io()).subscribe(responseBodyResponse -> {
-            if (responseBodyResponse.isSuccessful()) {
-                writeResponseBodyToDisk(responseBodyResponse.body());//下载成功之后，保存到本地
+        retrofitService.download().subscribeOn(Schedulers.io()).subscribe(new Consumer<retrofit2.Response<ResponseBody>>() {
+            @Override
+            public void accept(@NonNull retrofit2.Response<ResponseBody> responseBodyResponse) throws Exception {
+                if (responseBodyResponse.isSuccessful()) {
+                    writeResponseBodyToDisk(responseBodyResponse.body());//下载成功之后，保存到本地
+                }
             }
-        }, throwable -> LogUtil.e(throwable.toString()));
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                LogUtil.e(throwable.toString());
+            }
+        });
     }
 
     /**

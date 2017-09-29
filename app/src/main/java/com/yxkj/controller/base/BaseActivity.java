@@ -3,11 +3,11 @@ package com.yxkj.controller.base;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -15,10 +15,14 @@ import com.yxkj.controller.R;
 import com.yxkj.controller.tools.AppManager;
 import com.yxkj.controller.tools.SystemStatusManager;
 import com.yxkj.controller.util.NetUtil;
-import com.yxkj.controller.util.ToastUtil;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -52,17 +56,19 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
      * 线程调度
      */
     public <T> ObservableTransformer<T, T> compose(final LifecycleTransformer<T> lifecycle) {
-        return (observable) -> {
-            return observable.subscribeOn(Schedulers.io())
-                    .doOnSubscribe(disposable -> {
-                                // 可添加网络连接判断等
-                                if (!NetUtil.isNetworkAvailable(BaseActivity.this)) {
-                                    ToastUtil.showToast(R.string.toast_network_error);
-                                }
-                            }
-                    )
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(lifecycle);
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
+                return observable.subscribeOn(Schedulers.io()).doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        // 可添加网络连接判断等
+                        if (!NetUtil.isNetworkAvailable(BaseActivity.this)) {
+                            Toast.makeText(BaseActivity.this, R.string.toast_network_error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).observeOn(AndroidSchedulers.mainThread()).compose(lifecycle);
+            }
         };
     }
 
@@ -72,8 +78,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
      */
     private void initBase() {
         //如果存在actionBar，就隐藏(也可以通过主题AppTheme.NoActionBar隐藏)
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
+//        if (getSupportActionBar() != null)
+//            getSupportActionBar().hide();
 
         //将新建的activity添加到stack里进行管理
         AppManager.getInstance().addActivity(this);
@@ -95,11 +101,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
 //        }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        //此处activity被杀死可以保存数据
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        //此处activity被杀死可以保存数据
+//        super.onSaveInstanceState(outState, outPersistentState);
+//    }
 
     /**
      * 获取activity被杀死时候保存的数据

@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 全部商品PopupWindow
@@ -89,7 +91,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         seletedGoodsList = view.findViewById(R.id.seletedGoodsList);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.getScreenMetrics(mContext).y - 605);
         tv_pay = view.findViewById(R.id.tv_pay);
-        iv_back_main=view.findViewById(R.id.iv_back_main);
+        iv_back_main = view.findViewById(R.id.iv_back_main);
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
@@ -111,9 +113,12 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 初始化TabLayout
      */
     private void initTabLayout() {
-        Observable.fromArray(tabs).subscribe(tab -> {
-            TabLayout.Tab t = tabLayout.newTab().setText(tab);
-            tabLayout.addTab(t);
+        Observable.fromArray(tabs).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(@NonNull String s) throws Exception {
+                TabLayout.Tab t = tabLayout.newTab().setText(s);
+                tabLayout.addTab(t);
+            }
         });
     }
 

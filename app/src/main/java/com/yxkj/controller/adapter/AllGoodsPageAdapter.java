@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 商品页适配器
@@ -37,10 +39,13 @@ public class AllGoodsPageAdapter extends PagerAdapter implements GoodsSelectList
 
     public void setIntegers(List<Integer> integers) {
         this.integers = integers;
-        Observable.fromIterable(integers).subscribe(integer -> {
-            CurrentPageGoodsRecyclerView recyclerView = new CurrentPageGoodsRecyclerView(context);
-            recyclerView.setGoodsSelectListener(this);
-            mListViews.add(recyclerView);
+        Observable.fromIterable(integers).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(@NonNull Integer integer) throws Exception {
+                CurrentPageGoodsRecyclerView recyclerView = new CurrentPageGoodsRecyclerView(context);
+                recyclerView.setGoodsSelectListener(AllGoodsPageAdapter.this);
+                mListViews.add(recyclerView);
+            }
         });
         notifyDataSetChanged();
     }

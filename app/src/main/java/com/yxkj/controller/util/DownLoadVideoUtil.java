@@ -17,6 +17,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
@@ -60,21 +61,31 @@ public class DownLoadVideoUtil {
     public void startDownload() {
         // Retrofit是基于OkHttpClient的，可以创建一个OkHttpClient进行一些配置
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor((Interceptor.Chain chain) -> {
-                    okhttp3.Response orginalResponse = chain.proceed(chain.request());
-                    return orginalResponse.newBuilder().body(new ProgressResponseBody(orginalResponse.body(), (long progress, long total, boolean done) -> {
+                .addNetworkInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        okhttp3.Response orginalResponse = chain.proceed(chain.request());
+                        return orginalResponse.newBuilder().body(new ProgressResponseBody(orginalResponse.body(), new ProgressListener() {
+                            @Override
+                            public void onProgress(long progress, long total, boolean done) {
                                 totalSize = total;
                                 currentDownload = progress;
                                 LogUtil.e(Looper.myLooper() + "");
                                 LogUtil.e("onProgress: " + "total ---->" + total + "done ---->" + progress);
-                            })
-                    ).build();
+                            }
+                        })).build();
+                    }
                 })
                 /*
                  *  这里可以添加一个HttpLoggingInterceptor，因为Retrofit封装好了从Http请求到解析，
                  *  出了bug很难找出来问题，添加HttpLoggingInterceptor拦截器方便调试接口
                  */
-                .addInterceptor(new HttpLoggingInterceptor(message -> LogUtil.e(message)).setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String message) {
+                        LogUtil.e(message);
+                    }
+                }).setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .connectTimeout(Constant.TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Constant.TIMEOUT, TimeUnit.SECONDS)
                 .build();
@@ -98,11 +109,19 @@ public class DownLoadVideoUtil {
                 }
                 return null;
             }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(file -> {
-            if (saveSuceessListener != null) {
-                saveSuceessListener.onSuceess(file);//下载成功之后，保存到本地
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<File>() {
+            @Override
+            public void accept(@NonNull File file) throws Exception {
+                if (saveSuceessListener != null) {
+                    saveSuceessListener.onSuceess(file);//下载成功之后，保存到本地
+                }
             }
-        }, throwable -> LogUtil.e(throwable.toString()));
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                LogUtil.e(throwable.toString());
+            }
+        });
     }
 
     /**

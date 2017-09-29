@@ -1,6 +1,7 @@
 package com.yxkj.controller.application;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 /**
  *
@@ -13,6 +14,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         myApplication = this;
+        MultiDex.install(this);
     }
 
     public static MyApplication getMyApplication() {

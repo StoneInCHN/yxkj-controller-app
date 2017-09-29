@@ -16,6 +16,7 @@ import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SearchGoodsAdapter;
 import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
+import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.share.SharePrefreceHelper;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * 主页，用户输入购买商品页
  */
-public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener {
+public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener, CompleteListener {
     /*键盘*/
     private KeyBoardView keyboardView;
     /* 底部广告视频*/
@@ -155,25 +156,34 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         /*设置输入结束监听*/
         keyboardView.setListener(this);
         /*视屏播放*/
-        downVideoView.setOnPreparedListener((MediaPlayer mp) -> {
-            downVideoView.start();
+        downVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
         });
         /*监听视频播放结束*/
-        downVideoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> {
-            downVideoView.start();   /* 循环播放 */
+        downVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();/* 循环播放 */
+            }
         });
         /*监听视频播放出错*/
-        downVideoView.setOnErrorListener((MediaPlayer mediaPlayer, int what, int extra) -> {
-            mediaPlayer.reset();
-            ToastUtil.showToast("播放视频出错" + extra);
-            return true;//如果设置true就可以防止他弹出错误的提示框！
+        downVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
+                mediaPlayer.reset();
+                ToastUtil.showToast("播放视频出错" + extra);
+                return true;
+            }
         });
         /*支付倒计时结束*/
-        payTimeCount.setCompleteListener(() -> onSure());
+        payTimeCount.setCompleteListener(this);
         /*立即支付倒计时结束*/
-        payImTimeCount.setCompleteListener(() -> onSure());
+        payImTimeCount.setCompleteListener(this);
          /*关闭支付页面倒计时结束*/
-        closeTimeCount.setCompleteListener(() -> onSure());
+        closeTimeCount.setCompleteListener(this);
     }
 
     @Override
@@ -257,4 +267,11 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         onSure();
     }
 
+    /**
+     * 倒计时结束
+     */
+    @Override
+    public void onComplete() {
+        onSure();
+    }
 }

@@ -11,8 +11,13 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.yxkj.controller.R;
 import com.yxkj.controller.util.NetUtil;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -73,17 +78,19 @@ public abstract class BaseFragment extends RxFragment implements View.OnClickLis
      * 线程调度
      */
     protected <T> ObservableTransformer<T, T> compose(final LifecycleTransformer<T> lifecycle) {
-        return (observable) -> {
-            return observable.subscribeOn(Schedulers.io())
-                    .doOnSubscribe((disposable) -> {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
+                return observable.subscribeOn(Schedulers.io()).doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
                         // 可添加网络连接判断等
                         if (!NetUtil.isNetworkAvailable(getActivity())) {
                             Toast.makeText(getActivity(), R.string.toast_network_error, Toast.LENGTH_SHORT).show();
                         }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(lifecycle);
-
+                    }
+                }).observeOn(AndroidSchedulers.mainThread()).compose(lifecycle);
+            }
         };
     }
 }

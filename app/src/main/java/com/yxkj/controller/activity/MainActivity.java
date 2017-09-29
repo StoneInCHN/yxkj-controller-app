@@ -81,14 +81,25 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             videoView.start();
         }
 
-        videoView.setOnPreparedListener((MediaPlayer mp) -> mp.start());
-
-        videoView.setOnCompletionListener((MediaPlayer mediaPlayer) -> mediaPlayer.start()   /* 循环播放 */);
-
-        videoView.setOnErrorListener((MediaPlayer mediaPlayer, int what, int extra) -> {
-            mediaPlayer.reset();
-            ToastUtil.showToast("播放视频出错" + extra);
-            return true;//如果设置true就可以防止他弹出错误的提示框！
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();  /* 循环播放 */
+            }
+        });
+        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
+                mediaPlayer.reset();
+                ToastUtil.showToast("播放视频出错" + extra);
+                return true;
+            }
         });
     }
 
