@@ -3,6 +3,7 @@ package com.yxkj.controller.base;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -45,7 +46,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
         beforeInitView();
         if (useDefaultTitleBarColor) {
             //改变状态栏颜色;注意：此处一旦设置 android:fitsSystemWindows="false"将无效
-            setTitleBarColor(R.color.colorPrimary);
+//            setTitleBarColor(R.color.colorPrimary);
         }
         initView();
         initData();
@@ -101,11 +102,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
 //        }
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        //此处activity被杀死可以保存数据
-//        super.onSaveInstanceState(outState, outPersistentState);
-//    }
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        //此处activity被杀死可以保存数据
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 
     /**
      * 获取activity被杀死时候保存的数据
