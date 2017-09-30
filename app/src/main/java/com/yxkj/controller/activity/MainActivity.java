@@ -1,16 +1,19 @@
 package com.yxkj.controller.activity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.fragment.MainFragment;
+import com.yxkj.controller.service.ControllerService;
 import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.DownLoadVideoUtil;
 import com.yxkj.controller.util.LogUtil;
@@ -50,6 +53,10 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     public void initData() {
         initVideo();
         initFragment();
+        Intent intent = new Intent(this, ControllerService.class);
+        startService(intent);
+
+
     }
 
     @Override
@@ -152,5 +159,12 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     @Override
     public void showPayPopWindow(PayPopupWindow popupWindow) {
         popupWindow.showAsDropDown(videoView);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        String response = EVprotocol.EVPortRelease("/dev/ttyS1");
+        LogUtil.d("release:" + response);
     }
 }

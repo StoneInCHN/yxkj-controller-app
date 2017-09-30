@@ -20,4 +20,6 @@ public class Constant {
 
     public static String url_sougou = "http://wap.dl.pinyin.sogou.com/";
     public static String VIDEO = "http://tb-video.bdstatic.com/";
+
+    public static final String CONFIGURE_FILE_PATH = "/controller";
 }
