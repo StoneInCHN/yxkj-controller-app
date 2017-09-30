@@ -13,8 +13,12 @@
 
         <RelativeLayout
             android:layout_width="80px"
-            android:layout_height="match_parent"
-            android:background="@mipmap/search">
+            android:layout_height="76px">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@mipmap/search"
+                android:layout_height="match_parent" />
 
             <TextView
                 android:layout_width="wrap_content"

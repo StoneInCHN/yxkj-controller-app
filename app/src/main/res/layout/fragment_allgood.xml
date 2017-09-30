@@ -98,7 +98,7 @@
                     android:layout_alignParentTop="true"
                     android:background="@drawable/bg_tv_round_red"
                     android:gravity="center"
-                    android:text="5"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="18px" />
 
