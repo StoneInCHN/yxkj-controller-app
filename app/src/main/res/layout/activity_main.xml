@@ -11,7 +11,7 @@
     <com.yxkj.controller.view.CustomVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="605px" />
+        android:layout_height="555px" />
     <!-- 内容-->
     <FrameLayout
         android:id="@+id/layout_fragments"

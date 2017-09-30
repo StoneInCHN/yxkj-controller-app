@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 mediaPlayer.reset();
                 ToastUtil.showToast("播放视频出错" + extra);
                 LogUtil.e("播放视频出错" + extra);
-                return false;
+                return true;
             }
         });
     }

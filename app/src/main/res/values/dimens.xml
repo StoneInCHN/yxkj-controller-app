@@ -7,4 +7,6 @@
     <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
+    <dimen name="px_36">36px</dimen>
+    <dimen name="px_24">24px</dimen>
 </resources>

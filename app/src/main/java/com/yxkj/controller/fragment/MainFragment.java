@@ -21,7 +21,6 @@ import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
-import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
@@ -29,7 +28,6 @@ import com.yxkj.controller.view.CustomVideoView;
 import com.yxkj.controller.view.InputPwdView;
 import com.yxkj.controller.view.KeyBoardView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,14 +144,15 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        if (!SharePrefreceHelper.getInstence(getActivity()).getFirstBoolean("first", true)) {
-            setVideoView(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
-        }
+//        if (!SharePrefreceHelper.getInstence(getActivity()).getFirstBoolean("first", true)) {
+//            setVideoView(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
+//        }
+        downVideoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-transcode/169_1905b5de25b3bf55e76ea888973a94a7_2.mp4"));
     }
 
     public void setVideoView(Uri uri) {
-        downVideoView.setVideoURI(uri);
-        downVideoView.start();
+//        downVideoView.setVideoURI(uri);
+//        downVideoView.start();
     }
 
     @Override

@@ -2,22 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <Button
         android:id="@+id/btn_sub"
         android:layout_width="36px"
         android:layout_height="36px"
+        android:layout_gravity="center"
         android:background="@drawable/bg_btn_style_white"
         android:gravity="center"
+        android:padding="0px"
         android:text="-"
-        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/green"
-        android:textSize="24px" />
+        android:textSize="24px"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_num"
-        android:layout_width="30px"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -29,11 +32,13 @@
         android:id="@+id/btn_add"
         android:layout_width="36px"
         android:layout_height="36px"
+        android:layout_gravity="center"
         android:background="@drawable/bg_tv_round_green"
         android:gravity="center"
+        android:padding="0px"
         android:text="+"
-        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/white"
-        android:textSize="24px" />
+        android:textSize="24px"
+        android:textStyle="bold" />
 
 </LinearLayout>

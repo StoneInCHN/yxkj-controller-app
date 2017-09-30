@@ -30,6 +30,11 @@ public class SelectedGoodsList extends FrameLayout {
     private List<String> selectedGoods = new ArrayList<>();
     /*判断是否显示*/
     private boolean isShow;
+    private ClearListCallBack clearListCallBack;
+
+    public void setClearListCallBack(ClearListCallBack clearListCallBack) {
+        this.clearListCallBack = clearListCallBack;
+    }
 
     public SelectedGoodsList(Context context) {
         this(context, null);
@@ -54,6 +59,15 @@ public class SelectedGoodsList extends FrameLayout {
         recyclerView_selected = view.findViewById(R.id.recyclerView_selected);
         tv_clear = view.findViewById(R.id.tv_clear);
         recyclerView_selected.setLayoutManager(new LinearLayoutManager(getContext()));
+        tv_clear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                togle();
+                if (clearListCallBack != null) {
+                    clearListCallBack.onClear();
+                }
+            }
+        });
     }
 
     /**
@@ -95,5 +109,12 @@ public class SelectedGoodsList extends FrameLayout {
             isShow = true;
             setVisibility(VISIBLE);
         }
+    }
+
+    /**
+     * 点击清理列表
+     */
+    public interface ClearListCallBack {
+        void onClear();
     }
 }

@@ -49,7 +49,7 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
 
     private void initData() {
         allGoodsAdapter = new CurrentPageGoodsAdapter(getContext());
-        setLayoutManager(new GridLayoutManager(getContext(), 5));
+        setLayoutManager(new GridLayoutManager(getContext(), 7));
         setAdapter(allGoodsAdapter);
         getAllGoods();
         allGoodsAdapter.setOnItemClickListener(this);
@@ -59,7 +59,7 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
      * 获取商品
      */
     private void getAllGoods() {
-        Observable.range(1, 12).subscribe(new Consumer<Integer>() {
+        Observable.range(1, 49).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(@NonNull Integer integer) throws Exception {
                 goods.add(integer + "");

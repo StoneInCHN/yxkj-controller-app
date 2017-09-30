@@ -10,5 +10,8 @@
         <attr name="textViewPadding" format="dimension" />
         <attr name="btnAddTextColor" format="color" />
         <attr name="btnSubTextColor" format="color" />
+        <attr name="btnSize" format="dimension" />
+        <attr name="textViewSize" format="dimension" />
+        <attr name="btnTextSize" format="dimension" />
     </declare-styleable>
 </resources>

@@ -9,6 +9,7 @@ import android.support.v7.widget.TintTypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,13 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
             int value = a.getInt(R.styleable.NumberAddSubView_value, 0);
             setValue(value);
 
+            int addSize = a.getDimensionPixelOffset(R.styleable.NumberAddSubView_btnSize, 36);
+            ViewGroup.LayoutParams layoutParam = btn_add.getLayoutParams();
+            layoutParam.height = addSize;
+            layoutParam.width = addSize;
+            btn_add.setLayoutParams(layoutParam);
+            btn_sub.setLayoutParams(layoutParam);
+
             int maxValue = a.getInt(R.styleable.NumberAddSubView_maxValue, 0);
             setMaxValue(maxValue);
 
@@ -65,6 +73,13 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
             LinearLayout.LayoutParams layoutParams = (LayoutParams) tv_num.getLayoutParams();
             layoutParams.setMargins(textPadding, 0, textPadding, 0);
             tv_num.setLayoutParams(layoutParams);
+
+            int textSize = a.getDimensionPixelOffset(R.styleable.NumberAddSubView_textViewSize, 24);
+            tv_num.setTextSize(textSize);
+
+            int btnSubTextSize = a.getDimensionPixelSize(R.styleable.NumberAddSubView_btnTextSize, 24);
+            btn_sub.setTextSize(btnSubTextSize);
+            btn_add.setTextSize(btnSubTextSize);
 
             int btnAddColor = a.getColor(R.styleable.NumberAddSubView_btnAddTextColor, Color.parseColor("#ffffff"));
             btn_add.setTextColor(btnAddColor);
