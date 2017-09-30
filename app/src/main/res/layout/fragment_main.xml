@@ -12,148 +12,169 @@
         android:layout_height="770px"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:layout_weight="1">
 
-            <RelativeLayout
-                android:layout_width="530px"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="283px"
-                        android:layout_height="56px"
-                        android:src="@mipmap/logo" />
-
-                    <ImageView
-                        android:id="@+id/img_all"
-                        android:layout_width="380px"
-                        android:layout_height="200px"
-                        android:layout_marginTop="38px"
-                        android:src="@mipmap/merchandise" />
-
-                    <TextView
-                        android:id="@+id/tv_better"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:drawableLeft="@mipmap/ic_launcher"
-                        android:gravity="center_vertical"
-                        android:text="@string/better_goods"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <include
-                    android:id="@+id/botom_layout"
-                    layout="@layout/include_main_botom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:visibility="gone" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/botom_layout"
-                    android:background="@color/white"
-                    android:visibility="gone" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="550px"
-                android:layout_height="match_parent"
-                android:background="@mipmap/keyboard">
-
-                <com.yxkj.controller.view.KeyBoardView
-                    android:id="@+id/keyboardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <!--支付页面-->
-                <LinearLayout
-                    android:id="@+id/layout_pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-                    <!--支付二维码-->
-                    <ImageView
-                        android:id="@+id/img_code"
-                        android:layout_width="129px"
-                        android:layout_height="129px"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/banner_center" />
-
-                    <TextView
-                        android:id="@+id/tv_count_down"
-                        android:layout_width="386px"
-                        android:layout_height="50px"
-                        android:layout_marginTop="27px"
-                        android:background="@drawable/btn_cancle_pay"
-                        android:gravity="center"
-                        android:text="@string/count_down"
-                        android:textColor="@color/white"
-                        android:textSize="26px" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_after_pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="155px"
-                        android:layout_height="108px"
-                        android:src="@mipmap/icon_pay" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50px"
-                        android:gravity="center"
-                        android:text="支付成功，请及时取走商品"
-                        android:textColor="@color/color_333333"
-                        android:textSize="30px" />
-
-                    <Button
-                        android:id="@+id/tv_close"
-                        android:layout_width="420px"
-                        android:layout_height="50px"
-                        android:layout_marginTop="25px"
-                        android:background="@drawable/btn_cancle_pay"
-                        android:text="返回首页:5s"
-                        android:textColor="@color/white"
-                        android:textSize="30px" />
-                </LinearLayout>
+                android:gravity="center_vertical">
 
                 <RelativeLayout
-                    android:id="@+id/layout_canclePay"
-                    android:layout_width="match_parent"
+                    android:layout_width="530px"
                     android:layout_height="match_parent"
-                    android:background="#20000000"
-                    android:visibility="gone">
-                    <!--取消支付弹窗-->
-                    <com.yxkj.controller.view.CanclePayView
-                        android:id="@+id/view_cancle_pay"
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="283px"
+                            android:layout_height="56px"
+                            android:src="@mipmap/logo" />
+
+                        <ImageView
+                            android:id="@+id/img_all"
+                            android:layout_width="380px"
+                            android:layout_height="200px"
+                            android:layout_marginTop="38px"
+                            android:src="@mipmap/merchandise" />
+
+                        <TextView
+                            android:id="@+id/tv_better"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:drawableLeft="@mipmap/ic_launcher"
+                            android:gravity="center_vertical"
+                            android:text="@string/better_goods"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/botom_layout"
+                        layout="@layout/include_main_botom"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
+                        android:layout_alignParentBottom="true"
+                        android:visibility="gone" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/botom_layout"
+                        android:background="@color/white"
+                        android:visibility="gone" />
                 </RelativeLayout>
-            </RelativeLayout>
-        </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="550px"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/keyboard">
+
+                    <com.yxkj.controller.view.KeyBoardView
+                        android:id="@+id/keyboardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <!--支付页面-->
+                    <LinearLayout
+                        android:id="@+id/layout_pay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <!--支付二维码-->
+                        <ImageView
+                            android:id="@+id/img_code"
+                            android:layout_width="129px"
+                            android:layout_height="129px"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/banner_center" />
+
+                        <TextView
+                            android:id="@+id/tv_count_down"
+                            android:layout_width="386px"
+                            android:layout_height="50px"
+                            android:layout_marginTop="27px"
+                            android:background="@drawable/btn_cancle_pay"
+                            android:gravity="center"
+                            android:text="@string/count_down"
+                            android:textColor="@color/white"
+                            android:textSize="26px" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_after_pay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="155px"
+                            android:layout_height="108px"
+                            android:src="@mipmap/icon_pay" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="50px"
+                            android:gravity="center"
+                            android:text="支付成功，请及时取走商品"
+                            android:textColor="@color/color_333333"
+                            android:textSize="30px" />
+
+                        <Button
+                            android:id="@+id/tv_close"
+                            android:layout_width="420px"
+                            android:layout_height="50px"
+                            android:layout_marginTop="25px"
+                            android:background="@drawable/btn_cancle_pay"
+                            android:text="返回首页:5s"
+                            android:textColor="@color/white"
+                            android:textSize="30px" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_canclePay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#20000000"
+                        android:visibility="gone">
+                        <!--取消支付弹窗-->
+                        <com.yxkj.controller.view.CanclePayView
+                            android:id="@+id/view_cancle_pay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/exit_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#50000000"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.yxkj.controller.view.InputPwdView
+                    android:id="@+id/input_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

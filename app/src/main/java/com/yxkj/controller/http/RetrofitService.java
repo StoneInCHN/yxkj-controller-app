@@ -33,6 +33,6 @@ public interface RetrofitService {
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Observable<Response<ResponseBody>> download();
 
-    @GET("tieba-smallvideo-transcode/14874724_0a9868df5f37a0502304285495794191_b12d2dd44787_3.mp4")
+    @GET("vg3/a/5e/10480680-1-hd.mp4?expires=1506741600&platform=html5&ssig=ZM64I-exFEprhknWOb2_9A&oi=1703178794&nfa=Ch4GV+Gxzn1pQI4JBHhDCQ==&dynamic=1&hfa=2080123207&hfb=M2Y2ZWYwZjM2YmRiYmY5MDljYTBiOWE2ZmEwYjJmYTM=")
     Observable<Response<ResponseBody>> downloadVideo();
 }

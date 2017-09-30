@@ -18,12 +18,15 @@ import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.InputEndListener;
+import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
+import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
 import com.yxkj.controller.view.CustomVideoView;
+import com.yxkj.controller.view.InputPwdView;
 import com.yxkj.controller.view.KeyBoardView;
 
 import java.io.File;
@@ -33,7 +36,7 @@ import java.util.List;
 /**
  * 主页，用户输入购买商品页
  */
-public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener, CompleteListener {
+public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener, CompleteListener, ShowInputPwdCallBack, InputManagerPwdListener {
     /*键盘*/
     private KeyBoardView keyboardView;
     /* 底部广告视频*/
@@ -85,6 +88,10 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private TimeCountUtl closeTimeCount;
     /*灰色总价*/
     private TextView tv_totall_gray;
+    /*管理员密码输入弹窗*/
+    private InputPwdView input_view;
+
+    private LinearLayout exit_layout;
 
     public void setGoodsAndBetterGoodsListener(AllGoodsAndBetterGoodsListener goodsAndBetterGoodsListener) {
         this.goodsAndBetterGoodsListener = goodsAndBetterGoodsListener;
@@ -123,6 +130,8 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         tv_close = findViewByIdNoCast(R.id.tv_close);
         tv_totall_gray = findViewByIdNoCast(R.id.tv_totall_gray);
         layout_clear = findViewByIdNoCast(R.id.layout_clear);
+        input_view = findViewByIdNoCast(R.id.input_view);
+        exit_layout = findViewByIdNoCast(R.id.exit_layout);
     }
 
     @Override
@@ -184,6 +193,9 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         payImTimeCount.setCompleteListener(this);
          /*关闭支付页面倒计时结束*/
         closeTimeCount.setCompleteListener(this);
+        /*设置输入弹出管理员密码弹窗监听*/
+        keyboardView.setShowInputPwdCallBack(this);
+        input_view.setInputManagerPwdListener(this);
     }
 
     @Override
@@ -273,5 +285,29 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     @Override
     public void onComplete() {
         onSure();
+    }
+
+    /**
+     * 输入密码正常，退出程序
+     */
+    @Override
+    public void onClickSure() {
+        getActivity().finish();
+    }
+
+    /**
+     * 取消管理员密码弹窗
+     */
+    @Override
+    public void onClickCancle() {
+        exit_layout.setVisibility(View.GONE);
+    }
+
+    /**
+     * 显示管理员密码弹窗
+     */
+    @Override
+    public void onShowInputPwd() {
+        exit_layout.setVisibility(View.VISIBLE);
     }
 }

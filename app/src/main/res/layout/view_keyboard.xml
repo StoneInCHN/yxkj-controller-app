@@ -6,6 +6,7 @@
     android:padding="31px">
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="490px"
         android:layout_height="80px"
         android:background="@mipmap/input">
@@ -21,17 +22,18 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5px"
+                android:text="24H 便利店"
                 android:textColor="@color/white"
                 android:textSize="9px"
-                android:text="24H 便利店"
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <EditText
+        <TextView
             android:id="@+id/et_content"
             android:layout_width="490px"
             android:layout_height="80px"
             android:background="@null"
+            android:gravity="center_vertical"
             android:hint="@string/please_input_num"
             android:maxLength="3"
             android:paddingLeft="20px"

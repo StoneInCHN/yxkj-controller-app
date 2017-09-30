@@ -10,7 +10,7 @@
         android:layout_width="90px"
         android:layout_height="45px"
         android:layout_marginLeft="20px"
-        android:background="@drawable/keyboard_reset_bg"
+        android:background="@drawable/selector_number_add_sub"
         android:gravity="center"
         android:text="重置"
         android:textColor="@color/color_333333"

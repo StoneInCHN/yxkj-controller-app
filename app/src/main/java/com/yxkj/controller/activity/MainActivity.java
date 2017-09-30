@@ -4,7 +4,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.View;
 
 import com.yxkj.controller.R;
@@ -126,7 +125,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     public void onAllGoods() {
         AllGoodsPopupWindow popupWindow = new AllGoodsPopupWindow(this);
         popupWindow.setListener(this);
-        popupWindow.showAtLocation(videoView, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
+        popupWindow.showAsDropDown(videoView);
     }
 
     /**
@@ -152,6 +151,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     @Override
     public void showPayPopWindow(PayPopupWindow popupWindow) {
-        popupWindow.showAtLocation(videoView, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
+        popupWindow.showAsDropDown(videoView);
     }
 }

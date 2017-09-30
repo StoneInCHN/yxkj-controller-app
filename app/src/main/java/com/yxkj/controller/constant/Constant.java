@@ -19,5 +19,5 @@ public class Constant {
     public static final long TIMEOUT = 30;
 
     public static String url_sougou = "http://wap.dl.pinyin.sogou.com/";
-    public static String VIDEO = "http://tb-video.bdstatic.com/";
+    public static String VIDEO = "http://cn-sdyt-cu-v-04.acgvideo.com/";
 }

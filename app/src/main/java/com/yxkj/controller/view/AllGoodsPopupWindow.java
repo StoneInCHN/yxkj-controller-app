@@ -15,7 +15,6 @@ import com.yxkj.controller.adapter.AllGoodsPageAdapter;
 import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.GoodsSelectListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
-import com.yxkj.controller.util.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +88,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         tv_selected = view.findViewById(R.id.tv_selected);
         rl_selected = view.findViewById(R.id.rl_selected);
         seletedGoodsList = view.findViewById(R.id.seletedGoodsList);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.getScreenMetrics(mContext).y - 605);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 770);
         tv_pay = view.findViewById(R.id.tv_pay);
         iv_back_main = view.findViewById(R.id.iv_back_main);
         setWidth(layoutParams.width);

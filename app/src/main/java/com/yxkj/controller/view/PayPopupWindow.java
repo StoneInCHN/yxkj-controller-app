@@ -18,7 +18,6 @@ import com.yxkj.controller.adapter.PayGoodsAdapter;
 import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.SelectListener;
-import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         tv_counter_down = view.findViewById(R.id.tv_counter_down);
         img_pay_code = view.findViewById(R.id.img_pay_code);
         cancle_pay = view.findViewById(R.id.cancle_pay);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.getScreenMetrics(mContext).y - 605);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 770);
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);

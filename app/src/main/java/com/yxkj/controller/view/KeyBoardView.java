@@ -10,12 +10,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.KeyBoardAdapter;
 import com.yxkj.controller.callback.InputEndListener;
+import com.yxkj.controller.callback.ShowInputPwdCallBack;
+import com.yxkj.controller.util.ExitUtil;
 
 
 /**
@@ -24,7 +26,7 @@ import com.yxkj.controller.callback.InputEndListener;
 
 public class KeyBoardView extends FrameLayout {
     /*顶部输入框*/
-    private EditText editText;
+    private TextView editText;
     /*列表*/
     private RecyclerView gridView;
     /*键盘内容集合*/
@@ -38,6 +40,12 @@ public class KeyBoardView extends FrameLayout {
     /*判断输入框是否是三个字*/
     private boolean isEnd;
     private KeyBoardAdapter adapter;
+    private ExitUtil exitUtil;
+    private ShowInputPwdCallBack showInputPwdCallBack;
+
+    public void setShowInputPwdCallBack(ShowInputPwdCallBack showInputPwdCallBack) {
+        this.showInputPwdCallBack = showInputPwdCallBack;
+    }
 
     public KeyBoardView(@NonNull Context context) {
         this(context, null);
@@ -49,6 +57,15 @@ public class KeyBoardView extends FrameLayout {
 
     public KeyBoardView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        exitUtil = new ExitUtil();
+        exitUtil.setShowInputPwdCallBack(new ShowInputPwdCallBack() {
+            @Override
+            public void onShowInputPwd() {
+                if (showInputPwdCallBack != null) {
+                    showInputPwdCallBack.onShowInputPwd();
+                }
+            }
+        });
         initLayout();
         initData();
     }
@@ -71,7 +88,12 @@ public class KeyBoardView extends FrameLayout {
      * 初始化数据
      */
     private void initData() {
-        editText.setEnabled(false);
+        editText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitUtil.textAdd();
+            }
+        });
         adapter = new KeyBoardAdapter(getContext(), contents);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 8);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -90,17 +112,19 @@ public class KeyBoardView extends FrameLayout {
             public void onClick(int position, String data) {
                 switch (position) {
                     case 37:
+                        exitUtil.clearAdd();
                         editText.setText("");
                         break;
                     case 36:
-                        Editable editable = editText.getText();
-                        editText.setText(editable.length() > 0 ? editable.delete(editable.length() - 1, editable.length()) : "");
+                        exitUtil.deleteAdd();
+                        CharSequence editable = editText.getText();
+                        editText.setText(editable.length() > 0 ? editable.subSequence(0, editable.length() - 1) : "");
                         break;
                     default:
                         if (!isInit) {
                             initGoods();
                         }
-                        editText.setText(editText.getText().append(contents[position]));
+                        editText.setText(editText.getText() + contents[position]);
                         break;
                 }
             }
