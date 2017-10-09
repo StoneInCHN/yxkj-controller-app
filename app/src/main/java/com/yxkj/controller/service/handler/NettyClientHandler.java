@@ -21,10 +21,17 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<String> {
         String[] msgs = msg.split(";");
 
         int address = Integer.parseInt(msgs[0]);
-        int box = MyApplication.configBean.getDeviceInfo().getAddressMap().get(Integer.parseInt(msgs[1]));
+
+        int portId = MyApplication.getMyApplication().getRegisterPort().get(MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap().get(address));
         // TODO: 2017/9/29 解析Message
-        String json2 = EVprotocol.EVtrade(0, 1, address, box, 0);
-        LogUtil.d(json2);
+        if (msgs[2].equals("1")) {
+            int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(Integer.parseInt(msgs[1]));
+            String json2 = EVprotocol.EVtrade(portId,1, address, box, 0);
+            LogUtil.d(json2);
+        }else if (msgs[2].equals("2")){
+            int box =Integer.parseInt(msgs[1]);
+            EVprotocol.EVBentoOpen(portId,address,box);
+        }
     }
 
     /*
