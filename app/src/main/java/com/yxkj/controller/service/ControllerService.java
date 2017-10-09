@@ -52,11 +52,7 @@ public class ControllerService extends Service {
             LogUtil.d(response);
         }
         new Thread(() -> {
-            try {
                 nettyStart.startNetty();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }).start();
     }
 }
