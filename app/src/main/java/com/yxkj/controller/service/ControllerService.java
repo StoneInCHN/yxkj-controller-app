@@ -5,8 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.easivend.evprotocol.EVprotocol;
+import com.yxkj.controller.application.MyApplication;
+import com.yxkj.controller.beans.EVPortRegisterResponse;
 import com.yxkj.controller.service.handler.NettyClientBootstrap;
+import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
+
+import java.util.Map;
 
 public class ControllerService extends Service {
     NettyClientBootstrap nettyStart = new NettyClientBootstrap();
@@ -22,24 +27,32 @@ public class ControllerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        String json = EVprotocol.EVPortRelease("/dev/ttyS1");
-        System.out.println(json);
+        //释放串口
+        Map<Integer, String> addressMaps = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap();
+        for (int key:addressMaps.keySet()){
+            String response = EVprotocol.EVPortRelease(addressMaps.get(key));
+            EVPortRegisterResponse evPortRegisterResponse=  GsonUtil.getInstance().convertJsonStringToObject(response, EVPortRegisterResponse.class);
+            MyApplication.getMyApplication().getRegisterPort().remove(evPortRegisterResponse.getEV_json().getPort());
+            LogUtil.d(response);
+        }
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         // TODO: 2017/9/29 register 串口
-        String json = EVprotocol.EVPortRelease("/dev/ttyS1");
-        LogUtil.d(json);
-        String json1 = EVprotocol.EVPortRegister("/dev/ttyS1");
-        LogUtil.d(json1);
+        //注册串口
+        Map<Integer, String> addressMaps = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap();
+     ;
+        for (int key:addressMaps.keySet()){
+            EVprotocol.EVPortRegister(addressMaps.get(key));
+            String response = EVprotocol.EVPortRegister(addressMaps.get(key));
+            EVPortRegisterResponse evPortRegisterResponse=  GsonUtil.getInstance().convertJsonStringToObject(response.replace("\\n","").replace("\\t",""), EVPortRegisterResponse.class);
+            MyApplication.getMyApplication().getRegisterPort().put(evPortRegisterResponse.getEV_json().getPort(),evPortRegisterResponse.getEV_json().getPort_id());
+            LogUtil.d(response);
+        }
         new Thread(() -> {
-            try {
                 nettyStart.startNetty();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }).start();
     }
 }

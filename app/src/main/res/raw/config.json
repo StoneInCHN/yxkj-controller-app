@@ -3,6 +3,10 @@
   deviceInfo: {
     deviceNo: "001",
     addressMap: {
+      2: "/dev/ttyUSB0",
+      3: "/dev/ttyS2"
+    },
+    boxMap: {
       1: 57,
       2: 59,
       3: 60,

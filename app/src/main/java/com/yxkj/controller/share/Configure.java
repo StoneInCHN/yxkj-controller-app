@@ -124,7 +124,7 @@ public class Configure {
 ////                    }
 //                    LogUtil.d("current config.json version:" + configEntity.getVersion());
 
-                    MyApplication.configBean = configEntity;
+                    MyApplication.getMyApplication().configBean = configEntity;
                     // has target step
                     // mock print file
 //                    saveRawFile();

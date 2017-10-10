@@ -7,7 +7,10 @@ import java.util.Map;
  */
 public class DeviceInfo {
     private String deviceNo;
-    private Map<Integer, Integer> addressMap;
+
+    private Map<Integer, Integer> boxMap;
+
+    private Map<Integer, String> addressMap;
 
     public String getDeviceNo() {
         return deviceNo;
@@ -17,11 +20,19 @@ public class DeviceInfo {
         this.deviceNo = deviceNo;
     }
 
-    public Map<Integer, Integer> getAddressMap() {
+    public Map<Integer, String> getAddressMap() {
         return addressMap;
     }
 
-    public void setAddressMap(Map<Integer, Integer> addressMap) {
+    public void setAddressMap(Map<Integer, String> addressMap) {
         this.addressMap = addressMap;
+    }
+
+    public Map<Integer, Integer> getBoxMap() {
+        return boxMap;
+    }
+
+    public void setBoxMap(Map<Integer, Integer> boxMap) {
+        this.boxMap = boxMap;
     }
 }

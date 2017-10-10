@@ -41,8 +41,8 @@ public class GsonUtil {
      * @param cls    tag
      * @return Object Object
      */
-    public Object convertJsonStringToObject(String source, Class<?> cls) {
-        Object o = null;
+    public <T> T convertJsonStringToObject(String source, Class<T> cls) {
+        T o = null;
         if (source != null) {
             try {
                 o = gson.fromJson(source, cls);

@@ -28,20 +28,10 @@ import io.netty.util.CharsetUtil;
  */
 public class NettyClientBootstrap {
     private int port = 3331;
-    private String host = "192.167.1.59";
+    private String host = "10.1.0.143";
     public SocketChannel socketChannel;
 
-    public void startNetty() throws InterruptedException {
-        LogUtil.d("Starting Netty client");
-        start();
-//        if (start()) {
-//            LogUtil.d("Connected to Netty server success");
-//            ByteBuf bb = Unpooled.wrappedBuffer(("tableIP=asdf".getBytes(CharsetUtil.UTF_8)));
-//            socketChannel.writeAndFlush(bb);
-//        }
-    }
-
-    private Boolean start() throws InterruptedException {
+    public void startNetty() {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.channel(NioSocketChannel.class);
@@ -52,33 +42,44 @@ public class NettyClientBootstrap {
             @Override
             protected void initChannel(SocketChannel socketChannel) throws Exception {
                 ChannelPipeline p = socketChannel.pipeline();
+                p.addLast(new IdleStateHandler(8, 0, 0));
                 p.addLast(new LoggingHandler());
                 p.addLast("decoder", new LineBasedFrameDecoder(1024));
                 p.addLast(new StringDecoder());
                 p.addLast(new StringEncoder());
-                p.addLast(new NettyClientHandler());
+                p.addLast(new NettyClientHandler(NettyClientBootstrap.this));
             }
         });
+        ;
         ChannelFuture future = null;
         try {
             future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();
                 LogUtil.d("connect server  成功---------");
-                return true;
             } else {
                 LogUtil.d("connect server  失败---------");
-                TimeUnit.SECONDS.sleep(500);
-                startNetty();
-                return false;
+                //重新连接服务器
+                new Thread(() -> {
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    startNetty();
+                }).start();
             }
         } catch (Exception e) {
-            System.out.println("无法连接----------------");
-            //这里最好暂停一下。不然会基本属于毫秒时间内执行很多次。
-            //造成重连失败
-            TimeUnit.SECONDS.sleep(500);
-            startNetty();
-            return false;
+//            e.printStackTrace();
+            LogUtil.e(e.getMessage());
+            new Thread(() -> {
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (InterruptedException e1) {
+                    e.printStackTrace();
+                }
+                startNetty();
+            }).start();
         }
     }
 }
