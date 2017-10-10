@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
     <!--广告-->
-    <com.yxkj.controller.view.CustomVideoView
+    <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="555px" />
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="770px" />
 
-    <com.yxkj.controller.view.CustomVideoView
+    <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/downVideoView"
         android:layout_width="match_parent"
         android:layout_height="555px" />

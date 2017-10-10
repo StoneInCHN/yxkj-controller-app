@@ -1,13 +1,12 @@
 package com.yxkj.controller.activity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.VideoView;
 
+import com.dou361.ijkplayer.widget.IjkVideoView;
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
@@ -20,10 +19,11 @@ import com.yxkj.controller.util.DownLoadVideoUtil;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
-import com.yxkj.controller.view.CustomVideoView;
 import com.yxkj.controller.view.PayPopupWindow;
 
 import java.io.File;
+
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 
 /**
@@ -31,11 +31,11 @@ import java.io.File;
  */
 public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoodsListener, ShowPayPopupWindowListener {
     /*轮播广告*/
-    private CustomVideoView videoView;
+    private IjkVideoView videoView;
     /*用户输入购买商品页*/
     private MainFragment mainFragment;
     /* 底部广告视频*/
-    private CustomVideoView downVideoView;
+    private IjkVideoView downVideoView;
 
     @Override
     public int getContentViewId() {
@@ -90,50 +90,34 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             setPlayFileVideo(videoView);
             setPlayFileVideo(downVideoView);
         }
+        setVideoListener(videoView);
+        setVideoListener(downVideoView);
+    }
 
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+    /**
+     * 设置视频监听
+     * @param videoView
+     */
+    private void setVideoListener(IjkVideoView videoView) {
+        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-                mediaPlayer.setLooping(true);
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.start();
+                iMediaPlayer.setLooping(true);
             }
         });
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-//                mediaPlayer.start();  /* 循环播放 */
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.start();  /* 循环播放 */
             }
         });
-        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        videoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
             @Override
-            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
-                mediaPlayer.reset();
+            public boolean onError(IMediaPlayer iMediaPlayer, int what, int extra) {
+                iMediaPlayer.reset();
                 ToastUtil.showToast("播放视频出错" + extra);
                 LogUtil.e("播放视频出错" + extra);
-                return true;
-            }
-        });
-
-         /*视屏播放*/
-        downVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
-        /*监听视频播放结束*/
-        downVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();/* 循环播放 */
-            }
-        });
-        /*监听视频播放出错*/
-        downVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
-                mediaPlayer.reset();
-                ToastUtil.showToast("播放视频出错" + extra);
                 return true;
             }
         });
@@ -144,10 +128,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      *
      * @param videoView
      */
-    private void setPlayFileVideo(VideoView videoView) {
+    private void setPlayFileVideo(IjkVideoView videoView) {
         videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
         videoView.start();
-        videoView.requestFocus();
     }
 
     /**
