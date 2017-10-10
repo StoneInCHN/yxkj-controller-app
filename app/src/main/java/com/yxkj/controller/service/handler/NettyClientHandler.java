@@ -23,23 +23,28 @@ public class NettyClientHandler extends CustomHeartbeatHandler {
 
     @Override
     protected void handleData(ChannelHandlerContext channelHandlerContext, String msg) {
-        new Thread(() -> {
-            LogUtil.d("read msg:" + msg);
-            String[] msgs = msg.split(";");
 
-            int address = Integer.parseInt(msgs[0]);
+            new Thread(() -> {
 
-            int portId = MyApplication.getMyApplication().getRegisterPort().get(MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap().get(address));
-            // TODO: 2017/9/29 解析Message
-            if (msgs[2].equals("1")) {
-                int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(Integer.parseInt(msgs[1]));
-                String json2 = EVprotocol.EVtrade(portId, 1, address, box, 0);
-                LogUtil.d(json2);
-            } else if (msgs[2].equals("2")) {
-                int box = Integer.parseInt(msgs[1]);
-                EVprotocol.EVBentoOpen(portId, address, box);
-            }
-        }).start();
+                LogUtil.d("read msg:" + msg);
+                String[] msgs = msg.split(";");
+
+                int address = Integer.parseInt(msgs[0]);
+
+                int portId = MyApplication.getMyApplication().getRegisterPort().get(MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap().get(address));
+                // TODO: 2017/9/29 解析Message
+                if (msgs[2].equals("1")) {
+                    int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(Integer.parseInt(msgs[1]));
+                    synchronized (this){
+                        String json2 = EVprotocol.EVtrade(portId, 1, address, box, 0);
+                        LogUtil.d(json2);
+                    }
+                } else if (msgs[2].equals("2")) {
+                    int box = Integer.parseInt(msgs[1]);
+                    EVprotocol.EVBentoOpen(portId, address, box);
+                }
+            }).start();
+
     }
 
     /*
