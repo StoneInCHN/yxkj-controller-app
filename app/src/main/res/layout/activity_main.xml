@@ -16,5 +16,10 @@
     <FrameLayout
         android:id="@+id/layout_fragments"
         android:layout_width="match_parent"
-        android:layout_height="1375px" />
+        android:layout_height="770px" />
+
+    <com.yxkj.controller.view.CustomVideoView
+        android:id="@+id/downVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="555px" />
 </LinearLayout>

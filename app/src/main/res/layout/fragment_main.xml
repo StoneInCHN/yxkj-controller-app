@@ -206,10 +206,4 @@
                 android:src="@mipmap/banner_right" />
         </LinearLayout>
     </LinearLayout>
-
-    <com.yxkj.controller.view.CustomVideoView
-        android:id="@+id/downVideoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </LinearLayout>

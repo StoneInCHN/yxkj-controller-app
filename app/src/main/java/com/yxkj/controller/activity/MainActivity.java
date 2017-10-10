@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.VideoView;
 
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.R;
@@ -33,6 +34,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     private CustomVideoView videoView;
     /*用户输入购买商品页*/
     private MainFragment mainFragment;
+    /* 底部广告视频*/
+    private CustomVideoView downVideoView;
 
     @Override
     public int getContentViewId() {
@@ -47,6 +50,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     @Override
     public void initView() {
         videoView = findViewByIdNoCast(R.id.videoView);
+        downVideoView = findViewByIdNoCast(R.id.downVideoView);
     }
 
     @Override
@@ -76,18 +80,15 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             downLoadVideoUtil.setSaveSuceessListener(new DownLoadVideoUtil.SaveSuceessListener() {
                 @Override
                 public void onSuceess(File file) {
-                    videoView.setVideoURI(Uri.parse(file.toString()));
-                    videoView.start();
-                    videoView.requestFocus();
-                    mainFragment.setVideoView(Uri.parse(file.toString()));
+                    setPlayFileVideo(videoView);
+                    setPlayFileVideo(downVideoView);
                     SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
                 }
             });
             downLoadVideoUtil.startDownload();
         } else {
-            videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
-            videoView.start();
-            videoView.requestFocus();
+            setPlayFileVideo(videoView);
+            setPlayFileVideo(downVideoView);
         }
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -112,6 +113,41 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 return true;
             }
         });
+
+         /*视屏播放*/
+        downVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
+        /*监听视频播放结束*/
+        downVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();/* 循环播放 */
+            }
+        });
+        /*监听视频播放出错*/
+        downVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
+                mediaPlayer.reset();
+                ToastUtil.showToast("播放视频出错" + extra);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 设置播放视频
+     *
+     * @param videoView
+     */
+    private void setPlayFileVideo(VideoView videoView) {
+        videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
+        videoView.start();
+        videoView.requestFocus();
     }
 
     /**

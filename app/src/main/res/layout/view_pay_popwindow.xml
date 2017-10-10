@@ -23,9 +23,9 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/goodList"
             android:layout_marginRight="50px"
-            android:text="总计:25.80"
+            android:text="总计:￥25.80"
             android:textColor="@color/orange"
-            android:textSize="45px" />
+            android:textSize="30px" />
 
         <RelativeLayout
             android:layout_width="match_parent"

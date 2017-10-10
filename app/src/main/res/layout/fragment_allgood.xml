@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:paddingBottom="25px"
                 android:paddingTop="25px"
-                android:src="@mipmap/back" />
+                android:src="@mipmap/return_main" />
 
             <TextView
                 android:id="@+id/iv_back_main"

@@ -1,8 +1,6 @@
 package com.yxkj.controller.fragment;
 
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +20,7 @@ import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.util.TimeCountUtl;
-import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.CanclePayView;
-import com.yxkj.controller.view.CustomVideoView;
 import com.yxkj.controller.view.InputPwdView;
 import com.yxkj.controller.view.KeyBoardView;
 
@@ -37,8 +33,6 @@ import java.util.List;
 public class MainFragment extends BaseFragment implements InputEndListener<String>, SelectListener, CompleteListener, ShowInputPwdCallBack, InputManagerPwdListener {
     /*键盘*/
     private KeyBoardView keyboardView;
-    /* 底部广告视频*/
-    private CustomVideoView downVideoView;
     /*商品列表*/
     private RecyclerView recyclerView;
     /*商品列表适配器*/
@@ -108,7 +102,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     @Override
     protected void initView(View rootView) {
         keyboardView = findViewByIdNoCast(R.id.keyboardView);
-        downVideoView = findViewByIdNoCast(R.id.downVideoView);
         recyclerView = findViewByIdNoCast(R.id.recyclerView);
         layout_pay = findViewByIdNoCast(R.id.layout_pay);
         img_code = findViewByIdNoCast(R.id.img_code);
@@ -144,15 +137,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-//        if (!SharePrefreceHelper.getInstence(getActivity()).getFirstBoolean("first", true)) {
-//            setVideoView(Uri.parse(getActivity().getExternalFilesDir(null) + File.separator + "news.mp4"));
-//        }
-        downVideoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-transcode/169_1905b5de25b3bf55e76ea888973a94a7_2.mp4"));
-    }
-
-    public void setVideoView(Uri uri) {
-//        downVideoView.setVideoURI(uri);
-//        downVideoView.start();
     }
 
     @Override
@@ -163,29 +147,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         view_cancle_pay.setSelectListener(this);
         /*设置输入结束监听*/
         keyboardView.setListener(this);
-        /*视屏播放*/
-        downVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
-        /*监听视频播放结束*/
-        downVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();/* 循环播放 */
-            }
-        });
-        /*监听视频播放出错*/
-        downVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
-                mediaPlayer.reset();
-                ToastUtil.showToast("播放视频出错" + extra);
-                return true;
-            }
-        });
         /*支付倒计时结束*/
         payTimeCount.setCompleteListener(this);
         /*立即支付倒计时结束*/
