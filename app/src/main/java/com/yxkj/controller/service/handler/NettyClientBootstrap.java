@@ -16,12 +16,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
-import io.netty.util.CharsetUtil;
 
 /**
  * Created by huyong on 2017/9/13.
@@ -44,16 +44,17 @@ public class NettyClientBootstrap {
                 ChannelPipeline p = socketChannel.pipeline();
                 p.addLast(new IdleStateHandler(8, 0, 0));
                 p.addLast(new LoggingHandler());
-                p.addLast("decoder", new LineBasedFrameDecoder(1024));
+//                p.addLast("decoder", new LineBasedFrameDecoder(1024));
+                ByteBuf buf = Unpooled.copiedBuffer("$_$".getBytes());
+                p.addLast(new DelimiterBasedFrameDecoder(1024, buf));
                 p.addLast(new StringDecoder());
                 p.addLast(new StringEncoder());
                 p.addLast(new NettyClientHandler(NettyClientBootstrap.this));
             }
         });
-        ;
-        ChannelFuture future = null;
+
         try {
-            future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
+            ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();
                 LogUtil.d("connect server  成功---------");
