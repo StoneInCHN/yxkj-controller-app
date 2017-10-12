@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -49,7 +51,7 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
 
     private void initData() {
         allGoodsAdapter = new CurrentPageGoodsAdapter(getContext());
-        setLayoutManager(new GridLayoutManager(getContext(), 7));
+        setLayoutManager(new GridLayoutManager(getContext(), 6));
         setAdapter(allGoodsAdapter);
         getAllGoods();
         allGoodsAdapter.setOnItemClickListener(this);
@@ -59,7 +61,7 @@ public class CurrentPageGoodsRecyclerView extends RecyclerView implements BaseRe
      * 获取商品
      */
     private void getAllGoods() {
-        Observable.range(1, 49).subscribe(new Consumer<Integer>() {
+        Observable.range(1, 20).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(@NonNull Integer integer) throws Exception {
                 goods.add(integer + "");

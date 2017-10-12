@@ -9,18 +9,21 @@
     <color name="black">#000</color>
     <color name="green">#34B944</color>
     <color name="trans_green">#8034B944</color>
-    <color name="line_color">#ffcccccc</color>
+    <color name="line_color">#cccccc</color>
     <color name="vertical_line_color">#ffcccccc</color>
     <color name="orange">#FF6C00</color>
     <color name="color_ffafafaf">#ffafafaf</color>
     <color name="color_333333">#333333</color>
     <color name="color_FFF5F4F4">#FFF5F4F4</color>
     <color name="color_666666">#666666</color>
+    <color name="color_eee">#eeeeee</color>
     <!--常用颜色-->
     <color name="theme_orange">#FF853B</color>
     <color name="theme_green">#34B944</color>
     <color name="theme_red">#FF012F</color>
     <color name="theme_gray">#EBEBEB</color>
     <color name="bg_gray">#EBEBEB</color>
+    <color name="bg_color">#FAFAFA </color>
     <color name="bg_black_90trans">#E6303135</color>
+    <color name="color_999">#999999</color>
 </resources>

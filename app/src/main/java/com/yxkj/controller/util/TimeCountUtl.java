@@ -37,7 +37,7 @@ public class TimeCountUtl {
 
             @Override
             public void onNext(@NonNull Long aLong) {
-                textView.setText(desc + (end - aLong) + "s");
+                textView.setText(String.format(desc, (end - aLong)));
             }
 
             @Override

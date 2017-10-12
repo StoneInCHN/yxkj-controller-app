@@ -2,6 +2,8 @@ package com.yxkj.controller.view;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
+import com.yxkj.controller.adapter.CurrentPageGoodsAdapter;
+import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.CompleteListener;
-import com.yxkj.controller.callback.GoodsSelectListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.util.TimeCountUtl;
 
@@ -21,15 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
  * 全部商品PopupWindow
  */
 
-public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, GoodsSelectListener<String>, CompleteListener, SelectedGoodsList.ClearListCallBack {
+public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, CompleteListener, SelectedGoodsList.ClearListCallBack, BaseRecyclerViewAdapter.OnItemClickListener<String> {
     private Context mContext;
     /*顶部导航栏*/
     private TabLayout tabLayout;
@@ -48,9 +53,13 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private TimeCountUtl timeCountUtl;
     private int page = 1;
     private ShowPayPopupWindowListener listener;
-    private CurrentPageGoodsRecyclerView current_goods_recycler;
+    private RecyclerView current_goods_recycler;
     /*已选商品*/
     private List<String> listSelectedGoods = new ArrayList<>();
+    /*商品列表适配器*/
+    private CurrentPageGoodsAdapter allGoodsAdapter;
+    /*商品数据*/
+    private List<String> goods;
 
     public void setListener(ShowPayPopupWindowListener listener) {
         this.listener = listener;
@@ -70,6 +79,11 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         init();
         initData();
         setEvent();
+    }
+
+    public void setGoods(List<String> goods) {
+        this.goods = goods;
+        allGoodsAdapter.settList(goods);
     }
 
     /**
@@ -97,8 +111,10 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      */
     private void initData() {
         timeCountUtl = new TimeCountUtl();
-        timeCountUtl.countDown(0, 120, iv_back_main, "首页");
-        current_goods_recycler.setGoodsSelectListener(this);
+        allGoodsAdapter = new CurrentPageGoodsAdapter(mContext);
+        current_goods_recycler.setLayoutManager(new GridLayoutManager(mContext, 6));
+        current_goods_recycler.setAdapter(allGoodsAdapter);
+        allGoodsAdapter.setOnItemClickListener(this);
         seletedGoodsList.setClearListCallBack(this);
     }
 
@@ -106,7 +122,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 初始化TabLayout
      */
     private void initTabLayout() {
-        Observable.fromArray(tabs).subscribe(new Consumer<String>() {
+        Observable.fromArray(tabs).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
                 TabLayout.Tab t = tabLayout.newTab().setText(s);
@@ -149,17 +165,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         dismiss();
     }
 
-    /**
-     * 已选商品
-     *
-     * @param goods
-     */
-    @Override
-    public void onGoodsSelect(String goods) {
-        tv_selected.setText(listSelectedGoods.size() + "");
-        listSelectedGoods.add(goods);
-        seletedGoodsList.setSelectedGoods(listSelectedGoods);
-    }
 
     @Override
     public void onClick(View view) {
@@ -177,9 +182,17 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
                 }
                 break;
             case R.id.back_layout:
+                timeCountUtl.cancle();
                 dismiss();
                 break;
         }
+    }
+
+    /**
+     * 开启倒计时
+     */
+    public void startCountDown() {
+        timeCountUtl.countDown(0, 120, iv_back_main, "首页(%ds)");
     }
 
     /**
@@ -197,6 +210,19 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     public void onClear() {
         listSelectedGoods.clear();
         tv_selected.setText(listSelectedGoods.size() + "");
+        seletedGoodsList.setSelectedGoods(listSelectedGoods);
+    }
+
+    /**
+     * 已选商品
+     *
+     * @param position
+     * @param data
+     */
+    @Override
+    public void onItemClick(int position, String data) {
+        tv_selected.setText(listSelectedGoods.size() + "");
+        listSelectedGoods.add(data);
         seletedGoodsList.setSelectedGoods(listSelectedGoods);
     }
 }

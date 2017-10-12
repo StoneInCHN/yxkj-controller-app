@@ -3,51 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_FFF5F4F4"
+    android:background="@color/white"
+    android:minHeight="100px"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="98px"
         android:background="@color/white"
-
         android:gravity="center_vertical"
         android:paddingBottom="10px"
         android:paddingLeft="30px"
         android:paddingTop="10px">
 
-        <ImageView
-            android:layout_width="110px"
-            android:layout_height="110px"
-            android:src="@color/colorAccent" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30px"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A21"
-                android:textColor="@color/color_333333"
-                android:textSize="21px" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30px"
-                android:gravity="center_vertical"
-                android:text="同意冰红茶"
-                android:textColor="@color/color_333333"
-                android:textSize="24px" />
-        </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="316px"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="同意冰红茶"
+            android:textColor="@color/color_333333"
+            android:textSize="24px" />
+
+        <TextView
+            android:id="@+id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="143px"
+            android:gravity="center_vertical"
+            android:text="A21"
+            android:textColor="@color/color_333333"
+            android:textSize="21px" />
+
+        <TextView
+            android:id="@+id/tv_nums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160px"
             android:gravity="right"
             android:text="X2"
             android:textColor="@color/color_666666"
@@ -57,15 +51,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="80px"
+            android:layout_marginRight="75px"
             android:layout_weight="1"
             android:gravity="right"
             android:text="￥10"
             android:textColor="@color/orange"
-            android:textSize="32px" />
+            android:textSize="26px" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20px" />
+        android:layout_height="2px"
+        android:background="@color/line_color" />
 </LinearLayout>

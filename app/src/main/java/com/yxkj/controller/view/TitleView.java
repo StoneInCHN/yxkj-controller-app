@@ -63,7 +63,7 @@ public class TitleView extends FrameLayout implements CompleteListener {
      */
     private void initData() {
         timeCountUtl = new TimeCountUtl();
-        timeCountUtl.countDown(0, 120, tv_rest_time, "");
+        timeCountUtl.countDown(0, 120, tv_rest_time, "(%ds)");
         timeCountUtl.setCompleteListener(this);
         img_back.setOnClickListener(new OnClickListener() {
             @Override
@@ -105,6 +105,6 @@ public class TitleView extends FrameLayout implements CompleteListener {
      */
     public void restart() {
         if (timeCountUtl != null && tv_rest_time != null)
-            timeCountUtl.countDown(0, 120, tv_rest_time, "");
+            timeCountUtl.countDown(0, 120, tv_rest_time, "(%ds)");
     }
 }

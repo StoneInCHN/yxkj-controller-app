@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80px"
+        android:background="@color/bg_color"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -43,27 +44,30 @@
             android:layout_marginLeft="30px"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/theme_green"
+            app:tabIndicatorHeight="4px"
+            app:tabMinWidth="180px"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/theme_green"
             app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <com.yxkj.controller.view.CurrentPageGoodsRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/current_goods_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/theme_gray" />
+            android:layout_weight="1"
+            android:background="@color/white" />
         <!--支付信息模块-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <com.yxkj.controller.view.SelectedGoodsList
@@ -74,17 +78,42 @@
                 android:background="@color/white"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80px"
-                android:background="@color/bg_black_90trans"
-                android:paddingLeft="42px">
+                android:layout_height="75px">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/bg_black_90trans">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="共计: ￥25.80"
+                        android:textColor="@color/white"
+                        android:textSize="39px" />
+
+                    <TextView
+                        android:id="@+id/tv_pay"
+                        android:layout_width="366px"
+                        android:layout_height="match_parent"
+                        android:background="@color/theme_orange"
+                        android:gravity="center"
+                        android:text="去支付"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_selected"
                     android:layout_width="75px"
                     android:layout_height="75px"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="42px">
 
                     <ImageView
                         android:layout_width="69px"
@@ -105,29 +134,10 @@
                         android:textSize="18px" />
 
                 </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="共计: ￥25.80"
-                    android:textColor="@color/white"
-                    android:textSize="39px" />
-
-                <TextView
-                    android:id="@+id/tv_pay"
-                    android:layout_width="366px"
-                    android:layout_height="match_parent"
-                    android:background="@color/theme_orange"
-                    android:gravity="center"
-                    android:text="去支付"
-                    android:textColor="@color/white"
-                    android:textSize="36px" />
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

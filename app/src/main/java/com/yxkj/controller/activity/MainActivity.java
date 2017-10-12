@@ -148,10 +148,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      * 显示全部商品页
      */
     @Override
-    public void onAllGoods() {
-        AllGoodsPopupWindow popupWindow = new AllGoodsPopupWindow(this);
+    public void onAllGoods(AllGoodsPopupWindow popupWindow) {
         popupWindow.setListener(this);
-        popupWindow.showAsDropDown(videoView);
     }
 
     /**

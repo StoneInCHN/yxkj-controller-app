@@ -4,6 +4,7 @@ package com.yxkj.controller.fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.util.TimeCountUtl;
+import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CanclePayView;
 import com.yxkj.controller.view.InputPwdView;
 import com.yxkj.controller.view.KeyBoardView;
@@ -82,12 +84,12 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private TextView tv_totall_gray;
     /*管理员密码输入弹窗*/
     private InputPwdView input_view;
-
+    /*退出界面（输入管理员密码界面）*/
     private LinearLayout exit_layout;
-
-    public void setGoodsAndBetterGoodsListener(AllGoodsAndBetterGoodsListener goodsAndBetterGoodsListener) {
-        this.goodsAndBetterGoodsListener = goodsAndBetterGoodsListener;
-    }
+    /*全部商品数据*/
+    private List<String> allGoods = new ArrayList<>();
+    /*全部商品界面*/
+    private AllGoodsPopupWindow allGoodsPopupWindow;
 
     @Override
     protected int getResource() {
@@ -127,6 +129,9 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
 
     @Override
     protected void initData() {
+        allGoodsPopupWindow = new AllGoodsPopupWindow(getActivity());
+        getAllGoods();
+        allGoodsPopupWindow.setGoods(allGoods);
         payImTimeCount = new TimeCountUtl();
         payTimeCount = new TimeCountUtl();
         closeTimeCount = new TimeCountUtl();
@@ -164,7 +169,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             case R.id.tv_pay_immediate: /*立即支付*/
                 keyboardView.setVisibility(View.GONE);/*隐藏键盘*/
                 layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
-                payTimeCount.countDown(0, 120, tv_count_down, "取消支付");/*支付倒计时*/
+                payTimeCount.countDown(0, 120, tv_count_down, "取消支付(%ds)");/*支付倒计时*/
                 payImTimeCount.cancle();
                 layout_clear.setVisibility(View.GONE);
                 tv_totall_gray.setVisibility(View.VISIBLE);
@@ -176,8 +181,10 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 clearList();
                 break;
             case R.id.img_all:/*全部商品*/
+                allGoodsPopupWindow.startCountDown();
+                allGoodsPopupWindow.showAtLocation(img_all, Gravity.CENTER, 0, 0);
                 if (goodsAndBetterGoodsListener != null) {
-                    goodsAndBetterGoodsListener.onAllGoods();
+                    goodsAndBetterGoodsListener.onAllGoods(allGoodsPopupWindow);
                 }
                 break;
             case R.id.tv_better:/*优质商品*/
@@ -186,6 +193,15 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 }
                 break;
         }
+    }
+
+    /**
+     * 设置监听点击了全部商品还是优质商品
+     *
+     * @param goodsAndBetterGoodsListener
+     */
+    public void setGoodsAndBetterGoodsListener(AllGoodsAndBetterGoodsListener goodsAndBetterGoodsListener) {
+        this.goodsAndBetterGoodsListener = goodsAndBetterGoodsListener;
     }
 
     /**
@@ -201,7 +217,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         img_all.setVisibility(View.GONE);//隐藏全部商品
         recyclerView.setVisibility(View.VISIBLE);//显示商品列表
         /*显示立即支付*/
-        payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付");
+        payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
         botom_layout.setVisibility(View.VISIBLE);//显示立即支付
         layout_clear.setVisibility(View.VISIBLE);//显示立即支付
     }
@@ -269,5 +285,16 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     @Override
     public void onShowInputPwd() {
         exit_layout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 获取全部商品
+     *
+     * @return
+     */
+    private void getAllGoods() {
+        for (int i = 0; i < 30; i++) {
+            allGoods.add(i + "");
+        }
     }
 }

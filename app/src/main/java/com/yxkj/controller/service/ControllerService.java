@@ -51,11 +51,11 @@ public class ControllerService extends Service {
         Map<Integer, String> addressMaps = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap();
 
         for (int key : addressMaps.keySet()) {
-            EVprotocol.EVPortRegister(addressMaps.get(key));
-            String response = EVprotocol.EVPortRegister(addressMaps.get(key));
-            EVPortRegisterResponse evPortRegisterResponse = GsonUtil.getInstance().convertJsonStringToObject(response.replace("\\n", "").replace("\\t", ""), EVPortRegisterResponse.class);
-            MyApplication.getMyApplication().getRegisterPort().put(evPortRegisterResponse.getEV_json().getPort(), evPortRegisterResponse.getEV_json().getPort_id());
-            LogUtil.d(response);
+//            EVprotocol.EVPortRegister(addressMaps.get(key));
+//            String response = EVprotocol.EVPortRegister(addressMaps.get(key));
+//            EVPortRegisterResponse evPortRegisterResponse = GsonUtil.getInstance().convertJsonStringToObject(response.replace("\\n", "").replace("\\t", ""), EVPortRegisterResponse.class);
+//            MyApplication.getMyApplication().getRegisterPort().put(evPortRegisterResponse.getEV_json().getPort(), evPortRegisterResponse.getEV_json().getPort_id());
+//            LogUtil.d(response);
         }
         new Thread(() -> {
             nettyStart.startNetty();

@@ -119,7 +119,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         payGoodsAdapter = new PayGoodsAdapter(mContext);
         goodList.setLayoutManager(new LinearLayoutManager(mContext));
         goodList.setAdapter(payGoodsAdapter);
-        timeCountUtl.countDown(0, 120, tv_counter_down, "取消支付");
+        timeCountUtl.countDown(0, 120, tv_counter_down, "取消支付(%ds)");
         timeCountUtl.setCompleteListener(this);
     }
 

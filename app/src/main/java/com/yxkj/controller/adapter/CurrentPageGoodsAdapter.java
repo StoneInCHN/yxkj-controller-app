@@ -1,9 +1,7 @@
 package com.yxkj.controller.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
+import android.graphics.Paint;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
@@ -30,6 +28,9 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<String> {
     @Override
     public void onCorvert(BaseViewHolder holder, int position, String bean) {
         holder.setText(R.id.tv_goods_name, "香飘飘");
+        TextView tv_old_price = holder.getView(R.id.tv_old_price);
+        //给原价设置中划线
+        tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
 }

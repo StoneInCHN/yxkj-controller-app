@@ -3,42 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_gray"
+    android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="19px">
 
     <LinearLayout
-        android:layout_width="140px"
-        android:layout_height="175px"
+        android:layout_width="160px"
+        android:layout_height="225px"
         android:layout_gravity="center"
-        android:background="@color/white"
-        android:gravity="center_horizontal"
+        android:background="@color/bg_color"
+        android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="9px"
-        android:paddingRight="9px"
-        android:paddingTop="9px">
+        android:paddingLeft="11px"
+        android:paddingRight="11px">
 
-        <RelativeLayout
-            android:layout_width="120px"
-            android:layout_height="90px">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/test" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="18px"
-                android:layout_alignParentBottom="true"
-                android:background="@color/bg_black_90trans"
-                android:gravity="center"
-                android:text="常温"
-                android:textColor="@color/white"
-                android:textSize="12px" />
-
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="137px"
+            android:layout_height="137px"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/test" />
 
         <TextView
             android:id="@+id/tv_goods_name"
@@ -48,21 +32,41 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="农夫山泉有点甜天天天天天"
-            android:textSize="15px" />
+            android:textSize="14px" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8px"
+            android:layout_marginTop="16px"
             android:gravity="center_vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="￥2.50"
-                android:textColor="@color/theme_orange"
-                android:textSize="16px" />
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="￥2.50"
+                    android:textColor="@color/theme_orange"
+                    android:textSize="14px" />
+
+
+                <TextView
+                    android:id="@+id/tv_old_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="￥2.50"
+                    android:textColor="@color/color_999"
+                    android:textSize="12px" />
+
+            </LinearLayout>
 
             <com.yxkj.controller.view.NumberAddSubView
                 android:layout_width="wrap_content"
@@ -71,15 +75,24 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 app:btnSize="24px"
-                app:btnTextSize="20px"
+                app:btnTextSize="14px"
                 app:maxValue="100"
                 app:minValue="0"
                 app:textViewPadding="2px"
-                app:textViewSize="24px"
+                app:textViewSize="14px"
                 app:value="1" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="47px"
+        android:layout_height="16px"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/green"
+        android:gravity="center"
+        android:text="冰冻"
+        android:textColor="@color/white"
+        android:textSize="12px" />
 </FrameLayout>

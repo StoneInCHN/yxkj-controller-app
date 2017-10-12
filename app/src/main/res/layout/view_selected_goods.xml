@@ -16,8 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/dot_green"
-            android:text="@string/goods_selecte"
             android:drawablePadding="15px"
+            android:text="@string/goods_selecte"
+            android:textColor="@color/color_333333"
             android:textSize="28px" />
 
         <TextView
@@ -29,6 +30,7 @@
             android:drawableLeft="@mipmap/clear_cart"
             android:drawablePadding="15px"
             android:text="@string/clear_list"
+            android:textColor="@color/color_333333"
             android:textSize="28px" />
     </RelativeLayout>
 
