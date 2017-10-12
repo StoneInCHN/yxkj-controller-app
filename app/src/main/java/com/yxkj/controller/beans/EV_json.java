@@ -1,6 +1,6 @@
 /**
-  * Copyright 2017 bejson.com 
-  */
+ * Copyright 2017 bejson.com
+ */
 package com.yxkj.controller.beans;
 
 /**
@@ -12,27 +12,65 @@ package com.yxkj.controller.beans;
 public class EV_json {
 
     private int EV_type;
+    /**
+     * 串口号
+     */
     private String port;
+    /**
+     * 端口号
+     */
     private int port_id;
+    /**
+     * 货柜号
+     */
+    private int addr;
+    /**
+     * 货道号
+     */
+    private int box;
+    /**
+     * 出货成功或失败
+     */
+    private int is_success;
+    /**
+     * 出货返回值
+     */
+    private int result;
+
     public void setEV_type(int EV_type) {
-         this.EV_type = EV_type;
-     }
-     public int getEV_type() {
-         return EV_type;
-     }
+        this.EV_type = EV_type;
+    }
+
+    public int getEV_type() {
+        return EV_type;
+    }
 
     public void setPort(String port) {
-         this.port = port;
-     }
-     public String getPort() {
-         return port;
-     }
+        this.port = port;
+    }
+
+    public String getPort() {
+        return port;
+    }
 
     public void setPort_id(int port_id) {
-         this.port_id = port_id;
-     }
-     public int getPort_id() {
-         return port_id;
-     }
+        this.port_id = port_id;
+    }
 
+    public int getPort_id() {
+        return port_id;
+    }
+
+    @Override
+    public String toString() {
+        return "EV_json{" +
+                "EV_type=" + EV_type +
+                ", port='" + port + '\'' +
+                ", port_id=" + port_id +
+                ", addr=" + addr +
+                ", box=" + box +
+                ", is_success=" + is_success +
+                ", result=" + result +
+                '}';
+    }
 }

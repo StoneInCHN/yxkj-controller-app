@@ -1,8 +1,14 @@
 package com.yxkj.controller.service.handler;
 
 import com.easivend.evprotocol.EVprotocol;
+import com.google.gson.Gson;
 import com.yxkj.controller.application.MyApplication;
-import com.yxkj.controller.service.CustomHeartbeatHandler;
+import com.yxkj.controller.beans.CmdMsg;
+import com.yxkj.controller.beans.EV_json;
+import com.yxkj.controller.beans.NotifyMessage;
+import com.yxkj.controller.processer.OutBoundProcessor;
+import com.yxkj.controller.processer.ProcessorWatcher;
+import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 
 import java.util.Date;
@@ -16,47 +22,52 @@ import io.netty.channel.ChannelHandlerContext;
 public class NettyClientHandler extends CustomHeartbeatHandler {
     private NettyClientBootstrap nettyClientBootstrap;
 
+    private ProcessorWatcher watcher;
+
     public NettyClientHandler(NettyClientBootstrap nettyClientBootstrap) {
         super("Client");
         this.nettyClientBootstrap = nettyClientBootstrap;
+        watcher = new ProcessorWatcher();
+        watcher.addProcessor(new OutBoundProcessor());
     }
 
+    /**
+     * 业务处理
+     *
+     * @param ctx
+     * @param msg
+     */
     @Override
-    protected void handleData(ChannelHandlerContext channelHandlerContext, String msg) {
-        new Thread(() -> {
-            LogUtil.d("read msg:" + msg);
-            String[] msgs = msg.split(";");
+    protected void handleData(ChannelHandlerContext ctx, String msg) {
+        // TODO: 2017/9/29 解析Message
+        LogUtil.d("read msg:" + msg);
 
-            int address = Integer.parseInt(msgs[0]);
-
-            int portId = MyApplication.getMyApplication().getRegisterPort().get(MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressMap().get(address));
-            // TODO: 2017/9/29 解析Message
-            if (msgs[2].equals("1")) {
-                int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(Integer.parseInt(msgs[1]));
-                String json2 = EVprotocol.EVtrade(portId, 1, address, box, 0);
-                LogUtil.d(json2);
-            } else if (msgs[2].equals("2")) {
-                int box = Integer.parseInt(msgs[1]);
-                EVprotocol.EVBentoOpen(portId, address, box);
-            }
-        }).start();
+        CmdMsg cmdMsg = GsonUtil.getInstance().convertJsonStringToObject(msg, CmdMsg.class);
+        watcher.process(ctx, cmdMsg);
     }
 
     /*
      *
-     * 覆盖 channelActive 方法 在channel被启用的时候触发 (在建立连接的时候)
      *
-     * channelActive 和 channelInActive 在后面的内容中讲述，这里先不做详细的描述
+     *  连接建立后触发，发送指令，注册设备号格式1;xxx;reg
      * */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         // TODO: 2017/9/29 获取设备ID
-        LogUtil.d("version:" + MyApplication.getMyApplication().configBean.getVersion());
-        String cmd = "1;" + MyApplication.getMyApplication().configBean.getDeviceInfo().getDeviceNo() + ";reg\n";
+        LogUtil.d("deviceNO:" + MyApplication.getMyApplication().configBean.getDeviceInfo().getDeviceNo());
+        NotifyMessage msg = new NotifyMessage();
+        msg.setContent(MyApplication.getMyApplication().configBean.getDeviceInfo().getDeviceNo());
+        msg.setMsgType(NotifyMessage.MsgType.REGISTER);
+        String cmd = GsonUtil.getInstance().convertObjectToJsonString(msg) + "$_$";
         ctx.writeAndFlush(Unpooled.wrappedBuffer(cmd.getBytes()));
 
     }
 
+    /**
+     * 未收到消息时，发送心跳检查包
+     *
+     * @param ctx
+     */
     @Override
     protected void handleReaderIdle(ChannelHandlerContext ctx) {
         super.handleAllIdle(ctx);
@@ -64,6 +75,12 @@ public class NettyClientHandler extends CustomHeartbeatHandler {
         sendPingMsg(ctx);
     }
 
+    /**
+     * 连接断开后启动重连机制
+     *
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
