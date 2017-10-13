@@ -2,6 +2,7 @@ package com.yxkj.controller.service.handler;
 
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.NotifyMessage;
+import com.yxkj.controller.processer.AudioControlProcessor;
 import com.yxkj.controller.processer.OutBoundProcessor;
 import com.yxkj.controller.processer.ProcessorWatcher;
 import com.yxkj.controller.util.GsonUtil;
@@ -26,6 +27,7 @@ public class NettyClientHandler extends CustomHeartbeatHandler {
         this.nettyClientBootstrap = nettyClientBootstrap;
         watcher = new ProcessorWatcher();
         watcher.addProcessor(new OutBoundProcessor());
+        watcher.addProcessor(new AudioControlProcessor());
     }
 
     /**
