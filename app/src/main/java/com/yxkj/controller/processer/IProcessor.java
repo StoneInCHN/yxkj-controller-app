@@ -1,6 +1,6 @@
 package com.yxkj.controller.processer;
 
-import com.yxkj.controller.beans.CmdMsg;
+import com.yxkj.entity.CmdMsg;
 
 import io.netty.channel.ChannelHandlerContext;
 

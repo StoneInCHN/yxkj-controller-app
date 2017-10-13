@@ -1,15 +1,12 @@
 package com.yxkj.controller.service.handler;
 
-import com.easivend.evprotocol.EVprotocol;
-import com.google.gson.Gson;
 import com.yxkj.controller.application.MyApplication;
-import com.yxkj.controller.beans.CmdMsg;
-import com.yxkj.controller.beans.EV_json;
 import com.yxkj.controller.beans.NotifyMessage;
 import com.yxkj.controller.processer.OutBoundProcessor;
 import com.yxkj.controller.processer.ProcessorWatcher;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
+import com.yxkj.entity.CmdMsg;
 
 import java.util.Date;
 
