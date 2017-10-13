@@ -1,5 +1,6 @@
 package com.yxkj.controller.beans;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,7 +11,9 @@ public class DeviceInfo {
 
     private Map<Integer, Integer> boxMap;
 
-    private Map<Integer, String> addressMap;
+    private List<String> serialPorts;
+
+    private Map<String, Integer> addressPhysicMap;
 
     public String getDeviceNo() {
         return deviceNo;
@@ -20,19 +23,27 @@ public class DeviceInfo {
         this.deviceNo = deviceNo;
     }
 
-    public Map<Integer, String> getAddressMap() {
-        return addressMap;
-    }
-
-    public void setAddressMap(Map<Integer, String> addressMap) {
-        this.addressMap = addressMap;
-    }
-
     public Map<Integer, Integer> getBoxMap() {
         return boxMap;
     }
 
     public void setBoxMap(Map<Integer, Integer> boxMap) {
         this.boxMap = boxMap;
+    }
+
+    public Map<String, Integer> getAddressPhysicMap() {
+        return addressPhysicMap;
+    }
+
+    public void setAddressPhysicMap(Map<String, Integer> addressPhysicMap) {
+        this.addressPhysicMap = addressPhysicMap;
+    }
+
+    public List<String> getSerialPorts() {
+        return serialPorts;
+    }
+
+    public void setSerialPorts(List<String> serialPorts) {
+        this.serialPorts = serialPorts;
     }
 }
