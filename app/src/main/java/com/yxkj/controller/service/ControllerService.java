@@ -4,11 +4,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.EVPortRegisterResponse;
 import com.yxkj.controller.service.handler.NettyClientBootstrap;
+import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 
@@ -41,8 +43,13 @@ public class ControllerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        String imei = telephonyManager.getDeviceId();
+        //从本地获取DeviceNo
+        String imei = SharePrefreceHelper.getInstence(this).getDeviceNo("imei");
+        if (imei == null || TextUtils.isEmpty(imei)) {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            imei = telephonyManager.getDeviceId();
+            SharePrefreceHelper.getInstence(this).setDeviceNo("imei", imei);
+        }
         MyApplication.getMyApplication().configBean.getDeviceInfo().setDeviceNo(imei);
         LogUtil.d("imei:" + imei);
         // TODO: 2017/9/29 register 串口

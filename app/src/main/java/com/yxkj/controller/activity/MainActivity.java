@@ -59,8 +59,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         initFragment();
         Intent intent = new Intent(this, ControllerService.class);
         startService(intent);
-
-
     }
 
     @Override
@@ -96,6 +94,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     /**
      * 设置视频监听
+     *
      * @param videoView
      */
     private void setVideoListener(IjkVideoView videoView) {

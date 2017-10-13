@@ -27,4 +27,21 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     public boolean getFirstBoolean(String key, boolean defaultVaule) {
         return getBoolean(key, defaultVaule);
     }
+
+    /**
+     * 设置DeviceId
+     */
+    public void setDeviceNo(String key, String value) {
+        putString(key, value);
+    }
+
+    /**
+     * 获得DeviceId
+     *
+     * @param key
+     * @return
+     */
+    public String getDeviceNo(String key) {
+        return getString(key);
+    }
 }
