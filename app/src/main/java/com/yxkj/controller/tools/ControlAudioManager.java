@@ -28,10 +28,11 @@ public class ControlAudioManager {
 
     /**
      * 设置当前音量百分比
+     *
      * @param curentVolume
      */
     public void setVolume(float curentVolume) {
-        if (curentVolume > 100) return;
+        if (curentVolume > 100) curentVolume = 100;
         float percent = curentVolume / 100;
         int curVolume = (int) (maxVolume * percent);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume, 0);
