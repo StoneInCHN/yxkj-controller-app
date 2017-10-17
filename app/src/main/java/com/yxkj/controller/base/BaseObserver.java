@@ -1,7 +1,6 @@
 package com.yxkj.controller.base;
 
 import android.accounts.NetworkErrorException;
-import android.content.Context;
 
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ToastUtil;
@@ -19,10 +18,9 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
 
     private static final String TAG = "BaseObserver";
-    private Context mContext;
 
-    protected BaseObserver(Context context) {
-        this.mContext = context.getApplicationContext();
+    protected BaseObserver() {
+
     }
 
     @Override

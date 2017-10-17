@@ -14,10 +14,14 @@ import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.CurrentPageGoodsAdapter;
+import com.yxkj.controller.base.BaseObserver;
 import com.yxkj.controller.base.BaseRecyclerViewAdapter;
+import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
+import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.TimeCountUtl;
 
 import java.util.ArrayList;
@@ -38,8 +42,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private Context mContext;
     /*顶部导航栏*/
     private TabLayout tabLayout;
-    /*导航标签*/
-    private String[] tabs = new String[]{"全部", "水饮牛奶", "饼干蛋糕", "美味零食", "香烟"};
     /*选择的商品数量*/
     private TextView tv_selected;
     /*点击商品购物车*/
@@ -58,8 +60,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private List<String> listSelectedGoods = new ArrayList<>();
     /*商品列表适配器*/
     private CurrentPageGoodsAdapter allGoodsAdapter;
-    /*商品数据*/
-    private List<String> goods;
 
     public void setListener(ShowPayPopupWindowListener listener) {
         this.listener = listener;
@@ -76,14 +76,11 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     public AllGoodsPopupWindow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        getCategory();
+        getByCate("");
         init();
         initData();
         setEvent();
-    }
-
-    public void setGoods(List<String> goods) {
-        this.goods = goods;
-        allGoodsAdapter.settList(goods);
     }
 
     /**
@@ -103,7 +100,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
-        initTabLayout();
     }
 
     /**
@@ -121,11 +117,11 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     /**
      * 初始化TabLayout
      */
-    private void initTabLayout() {
-        Observable.fromArray(tabs).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+    private void initTabLayout(List<Category> tabs) {
+        Observable.fromIterable(tabs).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Category>() {
             @Override
-            public void accept(@NonNull String s) throws Exception {
-                TabLayout.Tab t = tabLayout.newTab().setText(s);
+            public void accept(@NonNull Category category) throws Exception {
+                TabLayout.Tab t = tabLayout.newTab().setText(category.cateName);
                 tabLayout.addTab(t);
             }
         });
@@ -224,5 +220,39 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         tv_selected.setText(listSelectedGoods.size() + "");
         listSelectedGoods.add(data);
         seletedGoodsList.setSelectedGoods(listSelectedGoods);
+    }
+
+    /**
+     * 获取全部商品类别
+     */
+    private void getCategory() {
+        HttpFactory.getCategory(new BaseObserver<List<Category>>() {
+            @Override
+            protected void onHandleSuccess(List<Category> categories) {
+                initTabLayout(categories);
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+        });
+    }
+
+    /**
+     * 根据分类查询商品
+     */
+    private void getByCate(String id) {
+        HttpFactory.getByCate("1111111111", id, "", "", new BaseObserver<List<ByCate>>() {
+            @Override
+            protected void onHandleSuccess(List<ByCate> byCates) {
+                allGoodsAdapter.settList(byCates);
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+        });
     }
 }

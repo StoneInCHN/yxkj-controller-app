@@ -1,5 +1,11 @@
 package com.yxkj.controller.util;
 
+import android.content.Context;
+
+import com.yxkj.controller.application.MyApplication;
+import com.yxkj.controller.beans.UrlBean;
+
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -12,17 +18,21 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- *
+ * 上位机指令
  */
 
 public class ReciveUrlUtil {
-    private static final String VIDEO_TOP = "video_top";
-    private static final String VIDEO_BOTTOM = "video_bottom";
-    private static final String IMG_LEFT = "img_left";
-    private static final String IMG_CENTER = "img_center";
-    private static final String IMG_RIGHT = "img_right";
+    private static ReciveUrlUtil reciveUrlUtil = null;
 
-    public ReciveUrlUtil(String json) {
+    private ReciveUrlUtil(Context context) {
+
+    }
+
+    public static ReciveUrlUtil newInstance() {
+        return reciveUrlUtil == null ? new ReciveUrlUtil(MyApplication.getMyApplication()) : reciveUrlUtil;
+    }
+
+    public void getJson(String json) {
         Observable.just(json).map(new Function<String, UrlBean>() {
             @Override
             public UrlBean apply(@NonNull String s) throws Exception {
@@ -39,37 +49,8 @@ public class ReciveUrlUtil {
             @Override
             public void accept(@NonNull UrlBean urlBean) throws Exception {
                 LogUtil.e(urlBean.toString());
-                handleData(urlBean);
+                EventBus.getDefault().post(urlBean);
             }
         });
-    }
-
-
-    public void handleData(UrlBean urlBean) {
-        switch (urlBean.key) {
-            case VIDEO_TOP:
-                break;
-            case VIDEO_BOTTOM:
-                break;
-            case IMG_LEFT:
-                break;
-            case IMG_CENTER:
-                break;
-            case IMG_RIGHT:
-                break;
-        }
-    }
-
-    class UrlBean {
-        String key;
-        String url;
-
-        @Override
-        public String toString() {
-            return "UrlBean{" +
-                    "key='" + key + '\'' +
-                    ", url='" + url + '\'' +
-                    '}';
-        }
     }
 }

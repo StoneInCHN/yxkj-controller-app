@@ -14,12 +14,16 @@ import android.widget.TextView;
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SearchGoodsAdapter;
 import com.yxkj.controller.base.BaseFragment;
+import com.yxkj.controller.base.BaseObserver;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
+import com.yxkj.controller.http.HttpFactory;
+import com.yxkj.controller.util.GlideUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CanclePayView;
@@ -40,7 +44,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     /*商品列表适配器*/
     private SearchGoodsAdapter adapter;
     /*商品数据集合*/
-    private List<String> goods;
+    private List<SgByChannel> goods;
     /*支付布局*/
     private LinearLayout layout_pay;
     /*支付二维码*/
@@ -86,10 +90,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private InputPwdView input_view;
     /*退出界面（输入管理员密码界面）*/
     private LinearLayout exit_layout;
-    /*全部商品数据*/
-    private List<String> allGoods = new ArrayList<>();
-    /*全部商品界面*/
-    private AllGoodsPopupWindow allGoodsPopupWindow;
 
     @Override
     protected int getResource() {
@@ -129,9 +129,6 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
 
     @Override
     protected void initData() {
-        allGoodsPopupWindow = new AllGoodsPopupWindow(getActivity());
-        getAllGoods();
-        allGoodsPopupWindow.setGoods(allGoods);
         payImTimeCount = new TimeCountUtl();
         payTimeCount = new TimeCountUtl();
         closeTimeCount = new TimeCountUtl();
@@ -181,6 +178,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 clearList();
                 break;
             case R.id.img_all:/*全部商品*/
+                AllGoodsPopupWindow allGoodsPopupWindow = new AllGoodsPopupWindow(getActivity());
                 allGoodsPopupWindow.startCountDown();
                 allGoodsPopupWindow.showAtLocation(img_all, Gravity.CENTER, 0, 0);
                 if (goodsAndBetterGoodsListener != null) {
@@ -211,8 +209,30 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      */
     @Override
     public void onEnd(String param) {
-        goods.add(param);
-        adapter.settList(goods);
+        /*获取商品*/
+        HttpFactory.getSgByChannel("1111111111", param, new BaseObserver<SgByChannel>() {
+            @Override
+            protected void onHandleSuccess(SgByChannel sgByChannel) {
+                if (sgByChannel != null) {
+                    sgByChannel.number = 1;
+                    goods.add(sgByChannel);
+                    adapter.settList(goods);
+                    keyboardView.clear();
+                    afterInput();
+                }
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+        });
+    }
+
+    /**
+     * 输入商品码结束后
+     */
+    private void afterInput() {
         payImTimeCount.cancle();
         img_all.setVisibility(View.GONE);//隐藏全部商品
         recyclerView.setVisibility(View.VISIBLE);//显示商品列表
@@ -288,13 +308,23 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     }
 
     /**
-     * 获取全部商品
-     *
-     * @return
+     * 设置左侧图片
      */
-    private void getAllGoods() {
-        for (int i = 0; i < 30; i++) {
-            allGoods.add(i + "");
-        }
+    public void setImageLeft(String url) {
+        GlideUtil.setImage(getActivity(), img_left, url);
+    }
+
+    /**
+     * 设置中间图片
+     */
+    public void setImageCenter(String url) {
+        GlideUtil.setImage(getActivity(), img_center, url);
+    }
+
+    /**
+     * 设置右侧图片
+     */
+    public void setImageRight(String url) {
+        GlideUtil.setImage(getActivity(), img_right, url);
     }
 }

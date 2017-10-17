@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yxkj.controller.R;
+import com.yxkj.controller.util.ToastUtil;
 
 
 /**
@@ -189,6 +190,8 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
                 btn_sub.setVisibility(VISIBLE);
                 tv_num.setVisibility(VISIBLE);
             }
+        } else {
+            ToastUtil.showToast("库存量不足");
         }
     }
 

@@ -246,23 +246,21 @@ public class StringUtil {
 
     /**
      * 保留最后指定位数字符，其余用其他字符替换
-     * @param str
-     *          目标字符串
-     * @param replace
-     *          替换成的字符
-     * @param length
-     *          保留的数据
+     *
+     * @param str     目标字符串
+     * @param replace 替换成的字符
+     * @param length  保留的数据
      * @return
      */
-    public static String keepLastWords(String str, char replace, int length ){
-        if(TextUtils.isEmpty(str)){
+    public static String keepLastWords(String str, char replace, int length) {
+        if (TextUtils.isEmpty(str)) {
             return "";
         }
-        if(str.length() <= length){
+        if (str.length() <= length) {
             return str;
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0 , count = str.length() - length; i < count; i++){
+        for (int i = 0, count = str.length() - length; i < count; i++) {
             stringBuilder.append(replace);
         }
         str = str.substring(str.length() - length);
@@ -272,91 +270,95 @@ public class StringUtil {
 
     /**
      * 保留前指定位数字符，其余用其他字符代替，可以指定，替换字符保留位数
+     *
      * @param str
      * @param replace
      * @param firstLength
-     * @param lastKeepLengh
-     *          -1表示，不指定，即其余
+     * @param lastKeepLengh -1表示，不指定，即其余
      * @return
      */
-    public static String keepFirstWords(String str, char replace, int firstLength, int lastKeepLengh){
-        if(TextUtils.isEmpty(str)){
+    public static String keepFirstWords(String str, char replace, int firstLength, int lastKeepLengh) {
+        if (TextUtils.isEmpty(str)) {
             return "";
         }
-        if(str.length() <= firstLength) {
+        if (str.length() <= firstLength) {
             return str;
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(str.substring(0, firstLength));
         int count = 0;
-        if(lastKeepLengh == -1){
+        if (lastKeepLengh == -1) {
             count = str.length() - firstLength;
-        }else{
+        } else {
             count = lastKeepLengh;
         }
-        for(int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             stringBuilder.append(replace);
         }
         return stringBuilder.toString();
     }
 
-    public static String keepLast3(String str){
+    public static String keepLast3(String str) {
         return StringUtil.keepLastWords(str, '*', 3);
     }
 
-    public static String keepLast4(String str){
+    public static String keepLast4(String str) {
         return StringUtil.keepLastWords(str, '*', 4);
     }
 
-    public static String keepFirst5(String str){
+    public static String keepFirst5(String str) {
         return StringUtil.keepFirstWords(str, '*', 5, 3);
     }
 
     /**
      * 获得当前日期字符串 年-月-日
      */
-    public static String getNowDateStr(){
+    public static String getNowDateStr() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date nowDate = new Date();
-        return  sdf.format(nowDate);
+        return sdf.format(nowDate);
     }
 
     /**
      * 裁剪字符串
+     *
      * @param str
      * @param maxLength
      * @return
      */
-    public static String cropString(String str, int maxLength){
+    public static String cropString(String str, int maxLength) {
         StringBuilder sBuilder = new StringBuilder();
-        if(str.length() > maxLength){
+        if (str.length() > maxLength) {
             sBuilder.append(str.substring(0, maxLength));
-        }else{
+        } else {
             sBuilder.append(str);
         }
         return sBuilder.toString();
     }
 
-    /** 获取id字符串，若小于0则为空 */
-    public static String getIdStr(long id){
-        return id < 0 ? "" : id+"";
+    /**
+     * 获取id字符串，若小于0则为空
+     */
+    public static String getIdStr(long id) {
+        return id < 0 ? "" : id + "";
     }
 
     /**
      * 保留小数点后2位
+     *
      * @param s
      * @return
      */
-    public static String keep2Decimal(CharSequence s){
+    public static String keep2Decimal(CharSequence s) {
         //是否包含小数点
         String value = s.toString();
-        if(!value.contains(".")){
+        if (!value.contains(".")) {
             //不包含
             return value;
         }
         // 保留两位小数
         int index = value.indexOf(".");//获取小数点的索引
-        if(index + 3 > s.length() - 1){
+        if (index + 3 > s.length() - 1) {
             //只有两位小数
             return value;
         }
@@ -364,28 +366,29 @@ public class StringUtil {
         return value;
     }
 
-    public static String getNoNullString(String text){
-        return  text == null ? "" : text;
+    public static String getNoNullString(String text) {
+        return text == null ? "" : text;
     }
 
     /**
      * 获得带下划线的字符串
      */
-    public static Spanned getLinkedString(String str){
-        return  Html.fromHtml("<u>"+str+"</u>");
+    public static Spanned getLinkedString(String str) {
+        return Html.fromHtml("<u>" + str + "</u>");
     }
 
     /**
      * 判断是否是同一个数据
+     *
      * @param s
      * @return
      */
-    public static boolean isSame(String s){
+    public static boolean isSame(String s) {
         boolean result = true;
         char first = s.charAt(0);
-        for(int i = 1; i < s.length(); i++){
+        for (int i = 1; i < s.length(); i++) {
             char child = s.charAt(i);
-            if(child != first){
+            if (child != first) {
                 result = false;
                 break;
             }
@@ -395,15 +398,16 @@ public class StringUtil {
 
     /**
      * 判断字符串是否是升序连续
+     *
      * @param s
      * @return
      */
-    public static boolean isSeriesAsc(String s){
+    public static boolean isSeriesAsc(String s) {
         boolean result = true;
         char first = s.charAt(0);
-        for(int i = 1; i < s.length(); i++){
+        for (int i = 1; i < s.length(); i++) {
             char child = s.charAt(i);
-            if(child != first + i){
+            if (child != first + i) {
                 result = false;
                 break;
             }
@@ -413,15 +417,16 @@ public class StringUtil {
 
     /**
      * 判断字符串是否是降序连续
+     *
      * @param s
      * @return
      */
-    public static boolean isSeriesDesc(String s){
+    public static boolean isSeriesDesc(String s) {
         boolean result = true;
         char first = s.charAt(0);
-        for(int i = 1; i < s.length(); i++){
+        for (int i = 1; i < s.length(); i++) {
             char child = s.charAt(i);
-            if(child != first - i){
+            if (child != first - i) {
                 result = false;
                 break;
             }
@@ -449,4 +454,9 @@ public class StringUtil {
         return style;
 
     }
+
+    public static String keepNumberSecondCount(String number) {
+        return String.format("%.2s", number);
+    }
+
 }

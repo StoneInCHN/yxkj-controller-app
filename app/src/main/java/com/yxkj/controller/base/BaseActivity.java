@@ -3,7 +3,6 @@ package com.yxkj.controller.base;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -100,12 +99,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements View.O
 //        if (view != null) {
 //            view.setPadding(0, MyApplication.statusHeight, 0, 0);
 //        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        //此处activity被杀死可以保存数据
-        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     /**

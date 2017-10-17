@@ -1,38 +1,49 @@
 package com.yxkj.controller.http;
 
+import com.yxkj.controller.base.BaseEntity;
+import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.SgByChannel;
+import com.yxkj.controller.beans.VerifyStock;
+import com.yxkj.controller.constant.Constant;
+
+import java.util.List;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 /**
  * 接口API
  */
 public interface RetrofitService {
+    /*根据货道编号查询商品*/
+    @POST(Constant.GETSGBYCHANNEL)
+    Observable<BaseEntity<SgByChannel>> getSgByChannel(@Body Map<String, String> map);
 
-    //
-//    @GET("query")
-//    Observable<BaseEntity<List<Data>>> getVideoUrl(@Query("type") String type, @Query("postid") String postid);
-//
-//    @FormUrlEncoded
-//    @POST("query")
-//    Observable<BaseEntity<List<Data>>> getQuery(@FieldMap Map<String, String> map);
-//
-//    @POST("rebate-interface/seller/getSellerCategory.jhtml")
-//    Observable<BaseEntity<List<ShopCategery>>> getShopCategery(@Body Object body);
-//
-//    @POST("rebate-interface/endUser/rsa.jhtml")
-//    Observable<BaseEntity<String>> getRsa();
-//
-//    @POST("rebate-interface/area/getHotCity.jhtml")
-//    Observable<BaseEntity<List<HotCity>>> getHotCity(@Body RequestBody body);
+    /*查询商品类别*/
+    @POST(Constant.GETCATEGORY)
+    Observable<BaseEntity<List<Category>>> getCategory();
+
+    /*根据类别查询商品*/
+    @POST(Constant.GETBYCATE)
+    Observable<BaseEntity<List<ByCate>>> getByCate(@Body Map<String, String> map);
+
+    /*验证商品库存数量*/
+    @POST(Constant.VERIFYSTOCK)
+    Observable<BaseEntity<List<VerifyStock>>> verifyStock(@Body Map<String, String> map);
+
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Call<ResponseBody> downloadFileWithDynamicUrlAsync();
 
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Observable<Response<ResponseBody>> download();
 
-    @GET("tieba-smallvideo-spider/8391224_e8b06bccccb0867cd70cc2f32d942c7c.mp4")
+    @GET(".mp4")
     Observable<Response<ResponseBody>> downloadVideo();
 }

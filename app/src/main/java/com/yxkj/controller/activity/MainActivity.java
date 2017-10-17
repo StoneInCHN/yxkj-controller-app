@@ -10,20 +10,32 @@ import com.dou361.ijkplayer.widget.IjkVideoView;
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
+import com.yxkj.controller.beans.UrlBean;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
+import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.fragment.MainFragment;
 import com.yxkj.controller.service.ControllerService;
 import com.yxkj.controller.share.SharePrefreceHelper;
-import com.yxkj.controller.util.DownLoadVideoUtil;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ToastUtil;
+import com.yxkj.controller.util.VideoDownloadUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.PayPopupWindow;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+
+import static com.yxkj.controller.constant.Constant.IMG_CENTER;
+import static com.yxkj.controller.constant.Constant.IMG_LEFT;
+import static com.yxkj.controller.constant.Constant.IMG_RIGHT;
+import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM;
+import static com.yxkj.controller.constant.Constant.VIDEO_TOP;
 
 
 /**
@@ -44,7 +56,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     @Override
     public void beforeInitView() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -74,19 +86,11 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     public void initVideo() {
         boolean isFirst = SharePrefreceHelper.getInstence(this).getFirstBoolean("first", true);
         if (isFirst) {
-            DownLoadVideoUtil downLoadVideoUtil = new DownLoadVideoUtil("news.mp4", this);
-            downLoadVideoUtil.setSaveSuceessListener(new DownLoadVideoUtil.SaveSuceessListener() {
-                @Override
-                public void onSuceess(File file) {
-                    setPlayFileVideo(videoView);
-                    setPlayFileVideo(downVideoView);
-                    SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
-                }
-            });
-            downLoadVideoUtil.startDownload();
+            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4", "video_top.mp4", 0);
+            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4", "video_bottom.mp4", 1);
         } else {
-            setPlayFileVideo(videoView);
-            setPlayFileVideo(downVideoView);
+            setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
+            setPlayFileVideo(downVideoView, Constant.VIDEO_BOTTOM_ADDRESS);
         }
         setVideoListener(videoView);
         setVideoListener(downVideoView);
@@ -127,8 +131,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      *
      * @param videoView
      */
-    private void setPlayFileVideo(IjkVideoView videoView) {
-        videoView.setVideoURI(Uri.parse(getExternalFilesDir(null) + File.separator + "news.mp4"));
+    private void setPlayFileVideo(IjkVideoView videoView, String file) {
+        videoView.setVideoURI(Uri.parse(file));
         videoView.start();
     }
 
@@ -182,5 +186,61 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         super.onDestroy();
         String response = EVprotocol.EVPortRelease("/dev/ttyS1");
         LogUtil.d("release:" + response);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UrlBean urlBean) {
+        if (urlBean == null)
+            return;
+        switch (urlBean.key) {
+            case VIDEO_TOP:
+                downloadVideo(urlBean.url, "video_top.mp4", 0);//下载顶部视频
+                break;
+            case VIDEO_BOTTOM:
+                downloadVideo(urlBean.url, "video_bottom.mp4", 1);//下载底部视频
+                break;
+            case IMG_LEFT:
+                mainFragment.setImageLeft(urlBean.url);//左侧图片
+                break;
+            case IMG_CENTER:
+                mainFragment.setImageCenter(urlBean.url);//中间图片
+                break;
+            case IMG_RIGHT:
+                mainFragment.setImageRight(urlBean.url);//右侧图片
+                break;
+        }
+    }
+
+    /**
+     * 下载视频
+     *
+     * @param type 0、顶部视频下载 1、底部视频下载
+     */
+    private void downloadVideo(String url, String fileName, int type) {
+        VideoDownloadUtil.get().download(url, fileName, new VideoDownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
+                switch (type) {
+                    case 0:
+                        setPlayFileVideo(videoView, file.getAbsolutePath());
+                        break;
+                    case 1:
+                        setPlayFileVideo(downVideoView, file.getAbsolutePath());
+                        break;
+                }
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                LogUtil.e("视频进度------" + progress);
+            }
+
+            @Override
+            public void onDownloadFailed() {
+
+            }
+        });
     }
 }

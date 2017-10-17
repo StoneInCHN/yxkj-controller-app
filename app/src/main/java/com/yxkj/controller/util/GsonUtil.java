@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * gson parse data
@@ -96,4 +97,27 @@ public class GsonUtil {
         return s;
     }
 
+    /**
+     * 将Map转化为Json
+     *
+     * @param map
+     * @return String
+     */
+    public static <T> String mapToJson(Map<String, T> map) {
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(map);
+        return jsonStr;
+    }
+
+    /**
+     * 将Map转化为Json
+     *
+     * @param list
+     * @return String
+     */
+    public static <T> String listToJson(List<T> list) {
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(list);
+        return jsonStr;
+    }
 }

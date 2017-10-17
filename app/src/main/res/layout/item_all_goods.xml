@@ -19,6 +19,7 @@
 
 
         <ImageView
+            android:id="@+id/img_name"
             android:layout_width="137px"
             android:layout_height="137px"
             android:scaleType="centerCrop"
@@ -69,6 +70,7 @@
             </LinearLayout>
 
             <com.yxkj.controller.view.NumberAddSubView
+                android:id="@+id/select_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -87,6 +89,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_type"
         android:layout_width="47px"
         android:layout_height="16px"
         android:layout_gravity="center_horizontal"

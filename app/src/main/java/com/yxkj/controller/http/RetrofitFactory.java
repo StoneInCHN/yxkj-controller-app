@@ -50,7 +50,7 @@ public class RetrofitFactory {
             .build();
 
     private static RetrofitService retrofitService = new Retrofit.Builder()
-            .baseUrl(Constant.url_sougou)
+            .baseUrl(Constant.BASE_URL)
             // 添加Gson转换器
             .addConverterFactory(GsonConverterFactory.create(buildGson()))
             // 添加Retrofit到RxJava的转换器

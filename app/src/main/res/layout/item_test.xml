@@ -11,6 +11,7 @@
     android:paddingTop="13px">
 
     <ImageView
+        android:id="@+id/img_name"
         android:layout_width="33px"
         android:layout_height="63px"
         android:src="@color/colorAccent" />
@@ -23,6 +24,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="A21"
@@ -30,6 +32,7 @@
             android:textSize="20px" />
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10px"
@@ -41,6 +44,7 @@
 
 
     <com.yxkj.controller.view.NumberAddSubView
+        android:id="@+id/selcct_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:btnAddBackground="@drawable/bg_btn_style_white"
@@ -53,6 +57,7 @@
         app:value="1" />
 
     <TextView
+        android:id="@+id/tv_total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
