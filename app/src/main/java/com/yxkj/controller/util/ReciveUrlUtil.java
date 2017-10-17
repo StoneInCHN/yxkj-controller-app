@@ -6,9 +6,8 @@ import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.UrlBean;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
-import java.util.Iterator;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,16 +31,14 @@ public class ReciveUrlUtil {
         return reciveUrlUtil == null ? new ReciveUrlUtil(MyApplication.getMyApplication()) : reciveUrlUtil;
     }
 
-    public void getJson(String json) {
-        Observable.just(json).map(new Function<String, UrlBean>() {
+    public void getJson(Map<String, String> map) {
+        Observable.fromArray(map).map(new Function<Map<String, String>, UrlBean>() {
             @Override
-            public UrlBean apply(@NonNull String s) throws Exception {
+            public UrlBean apply(@NonNull Map<String, String> map) throws Exception {
                 UrlBean urlBean = new UrlBean();
-                JSONObject json = new JSONObject(s);
-                Iterator i = json.keys();
-                if (i.hasNext()) {
-                    urlBean.key = (String) i.next();
-                    urlBean.url = json.getString(urlBean.key);
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    urlBean.key = entry.getKey();
+                    urlBean.url = entry.getValue();
                 }
                 return urlBean;
             }
