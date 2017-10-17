@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SelectedGoodsAdapter;
+import com.yxkj.controller.callback.ClearListCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,12 +110,5 @@ public class SelectedGoodsList extends FrameLayout {
             isShow = true;
             setVisibility(VISIBLE);
         }
-    }
-
-    /**
-     * 点击清理列表
-     */
-    public interface ClearListCallBack {
-        void onClear();
     }
 }

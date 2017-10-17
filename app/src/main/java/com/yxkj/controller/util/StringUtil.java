@@ -455,8 +455,8 @@ public class StringUtil {
 
     }
 
-    public static String keepNumberSecondCount(String number) {
-        return String.format("%.2s", number);
+    public static String keepNumberSecondCount(double value) {
+        return String.format("%.2f", value).toString();
     }
 
 }

@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center_vertical"
     android:paddingBottom="13px"
-    android:paddingLeft="30px"
-    android:paddingRight="30px"
     android:paddingTop="13px">
 
     <ImageView
         android:id="@+id/img_name"
-        android:layout_width="33px"
-        android:layout_height="63px"
+        android:layout_width="42px"
+        android:layout_height="66px"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30px"
         android:src="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="155px"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30px"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="94px"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -47,9 +48,11 @@
         android:id="@+id/selcct_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="284px"
         app:btnAddBackground="@drawable/bg_btn_style_white"
         app:btnAddTextColor="@color/green"
-        app:btnTextSize="@dimen/px_24"
+        app:btnTextSize="30px"
         app:maxValue="100"
         app:minValue="0"
         app:textViewPadding="10px"
@@ -60,9 +63,11 @@
         android:id="@+id/tv_total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30px"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20px"
         android:gravity="center"
         android:text="￥10.00"
         android:textColor="@color/orange"
         android:textSize="26px" />
-</LinearLayout>
+</RelativeLayout>

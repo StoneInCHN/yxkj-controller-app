@@ -14,7 +14,7 @@ public class SgByChannel implements Parcelable {
 
     public String gImg;
 
-    public int price;
+    public double price;
 
     public int count;
 
@@ -48,7 +48,7 @@ public class SgByChannel implements Parcelable {
         dest.writeString(this.gSpec);
         dest.writeString(this.gName);
         dest.writeString(this.gImg);
-        dest.writeInt(this.price);
+        dest.writeDouble(this.price);
         dest.writeInt(this.count);
         dest.writeString(this.cSn);
         dest.writeInt(this.cId);
@@ -61,7 +61,7 @@ public class SgByChannel implements Parcelable {
         this.gSpec = in.readString();
         this.gName = in.readString();
         this.gImg = in.readString();
-        this.price = in.readInt();
+        this.price = in.readDouble();
         this.count = in.readInt();
         this.cSn = in.readString();
         this.cId = in.readInt();

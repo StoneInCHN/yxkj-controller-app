@@ -19,6 +19,7 @@ import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.callback.BackListener;
+import com.yxkj.controller.callback.ClearListCallBack;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.http.HttpFactory;
@@ -38,7 +39,7 @@ import io.reactivex.schedulers.Schedulers;
  * 全部商品PopupWindow
  */
 
-public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, CompleteListener, SelectedGoodsList.ClearListCallBack, BaseRecyclerViewAdapter.OnItemClickListener<String> {
+public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, CompleteListener, ClearListCallBack, BaseRecyclerViewAdapter.OnItemClickListener<String> {
     private Context mContext;
     /*顶部导航栏*/
     private TabLayout tabLayout;
@@ -77,7 +78,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         super(context, attrs, defStyleAttr);
         mContext = context;
         getCategory();
-        getByCate("");
+        getByCate("", true);
         init();
         initData();
         setEvent();
@@ -242,8 +243,8 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     /**
      * 根据分类查询商品
      */
-    private void getByCate(String id) {
-        HttpFactory.getByCate("1111111111", id, "", "", new BaseObserver<List<ByCate>>() {
+    private void getByCate(String id, boolean isAll) {
+        HttpFactory.getByCate("1111111111", id, "18", "1", isAll, new BaseObserver<List<ByCate>>() {
             @Override
             protected void onHandleSuccess(List<ByCate> byCates) {
                 allGoodsAdapter.settList(byCates);

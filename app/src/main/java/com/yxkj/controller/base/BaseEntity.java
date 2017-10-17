@@ -11,18 +11,18 @@ public class BaseEntity<E> {
 
     public String token;
 
-    public String page;
-
     public E msg;
+
+    public Object page;
 
     @Override
     public String toString() {
         return "BaseEntity{" +
-                "code='" + code + '\'' +
+                "code=" + code +
                 ", desc='" + desc + '\'' +
                 ", token='" + token + '\'' +
-                ", page='" + page + '\'' +
                 ", msg=" + msg +
+                ", page=" + page +
                 '}';
     }
 }

@@ -14,13 +14,13 @@ public class ByCate implements Parcelable {
 
     public String gImg;
 
-    public int price;
+    public double price;
 
     public int count;
 
     public int cTemp;
 
-    public int cId;
+    public String cId;
 
     public String cSn;
 
@@ -50,11 +50,12 @@ public class ByCate implements Parcelable {
         dest.writeString(this.gSpec);
         dest.writeString(this.gName);
         dest.writeString(this.gImg);
-        dest.writeInt(this.price);
+        dest.writeDouble(this.price);
         dest.writeInt(this.count);
         dest.writeInt(this.cTemp);
-        dest.writeInt(this.cId);
+        dest.writeString(this.cId);
         dest.writeString(this.cSn);
+        dest.writeInt(this.select);
     }
 
     public ByCate() {
@@ -64,11 +65,12 @@ public class ByCate implements Parcelable {
         this.gSpec = in.readString();
         this.gName = in.readString();
         this.gImg = in.readString();
-        this.price = in.readInt();
+        this.price = in.readDouble();
         this.count = in.readInt();
         this.cTemp = in.readInt();
-        this.cId = in.readInt();
+        this.cId = in.readString();
         this.cSn = in.readString();
+        this.select = in.readInt();
     }
 
     public static final Parcelable.Creator<ByCate> CREATOR = new Parcelable.Creator<ByCate>() {

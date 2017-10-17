@@ -36,7 +36,7 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
         //设置商品名称
         holder.setText(R.id.tv_goods_name, bean.gName);
         //设置商品价格
-        holder.setText(R.id.tv_price, StringUtil.keepNumberSecondCount(bean.price + ""));
+        holder.setText(R.id.tv_price, "￥"+StringUtil.keepNumberSecondCount(bean.price));
         //设置原价
         TextView tv_old_price = holder.getView(R.id.tv_old_price);
         tv_old_price.setVisibility(View.GONE);

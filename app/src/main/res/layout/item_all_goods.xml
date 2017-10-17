@@ -80,7 +80,7 @@
                 app:btnTextSize="14px"
                 app:maxValue="100"
                 app:minValue="0"
-                app:textViewPadding="2px"
+                app:textViewPadding="5px"
                 app:textViewSize="14px"
                 app:value="1" />
 

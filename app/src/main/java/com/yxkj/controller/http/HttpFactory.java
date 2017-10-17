@@ -49,10 +49,11 @@ public class HttpFactory {
      * @param pageNumber
      */
     public static void getByCate(String cImei, String cateId, String pageSize,
-                                 String pageNumber, BaseObserver<List<ByCate>> observer) {
+                                 String pageNumber,boolean isAll, BaseObserver<List<ByCate>> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("cImei", cImei);
-        map.put("cateId", cateId);
+        if (!isAll)
+            map.put("cateId", 1+"");
         map.put("pageSize", pageSize);
         map.put("pageNumber", pageNumber);
         autoSubscribe(RetrofitFactory.getInstance().getByCate(map), observer);

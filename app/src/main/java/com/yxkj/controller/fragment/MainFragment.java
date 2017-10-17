@@ -4,6 +4,7 @@ package com.yxkj.controller.fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SearchGoodsAdapter;
 import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.base.BaseObserver;
+import com.yxkj.controller.beans.GoodsSelectInfo;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.CompleteListener;
@@ -24,6 +26,7 @@ import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.GlideUtil;
+import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CanclePayView;
@@ -217,6 +220,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                     sgByChannel.number = 1;
                     goods.add(sgByChannel);
                     adapter.settList(goods);
+                    adapter.setTotal_price(sgByChannel.price * sgByChannel.number);
                     keyboardView.clear();
                     afterInput();
                 }
@@ -326,5 +330,19 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      */
     public void setImageRight(String url) {
         GlideUtil.setImage(getActivity(), img_right, url);
+    }
+
+    /**
+     * 用户减少商品数量减为0时
+     */
+    public void onEvent(GoodsSelectInfo goodsSelectInfo) {
+        if (goodsSelectInfo != null) {
+            if (goodsSelectInfo.size == 1) {
+                clearList();
+            } else {
+                String str = "<font color='#000000'>共计: </font>" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price);
+                tv_total_price.setText(Html.fromHtml(str));
+            }
+        }
     }
 }
