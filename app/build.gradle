@@ -102,7 +102,6 @@ dependencies {
 //    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
     compile "com.android.volley:volley:${volley_version}"
 
-    compile files('src/jniLibs/android-debug-0.0.1-SNAPSHOT.jar')
     compile project(path: ':jjdxm-ijkplayer')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.yxkj:common-entity:0.0.4-SNAPSHOT'
