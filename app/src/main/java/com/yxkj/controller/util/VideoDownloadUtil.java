@@ -3,6 +3,7 @@ package com.yxkj.controller.util;
 import android.os.Environment;
 
 import com.yxkj.controller.application.MyApplication;
+import com.yxkj.controller.share.SharePrefreceHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,17 +37,15 @@ public class VideoDownloadUtil {
     }
 
     /**
-     * @param url      下载连接
-     * @param saveDir  储存下载文件的SDCard目录
-     * @param listener 下载监听
+     * @param url     下载连接
+     * @param saveDir 储存下载文件的SDCard目录
      */
-    public void download(final String url, final String saveDir, final OnDownloadListener listener) {
+    public void download(final String url, final String saveDir, int type) {
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 // 下载失败
-                listener.onDownloadFailed();
             }
 
             @Override
@@ -66,13 +65,22 @@ public class VideoDownloadUtil {
                         sum += len;
                         int progress = (int) (sum * 1.0f / total * 100);
                         // 下载中
-                        listener.onDownloading(progress);
+//                        listener.onDownloading(progress);
                     }
                     fos.flush();
                     // 下载完成
-                    listener.onDownloadSuccess(file);
+                    switch (type) {
+                        case 0:
+                            SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setVideoTopDownloadSuceess(true);
+                            break;
+                        case 1:
+                            SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setVideoBottomDownloadSuceess(true);
+                            break;
+                    }
+
+//                    listener.onDownloadSuccess(file);
                 } catch (Exception e) {
-                    listener.onDownloadFailed();
+//                    listener.onDownloadFailed();
                 } finally {
                     try {
                         if (is != null)

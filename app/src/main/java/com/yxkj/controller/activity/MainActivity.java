@@ -1,6 +1,7 @@
 package com.yxkj.controller.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -25,8 +26,6 @@ import com.yxkj.controller.view.PayPopupWindow;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.File;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -83,16 +82,20 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     }
 
     public void initVideo() {
-        boolean isFirst = SharePrefreceHelper.getInstence(this).getFirstBoolean("first", true);
-        if (isFirst) {
+        if (!SharePrefreceHelper.getInstence(this).getVideoTopDownloadSuceess()) {
+            videoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4"));
             downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4", "video_top.mp4", 0);
-            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4", "video_bottom.mp4", 1);
         } else {
             setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
+        }
+        if (!SharePrefreceHelper.getInstence(this).getVideoBottomDownloadSuceess()) {
+            downVideoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4"));
+            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4", "video_bottom.mp4", 1);
+        } else {
             setPlayFileVideo(downVideoView, Constant.VIDEO_BOTTOM_ADDRESS);
         }
-        setVideoListener(videoView);
-        setVideoListener(downVideoView);
+        setVideoListener(videoView, 0);
+        setVideoListener(downVideoView, 1);
     }
 
     /**
@@ -100,7 +103,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      *
      * @param videoView
      */
-    private void setVideoListener(IjkVideoView videoView) {
+    private void setVideoListener(IjkVideoView videoView, int type) {
         videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
@@ -111,7 +114,24 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(IMediaPlayer iMediaPlayer) {
-                iMediaPlayer.start();  /* 循环播放 */
+                switch (type) {
+                    case 0:
+                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoTopDownloadSuceess()) {
+                            videoView.setVideoPath(Constant.VIDEO_TOP_ADDRESS);
+                            videoView.start();
+                        } else {
+                            iMediaPlayer.start();
+                        }
+                        break;
+                    case 1:
+                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoBottomDownloadSuceess()) {
+                            videoView.setVideoPath(Constant.VIDEO_BOTTOM_ADDRESS);
+                            videoView.start();
+                        } else {
+                            iMediaPlayer.start();
+                        }
+                        break;
+                }
             }
         });
         videoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
@@ -119,7 +139,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             public boolean onError(IMediaPlayer iMediaPlayer, int what, int extra) {
                 iMediaPlayer.reset();
                 ToastUtil.showToast("播放视频出错" + extra);
-                LogUtil.e("播放视频出错" + extra);
                 return true;
             }
         });
@@ -152,6 +171,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     @Override
     public void onAllGoods(AllGoodsPopupWindow popupWindow) {
+        setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
         popupWindow.setListener(this);
     }
 
@@ -195,9 +215,19 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             return;
         switch (urlBean.key) {
             case VIDEO_TOP:
+                videoView.initVideoView(this);
+                videoView.setVideoURI(Uri.parse(urlBean.url));
+                videoView.start();
+                SharePrefreceHelper.getInstence(this).setVideoTopDownloadSuceess(false);
+                SharePrefreceHelper.getInstence(this).setVideoTopUrl(urlBean.url);
                 downloadVideo(urlBean.url, "video_top.mp4", 0);//下载顶部视频
                 break;
             case VIDEO_BOTTOM:
+                downVideoView.initVideoView(this);
+                downVideoView.setVideoURI(Uri.parse(urlBean.url));
+                downVideoView.start();
+                SharePrefreceHelper.getInstence(this).setVideoBottomDownloadSuceess(false);
+                SharePrefreceHelper.getInstence(this).setVideoBottomUrl(urlBean.url);
                 downloadVideo(urlBean.url, "video_bottom.mp4", 1);//下载底部视频
                 break;
             case IMG_LEFT:
@@ -214,33 +244,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     /**
      * 下载视频
-     *
-     * @param type 0、顶部视频下载 1、底部视频下载
      */
     private void downloadVideo(String url, String fileName, int type) {
-        VideoDownloadUtil.get().download(url, fileName, new VideoDownloadUtil.OnDownloadListener() {
-            @Override
-            public void onDownloadSuccess(File file) {
-                SharePrefreceHelper.getInstence(MainActivity.this).setFirstBoolean("first", false);
-                switch (type) {
-                    case 0:
-                        setPlayFileVideo(videoView, file.getAbsolutePath());
-                        break;
-                    case 1:
-                        setPlayFileVideo(downVideoView, file.getAbsolutePath());
-                        break;
-                }
-            }
-
-            @Override
-            public void onDownloading(int progress) {
-                LogUtil.e("视频进度------" + progress);
-            }
-
-            @Override
-            public void onDownloadFailed() {
-
-            }
-        });
+        VideoDownloadUtil.get().download(url, fileName, type);
     }
 }
