@@ -1,6 +1,8 @@
 package com.yxkj.controller.processer;
 
+import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.tools.ControlAudioManager;
+import com.yxkj.controller.util.LogUtil;
 import com.yxkj.entity.CmdMsg;
 
 import java.util.Map;
@@ -17,8 +19,10 @@ public class AudioControlProcessor implements IProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, CmdMsg cmdMsg) {
+        LogUtil.d("AudioControlProcessor:" + cmdMsg.getContent());
         Map<String, String> contentMap = cmdMsg.getContent();
-        ControlAudioManager.newInstance().setVolume(Float.parseFloat(contentMap.getOrDefault("volume", "10")));
+        ControlAudioManager.newInstance().setVolume(Float.parseFloat(contentMap.get("volume")));
+        HttpFactory.updateCmdStatus(cmdMsg.getId(), true);
     }
 
     @Override

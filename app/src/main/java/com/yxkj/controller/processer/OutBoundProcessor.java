@@ -3,6 +3,7 @@ package com.yxkj.controller.processer;
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.EV_json;
+import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.entity.CmdMsg;
@@ -37,6 +38,7 @@ public class OutBoundProcessor implements IProcessor {
                     response = EVprotocol.EVBentoOpen(portId, physicAddress, cmdMsg.getBox());
                 }
                 EV_json jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EV_json.class);
+                HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getResult() == 0);
                 LogUtil.d(jsonRsp.toString());
             }
         }).start();
