@@ -61,6 +61,38 @@ public class EV_json {
         return port_id;
     }
 
+    public int getAddr() {
+        return addr;
+    }
+
+    public void setAddr(int addr) {
+        this.addr = addr;
+    }
+
+    public int getBox() {
+        return box;
+    }
+
+    public void setBox(int box) {
+        this.box = box;
+    }
+
+    public int getIs_success() {
+        return is_success;
+    }
+
+    public void setIs_success(int is_success) {
+        this.is_success = is_success;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
     @Override
     public String toString() {
         return "EV_json{" +

@@ -17,6 +17,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * 接口API
@@ -37,6 +38,9 @@ public interface RetrofitService {
     /*验证商品库存数量*/
     @POST(Constant.VERIFYSTOCK)
     Observable<BaseEntity<List<VerifyStock>>> verifyStock(@Body Map<String, String> map);
+
+    @POST(Constant.UPATECMDSTATUS)
+    Observable<ResponseBody> updateCmdStatus(@Query("commandId") Long commandId, @Query("isSuccess") Boolean isSuccess);
 
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Call<ResponseBody> downloadFileWithDynamicUrlAsync();
