@@ -1,7 +1,6 @@
 package com.yxkj.controller.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -132,7 +131,8 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      * @param videoView
      */
     private void setPlayFileVideo(IjkVideoView videoView, String file) {
-        videoView.setVideoURI(Uri.parse(file));
+        videoView.initVideoView(this);
+        videoView.setVideoPath(file);
         videoView.start();
     }
 

@@ -211,7 +211,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     /**
      * 初始化视频view
      */
-    private void initVideoView(Context context) {
+    public void initVideoView(Context context) {
         mAppContext = context.getApplicationContext();
 
         initBackground();
