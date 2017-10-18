@@ -61,6 +61,7 @@ public class NettyClientBootstrap {
             } else {
                 LogUtil.d("connect server  失败---------");
                 //重新连接服务器
+                future.channel().closeFuture();
                 new Thread(() -> {
                     try {
                         TimeUnit.SECONDS.sleep(5);

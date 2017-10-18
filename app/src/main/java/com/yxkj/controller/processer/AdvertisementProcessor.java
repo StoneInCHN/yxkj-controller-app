@@ -1,5 +1,6 @@
 package com.yxkj.controller.processer;
 
+import com.yxkj.commonenum.CommonEnum;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ReciveUrlUtil;
@@ -9,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 /**
  * Created by huyong on 2017/10/17.
+ * 广告处理器
  */
 
 public class AdvertisementProcessor implements IProcessor {
@@ -21,6 +23,6 @@ public class AdvertisementProcessor implements IProcessor {
 
     @Override
     public boolean validateProcessor(CmdMsg msg) {
-        return msg.getType() == 2;
+        return msg.getType() == CommonEnum.CmdType.AD_UPDATE;
     }
 }
