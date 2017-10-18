@@ -1,6 +1,7 @@
 package com.yxkj.controller.processer;
 
 import com.easivend.evprotocol.EVprotocol;
+import com.yxkj.commonenum.CommonEnum;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.EV_json;
 import com.yxkj.controller.http.HttpFactory;
@@ -46,6 +47,6 @@ public class OutBoundProcessor implements IProcessor {
 
     @Override
     public boolean validateProcessor(CmdMsg cmdMsg) {
-        return cmdMsg.getType() == 0;
+        return cmdMsg.getType() == CommonEnum.CmdType.SELL_OUT;
     }
 }

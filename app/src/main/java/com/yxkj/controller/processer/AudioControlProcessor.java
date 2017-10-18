@@ -1,5 +1,6 @@
 package com.yxkj.controller.processer;
 
+import com.yxkj.commonenum.CommonEnum;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.tools.ControlAudioManager;
 import com.yxkj.controller.util.LogUtil;
@@ -10,7 +11,7 @@ import java.util.Map;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * 出货处理器
+ * 音频处理器
  *
  * @author huyong
  * @since 2017/9/23
@@ -27,6 +28,6 @@ public class AudioControlProcessor implements IProcessor {
 
     @Override
     public boolean validateProcessor(CmdMsg cmdMsg) {
-        return cmdMsg.getType() == 3;
+        return cmdMsg.getType() == CommonEnum.CmdType.VOLUME;
     }
 }
