@@ -18,7 +18,7 @@ public class Constant {
     public static String[] TABLES;
 //            = new String[]{UserModel.class.getName()};
 
-    public static final String BASE_URL = "http://10.1.0.143:8080";
+    public static final String BASE_URL = "http://shelf.ybjcq.com:8080";
 
     public static final long TIMEOUT = 30;
 

@@ -22,9 +22,16 @@ import org.greenrobot.eventbus.EventBus;
 
 public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
     private double total_price;//总价
+    private boolean enable = true;
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+        notifyDataSetChanged();
+    }
 
     public void setTotal_price(double total_price) {
         this.total_price += total_price;
+        EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
     }
 
     public SearchGoodsAdapter(Context context) {
@@ -40,6 +47,7 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
     public void onCorvert(BaseViewHolder holder, int position, SgByChannel bean) {
         ImageView img_name = holder.getView(R.id.img_name);
         NumberAddSubView selcct_number = holder.getView(R.id.selcct_number);
+        selcct_number.setBtnEnable(enable);
         //显示图片
         GlideUtil.setImage(context, img_name, bean.gImg);
         //商品编号
@@ -65,9 +73,9 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
                 bean.number = value;
                 //减一，总价减一
                 total_price -= bean.price;
-                EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
                 switch (value) {
                     case 0:
+                        EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size(), true));
                         if (tList.size() > 1) {
                             tList.remove(bean);
                             notifyDataSetChanged();
@@ -75,6 +83,7 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
                         break;
                     default:
                         //设置该项总价
+                        EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
                         holder.setText(R.id.tv_total_price, "￥" + StringUtil.keepNumberSecondCount(bean.price * value));
                         break;
                 }

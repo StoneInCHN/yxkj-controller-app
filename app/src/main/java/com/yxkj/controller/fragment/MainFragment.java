@@ -18,6 +18,7 @@ import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.base.BaseObserver;
 import com.yxkj.controller.beans.GoodsSelectInfo;
 import com.yxkj.controller.beans.SgByChannel;
+import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.InputEndListener;
@@ -26,6 +27,8 @@ import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.GlideUtil;
+import com.yxkj.controller.util.GsonUtil;
+import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
@@ -33,8 +36,18 @@ import com.yxkj.controller.view.CanclePayView;
 import com.yxkj.controller.view.InputPwdView;
 import com.yxkj.controller.view.KeyBoardView;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 主页，用户输入购买商品页
@@ -95,17 +108,17 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private LinearLayout exit_layout;
 
     @Override
-    protected int getResource() {
+    public int getResource() {
         return R.layout.fragment_main;
     }
 
     @Override
-    protected void beforeInitView() {
+    public void beforeInitView() {
 
     }
 
     @Override
-    protected void initView(View rootView) {
+    public void initView(View rootView) {
         keyboardView = findViewByIdNoCast(R.id.keyboardView);
         recyclerView = findViewByIdNoCast(R.id.recyclerView);
         layout_pay = findViewByIdNoCast(R.id.layout_pay);
@@ -131,7 +144,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         payImTimeCount = new TimeCountUtl();
         payTimeCount = new TimeCountUtl();
         closeTimeCount = new TimeCountUtl();
@@ -145,7 +158,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     }
 
     @Override
-    protected void setEvent() {
+    public void setEvent() {
         /*设置点击监听*/
         setOnClick(tv_pay_immediate, img_all, tv_better, tv_count_down, tv_clear);
         /*设置是否取消支付监听*/
@@ -167,12 +180,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_pay_immediate: /*立即支付*/
-                keyboardView.setVisibility(View.GONE);/*隐藏键盘*/
-                layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
-                payTimeCount.countDown(0, 120, tv_count_down, "取消支付(%ds)");/*支付倒计时*/
-                payImTimeCount.cancle();
-                layout_clear.setVisibility(View.GONE);
-                tv_totall_gray.setVisibility(View.VISIBLE);
+                verifyStock();
                 break;
             case R.id.tv_count_down:/*取消支付*/
                 layout_canclePay.setVisibility(View.VISIBLE);/*显示取消支付弹窗*/
@@ -221,6 +229,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                     goods.add(sgByChannel);
                     adapter.settList(goods);
                     adapter.setTotal_price(sgByChannel.price * sgByChannel.number);
+                    adapter.setEnable(true);
                     keyboardView.clear();
                     afterInput();
                 }
@@ -335,14 +344,82 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     /**
      * 用户减少商品数量减为0时
      */
+    @Subscribe
     public void onEvent(GoodsSelectInfo goodsSelectInfo) {
         if (goodsSelectInfo != null) {
-            if (goodsSelectInfo.size == 1) {
+            if (goodsSelectInfo.isClear && goodsSelectInfo.size == 1) {
                 clearList();
             } else {
-                String str = "<font color='#000000'>共计: </font>" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price);
+                payImTimeCount.cancle();
+                payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
+                //  "恭喜您！您的手机跑分为<font color='#F50057'><big><big><big>888888分</big></big></big></font>，已经超过全国<font color='#00E676'><big><big><big>99%</big></big></big></font>的Android手机。";
+                String str = "共计: <font color='#FF6C00'><big><big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big></big></font>";
                 tv_total_price.setText(Html.fromHtml(str));
+                String text = "共计: <big><big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big></big>";
+                tv_totall_gray.setText(Html.fromHtml(text));
             }
         }
+    }
+
+    /**
+     * 验证商品库存数量
+     */
+    private void verifyStock() {
+        Observable.fromArray(goods).concatMap(new Function<List<SgByChannel>, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(@NonNull List<SgByChannel> sgByChannels) throws Exception {
+                List<String> list = new ArrayList<String>();
+                for (SgByChannel sgByChannel : sgByChannels) {
+                    list.add(sgByChannel.cId + "-" + sgByChannel.number);
+                }
+                return Observable.just(GsonUtil.listToJson(list));
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(@NonNull String string) throws Exception {
+                LogUtil.e("String" + string);
+                HttpFactory.verifyStock(string, new BaseObserver<List<VerifyStock>>() {
+                    @Override
+                    protected void onHandleSuccess(List<VerifyStock> verifyStocks) {
+                        adapter.setEnable(false);
+                        keyboardView.setVisibility(View.GONE);/*隐藏键盘*/
+                        layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
+                        payTimeCount.countDown(0, 120, tv_count_down, "取消支付(%ds)");/*支付倒计时*/
+                        payImTimeCount.cancle();
+                        layout_clear.setVisibility(View.GONE);
+                        tv_totall_gray.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+                    }
+
+                    @Override
+                    protected void onHandleStockNotEnough(List<VerifyStock> verifyStocks) {
+                        List<SgByChannel> newGoods = new ArrayList<SgByChannel>();
+                        for (int i = 0; i < verifyStocks.size(); i++) {
+                            SgByChannel sg = goods.get(i);
+                            VerifyStock v = verifyStocks.get(i);
+                            int sub = sg.number > v.count ? v.count - sg.number : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
+                            if (sub < 0)//sub小于0总价有变化
+                                adapter.setTotal_price(sub * sg.price);
+                            if (v.count > 0) {//库存量大于0，则添加到新集合
+                                sg.number = sg.number > v.count ? v.count : sg.number;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
+                                sg.count = v.count;
+                                sg.cId = v.cId;
+                                newGoods.add(sg);
+                            }
+                        }
+                        goods.clear();
+                        goods.addAll(newGoods);
+                        adapter.settList(goods);
+                        adapter.setEnable(true);
+                        payImTimeCount.cancle();
+                        payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
+                    }
+                });
+            }
+        });
     }
 }

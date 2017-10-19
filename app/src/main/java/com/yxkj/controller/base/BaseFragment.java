@@ -11,6 +11,8 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.yxkj.controller.R;
 import com.yxkj.controller.util.NetUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -31,6 +33,7 @@ public abstract class BaseFragment extends RxFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(getResource(), null);
+            EventBus.getDefault().register(this);
             beforeInitView();
             initView(rootView);
             initData();
@@ -45,19 +48,19 @@ public abstract class BaseFragment extends RxFragment implements View.OnClickLis
     }
 
 
-    protected <T extends View> T findViewByIdNoCast(int id) {
+    public <T extends View> T findViewByIdNoCast(int id) {
         return rootView == null ? null : (T) rootView.findViewById(id);
     }
 
-    protected abstract int getResource();
+    public abstract int getResource();
 
-    protected abstract void beforeInitView();
+    public abstract void beforeInitView();
 
-    protected abstract void initView(View rootView);
+    public abstract void initView(View rootView);
 
-    protected abstract void initData();
+    public abstract void initData();
 
-    protected abstract void setEvent();
+    public abstract void setEvent();
 
     /**
      * 根据id设置点击事件
@@ -92,5 +95,11 @@ public abstract class BaseFragment extends RxFragment implements View.OnClickLis
                 }).observeOn(AndroidSchedulers.mainThread()).compose(lifecycle);
             }
         };
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

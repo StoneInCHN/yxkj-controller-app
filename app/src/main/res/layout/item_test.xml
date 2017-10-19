@@ -69,5 +69,6 @@
         android:gravity="center"
         android:text="￥10.00"
         android:textColor="@color/orange"
-        android:textSize="26px" />
+        android:textSize="26px"
+        android:textStyle="bold" />
 </RelativeLayout>

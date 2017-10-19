@@ -39,7 +39,6 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     public void settList(List<T> tList) {
         this.tList = tList;
-        notifyDataSetChanged();
     }
 
     public void setMoreList(List<T> list) {

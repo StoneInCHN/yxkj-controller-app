@@ -34,6 +34,10 @@ public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
         if (value.code == 0000) {
             T t = value.msg;
             onHandleSuccess(t);
+        } else if (value.code == 1000) {
+            ToastUtil.showToast(value.desc);
+            T t = value.msg;
+            onHandleStockNotEnough(t);
         } else {
             onHandleError(value.desc);
         }
@@ -61,6 +65,9 @@ public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
         LogUtil.e("onComplete");
     }
 
+    protected void onHandleStockNotEnough(T value) {
+
+    }
 
     protected void onHandleError(String msg) {
         ToastUtil.showToast(msg);

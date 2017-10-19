@@ -195,6 +195,11 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         }
     }
 
+    public void setBtnEnable(boolean btnEnable) {
+        btn_add.setEnabled(btnEnable);
+        btn_sub.setEnabled(btnEnable);
+    }
+
     public interface OnButtonClickListenter {
         /**
          * 当增加按钮被点击的时候回调该方法

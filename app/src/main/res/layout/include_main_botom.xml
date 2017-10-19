@@ -41,8 +41,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/total_price"
-                android:textColor="@color/orange"
-                android:textSize="26px" />
+                android:textColor="@color/color_333333"
+                android:textSize="18px"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -55,7 +56,8 @@
             android:gravity="center"
             android:text="@string/immediate_pay"
             android:textColor="@color/white"
-            android:textSize="28px" />
+            android:textSize="28px"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
@@ -66,6 +68,7 @@
         android:gravity="center"
         android:text="共计: ￥21.00"
         android:textColor="@color/white"
-        android:textSize="26px"
+        android:textSize="18px"
+        android:textStyle="bold"
         android:visibility="gone" />
 </LinearLayout>
