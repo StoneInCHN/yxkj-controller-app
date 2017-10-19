@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.dou361.ijkplayer.widget.IjkVideoView;
@@ -33,7 +34,11 @@ import static com.yxkj.controller.constant.Constant.IMG_CENTER;
 import static com.yxkj.controller.constant.Constant.IMG_LEFT;
 import static com.yxkj.controller.constant.Constant.IMG_RIGHT;
 import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM;
+import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM_DEFAULT_URL;
+import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM_NAME;
 import static com.yxkj.controller.constant.Constant.VIDEO_TOP;
+import static com.yxkj.controller.constant.Constant.VIDEO_TOP_DEFAULT_URL;
+import static com.yxkj.controller.constant.Constant.VIDEO_TOP_NAME;
 
 
 /**
@@ -82,17 +87,35 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     }
 
     public void initVideo() {
-        if (!SharePrefreceHelper.getInstence(this).getVideoTopDownloadSuceess()) {
-            videoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4"));
-            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4", "video_top.mp4", 0);
+        if (!SharePrefreceHelper.getInstence(this).getVideoTopDownloadSuceess()) { //（顶部视频）初次进来下载，如果没有下载过，就下载，
+            SharePrefreceHelper.getInstence(this).setVideoTopOnline(true);
+            String top_url = SharePrefreceHelper.getInstence(this).getVideoTopUrl();//获取顶部视频url地址
+            if (TextUtils.isEmpty(top_url)) {//如果为空，就在线播放并下载
+                videoView.setVideoURI(Uri.parse(VIDEO_TOP_DEFAULT_URL));
+                SharePrefreceHelper.getInstence(this).setVideoTopUrl(VIDEO_TOP_DEFAULT_URL);
+                downloadVideo(VIDEO_TOP_DEFAULT_URL, VIDEO_TOP_NAME, 0);
+            } else {
+                videoView.setVideoURI(Uri.parse(top_url));
+                downloadVideo(top_url, VIDEO_TOP_NAME, 0);
+            }
         } else {
-            setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
+            SharePrefreceHelper.getInstence(this).setVideoTopOnline(false);
+            setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);//已经下载过顶部视频，所以直接通过本地地址播放，
         }
-        if (!SharePrefreceHelper.getInstence(this).getVideoBottomDownloadSuceess()) {
-            downVideoView.setVideoURI(Uri.parse("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4"));
-            downloadVideo("http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4", "video_bottom.mp4", 1);
+        if (!SharePrefreceHelper.getInstence(this).getVideoBottomDownloadSuceess()) {//（底部视频）初次进来下载，如果没有下载过，就下载，
+            String bottom_url = SharePrefreceHelper.getInstence(this).getVideoBottomUrl();//获取底部视频url地址
+            SharePrefreceHelper.getInstence(this).setVideoBottomOnline(true);
+            if (TextUtils.isEmpty(bottom_url)) {//如果为空，就在线播放并下载
+                downVideoView.setVideoURI(Uri.parse(VIDEO_BOTTOM_DEFAULT_URL));
+                SharePrefreceHelper.getInstence(this).setVideoBottomUrl(VIDEO_BOTTOM_DEFAULT_URL);
+                downloadVideo(VIDEO_BOTTOM_DEFAULT_URL, VIDEO_BOTTOM_NAME, 1);
+            } else {
+                downVideoView.setVideoURI(Uri.parse(bottom_url));
+                downloadVideo(bottom_url, VIDEO_BOTTOM_NAME, 1);
+            }
         } else {
-            setPlayFileVideo(downVideoView, Constant.VIDEO_BOTTOM_ADDRESS);
+            SharePrefreceHelper.getInstence(this).setVideoBottomOnline(false);
+            setPlayFileVideo(downVideoView, Constant.VIDEO_BOTTOM_ADDRESS);//已经下载过底部视频，所以直接通过本地地址播放，
         }
         setVideoListener(videoView, 0);
         setVideoListener(downVideoView, 1);
@@ -108,7 +131,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
                 iMediaPlayer.start();
-                iMediaPlayer.setLooping(true);
             }
         });
         videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
@@ -116,19 +138,21 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             public void onCompletion(IMediaPlayer iMediaPlayer) {
                 switch (type) {
                     case 0:
-                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoTopDownloadSuceess()) {
-                            videoView.setVideoPath(Constant.VIDEO_TOP_ADDRESS);
-                            videoView.start();
+                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoTopDownloadSuceess()
+                                && SharePrefreceHelper.getInstence(MainActivity.this).getVideoTopOnline()) { //播放完成，如果顶部视频已经下载成功，就通过本地地址播放
+                            SharePrefreceHelper.getInstence(MainActivity.this).setVideoTopOnline(false);
+                            setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
                         } else {
-                            iMediaPlayer.start();
+                            iMediaPlayer.start();//如果顶部视频没有下载成功，就继续在线播放
                         }
                         break;
                     case 1:
-                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoBottomDownloadSuceess()) {
-                            videoView.setVideoPath(Constant.VIDEO_BOTTOM_ADDRESS);
-                            videoView.start();
+                        if (SharePrefreceHelper.getInstence(MainActivity.this).getVideoBottomDownloadSuceess()
+                                && SharePrefreceHelper.getInstence(MainActivity.this).getVideoBottomOnline()) {//播放完成，如果底部视频已经下载成功，就通过本地地址播放
+                            SharePrefreceHelper.getInstence(MainActivity.this).setVideoBottomOnline(false);
+                            setPlayFileVideo(downVideoView, Constant.VIDEO_BOTTOM_ADDRESS);
                         } else {
-                            iMediaPlayer.start();
+                            iMediaPlayer.start();//如果底部视频没有下载成功，就继续在线播放
                         }
                         break;
                 }
@@ -171,7 +195,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     @Override
     public void onAllGoods(AllGoodsPopupWindow popupWindow) {
-        setPlayFileVideo(videoView, Constant.VIDEO_TOP_ADDRESS);
         popupWindow.setListener(this);
     }
 
@@ -215,28 +238,38 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             return;
         switch (urlBean.key) {
             case VIDEO_TOP:
+                //接到上位机指令下载顶部视频，初始化顶部VideoView，在线播放新视频并开始下载顶部新视频
                 videoView.initVideoView(this);
                 videoView.setVideoURI(Uri.parse(urlBean.url));
                 videoView.start();
+                SharePrefreceHelper.getInstence(this).setVideoTopOnline(true);
                 SharePrefreceHelper.getInstence(this).setVideoTopDownloadSuceess(false);
                 SharePrefreceHelper.getInstence(this).setVideoTopUrl(urlBean.url);
-                downloadVideo(urlBean.url, "video_top.mp4", 0);//下载顶部视频
+                downloadVideo(urlBean.url, VIDEO_TOP_NAME, 0);//下载顶部视频
                 break;
             case VIDEO_BOTTOM:
+                //接到上位机指令下载底部视频，初始化底部VideoView，在线播放新视频并开始下载顶部新视频
                 downVideoView.initVideoView(this);
                 downVideoView.setVideoURI(Uri.parse(urlBean.url));
                 downVideoView.start();
+                SharePrefreceHelper.getInstence(this).setVideoBottomOnline(true);
                 SharePrefreceHelper.getInstence(this).setVideoBottomDownloadSuceess(false);
                 SharePrefreceHelper.getInstence(this).setVideoBottomUrl(urlBean.url);
-                downloadVideo(urlBean.url, "video_bottom.mp4", 1);//下载底部视频
+                downloadVideo(urlBean.url, VIDEO_BOTTOM_NAME, 1);//下载底部视频
                 break;
             case IMG_LEFT:
+                //接到上位机指令下载左侧图片
+                SharePrefreceHelper.getInstence(this).setImageLeftUrl(urlBean.url);
                 mainFragment.setImageLeft(urlBean.url);//左侧图片
                 break;
             case IMG_CENTER:
+                //接到上位机指令下载中间图片
+                SharePrefreceHelper.getInstence(this).setImageCenterUrl(urlBean.url);
                 mainFragment.setImageCenter(urlBean.url);//中间图片
                 break;
             case IMG_RIGHT:
+                //接到上位机指令下载右侧图片
+                SharePrefreceHelper.getInstence(this).setImageRightUrl(urlBean.url);
                 mainFragment.setImageRight(urlBean.url);//右侧图片
                 break;
         }
@@ -244,6 +277,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     /**
      * 下载视频
+     * type 0、顶部视频 1、底部视频
      */
     private void downloadVideo(String url, String fileName, int type) {
         VideoDownloadUtil.get().download(url, fileName, type);
