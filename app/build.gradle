@@ -53,7 +53,7 @@ repositories {
     mavenCentral();
     jcenter();
     maven {
-        url 'http://192.167.1.243:8081/nexus/content/groups/public'
+        url 'http://192.167.1.243:8081/nexus/content/repositories/snapshots/'
     }
 }
 
@@ -104,6 +104,6 @@ dependencies {
 
     compile project(path: ':jjdxm-ijkplayer')
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.yxkj:common-entity:0.0.9-SNAPSHOT'
+    compile 'com.yxkj:common-entity:0.0.10-SNAPSHOT'
     compile 'com.yxkj:yxkj-receiver:1.0-SNAPSHOT'
 }
