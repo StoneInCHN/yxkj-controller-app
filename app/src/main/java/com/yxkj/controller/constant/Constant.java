@@ -23,16 +23,30 @@ public class Constant {
     public static final long TIMEOUT = 30;
 
     public static String url_sougou = "http://wap.dl.pinyin.sogou.com/";
-    public static String VIDEO = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/8391224_e8b06bccccb0867cd70cc2f32d942c7c/";
-    public static String VIDEO_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/8391224_e8b06bccccb0867cd70cc2f32d942c7c.mp4";
+    /**
+     * 顶部、底部默认视频地址
+     */
+    public static String VIDEO_TOP_DEFAULT_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4";
+    public static String VIDEO_BOTTOM_DEFAULT_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4";
+    /**
+     * 视频文件名字
+     */
+    public static String VIDEO_TOP_NAME = "video_top.mp4";
+    public static String VIDEO_BOTTOM_NAME = "video_bottom.mp4";
+
+    /**
+     * 视频状态
+     */
+    public static String VIDEO_TOP_STATE = "video_top_state";
+    public static String VIDEO_BOTTOM_STATE = "video_bottom_state";
 
     public static final String CONFIGURE_FILE_PATH = "/controller";
 
     /**
      * 两个视频本地地址
      */
-    public static String VIDEO_TOP_ADDRESS= MyApplication.getMyApplication().getExternalFilesDir(null) + File.separator + "video_top.mp4";
-    public static String VIDEO_BOTTOM_ADDRESS= MyApplication.getMyApplication().getExternalFilesDir(null) + File.separator + "video_bottom.mp4";
+    public static String VIDEO_TOP_ADDRESS = MyApplication.getMyApplication().getExternalFilesDir(null) + File.separator + VIDEO_TOP_NAME;
+    public static String VIDEO_BOTTOM_ADDRESS = MyApplication.getMyApplication().getExternalFilesDir(null) + File.separator + VIDEO_BOTTOM_NAME;
     /**
      * 上位机指令
      */

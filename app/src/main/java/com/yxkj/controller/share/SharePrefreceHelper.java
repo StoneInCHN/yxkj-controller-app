@@ -45,6 +45,20 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     }
 
     /**
+     * 设置当前顶部视频在线播放状态
+     */
+    public void setVideoTopOnline(boolean online) {
+        setBoolean(Constant.VIDEO_TOP_STATE, online);
+    }
+
+    /**
+     * 获得当前顶部视频在线播放状态
+     */
+    public boolean getVideoTopOnline() {
+        return getBoolean(Constant.VIDEO_BOTTOM_STATE, false);
+    }
+
+    /**
      * 设置顶部视频url
      */
     public void setVideoTopUrl(String url) {
@@ -73,6 +87,20 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     }
 
     /**
+     * 设置当前底部部视频在线播放状态
+     */
+    public void setVideoBottomOnline(boolean online) {
+        setBoolean(Constant.VIDEO_BOTTOM_STATE, online);
+    }
+
+    /**
+     * 获得当前底部视频在线播放状态
+     */
+    public boolean getVideoBottomOnline() {
+        return getBoolean(Constant.VIDEO_BOTTOM_STATE, false);
+    }
+
+    /**
      * 设置底部视频url
      */
     public void setVideoBottomUrl(String url) {
@@ -86,6 +114,47 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
         return getString(Constant.VIDEO_BOTTOM);
     }
 
+    /**
+     * 设置左侧图片url
+     */
+    public void setImageLeftUrl(String url) {
+        putString(Constant.IMG_LEFT, url);
+    }
+
+    /**
+     * 获得左侧图片url
+     */
+    public void getImageLeftUrl() {
+        getString(Constant.IMG_LEFT);
+    }
+
+    /**
+     * 设置中间图片url
+     */
+    public void setImageCenterUrl(String url) {
+        putString(Constant.IMG_CENTER, url);
+    }
+
+    /**
+     * 获得中间图片url
+     */
+    public void getImageCenterUrl() {
+        getString(Constant.IMG_CENTER);
+    }
+
+    /**
+     * 设置右侧图片url
+     */
+    public void setImageRightUrl(String url) {
+        putString(Constant.IMG_RIGHT, url);
+    }
+
+    /**
+     * 获得右侧图片url
+     */
+    public void getImageRightUrl() {
+        getString(Constant.IMG_RIGHT);
+    }
 
     /**
      * 设置DeviceId

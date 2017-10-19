@@ -315,21 +315,21 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      * 设置左侧图片
      */
     public void setImageLeft(String url) {
-        GlideUtil.setImage(getActivity(), img_left, url);
+        GlideUtil.setImage(getActivity(), img_left, url, R.mipmap.banner_left);
     }
 
     /**
      * 设置中间图片
      */
     public void setImageCenter(String url) {
-        GlideUtil.setImage(getActivity(), img_center, url);
+        GlideUtil.setImage(getActivity(), img_center, url, R.mipmap.banner_center);
     }
 
     /**
      * 设置右侧图片
      */
     public void setImageRight(String url) {
-        GlideUtil.setImage(getActivity(), img_right, url);
+        GlideUtil.setImage(getActivity(), img_right, url, R.mipmap.banner_right);
     }
 
     /**
