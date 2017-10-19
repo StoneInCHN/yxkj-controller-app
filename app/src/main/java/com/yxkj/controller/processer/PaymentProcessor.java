@@ -1,8 +1,8 @@
 package com.yxkj.controller.processer;
 
-import com.yxkj.commonenum.CommonEnum;
+import com.yxkj.common.commonenum.CommonEnum;
 import com.yxkj.controller.util.LogUtil;
-import com.yxkj.entity.CmdMsg;
+import com.yxkj.common.entity.CmdMsg;
 
 import io.netty.channel.ChannelHandlerContext;
 

@@ -8,7 +8,7 @@ import com.yxkj.controller.processer.OutBoundProcessor;
 import com.yxkj.controller.processer.ProcessorWatcher;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
-import com.yxkj.entity.CmdMsg;
+import com.yxkj.common.entity.CmdMsg;
 
 import java.util.Date;
 
