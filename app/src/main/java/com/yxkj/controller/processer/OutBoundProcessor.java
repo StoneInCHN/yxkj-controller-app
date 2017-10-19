@@ -3,7 +3,7 @@ package com.yxkj.controller.processer;
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.commonenum.CommonEnum;
 import com.yxkj.controller.application.MyApplication;
-import com.yxkj.controller.beans.EV_json;
+import com.yxkj.controller.beans.EVJsonResponse;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
@@ -33,14 +33,16 @@ public class OutBoundProcessor implements IProcessor {
                 if (cmdMsg.getAddressType() == 0) {
                     //根据货道号获取物理地址
                     int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(cmdMsg.getBox());
-                    response = EVprotocol.EVtrade(portId, 1, physicAddress, box, 0);
-
+                    response = EVprotocol.EVtrade(portId, 1, physicAddress, box, 1);
+                    EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
+                    HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 0);
                 } else if (cmdMsg.getAddressType() == 1) {
                     response = EVprotocol.EVBentoOpen(portId, physicAddress, cmdMsg.getBox());
+                    EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
+                    HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 1);
                 }
-                EV_json jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EV_json.class);
-                HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getResult() == 0);
-                LogUtil.d(jsonRsp.toString());
+
+                LogUtil.d(response);
             }
         }).start();
     }

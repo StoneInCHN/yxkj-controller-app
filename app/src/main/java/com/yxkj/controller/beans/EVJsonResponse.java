@@ -9,7 +9,7 @@ package com.yxkj.controller.beans;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class EVPortRegisterResponse {
+public class EVJsonResponse {
 
     private EV_json EV_json;
     public void setEV_json(EV_json EV_json) {
