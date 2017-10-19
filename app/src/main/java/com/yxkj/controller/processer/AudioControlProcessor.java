@@ -1,10 +1,10 @@
 package com.yxkj.controller.processer;
 
-import com.yxkj.commonenum.CommonEnum;
+import com.yxkj.common.commonenum.CommonEnum;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.tools.ControlAudioManager;
 import com.yxkj.controller.util.LogUtil;
-import com.yxkj.entity.CmdMsg;
+import com.yxkj.common.entity.CmdMsg;
 
 import java.util.Map;
 
