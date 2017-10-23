@@ -13,7 +13,7 @@ import com.yxkj.controller.activity.MainActivity;
 public class BootBroadcastReceiver extends BroadcastReceiver {
 
     /**
-     * demo2: 可以实现开机自动打开软件并运行。
+     *  可以实现开机自动打开软件并运行。
      */
     @Override
     public void onReceive(Context context, Intent intent) {

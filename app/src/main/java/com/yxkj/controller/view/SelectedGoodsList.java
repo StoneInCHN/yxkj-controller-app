@@ -11,30 +11,32 @@ import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SelectedGoodsAdapter;
-import com.yxkj.controller.callback.ClearListCallBack;
+import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.callback.SelectGoodsListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 已选择商品列表布局
  */
 
-public class SelectedGoodsList extends FrameLayout {
+public class SelectedGoodsList extends FrameLayout implements SelectGoodsListener {
     /*已选择的商品列表*/
     private RecyclerView recyclerView_selected;
     /*已选择商品列表适配器*/
     private SelectedGoodsAdapter selectedGoodsAdapter;
+    private SelectGoodsListener selectGoodsListener;
     /*清空列表*/
     private TextView tv_clear;
     /*选择商品列表*/
-    private List<String> selectedGoods = new ArrayList<>();
+    private List<ByCate> selectedGoods = new ArrayList<>();
     /*判断是否显示*/
     private boolean isShow;
-    private ClearListCallBack clearListCallBack;
 
-    public void setClearListCallBack(ClearListCallBack clearListCallBack) {
-        this.clearListCallBack = clearListCallBack;
+    public void setSelectGoodsListener(SelectGoodsListener selectGoodsListener) {
+        this.selectGoodsListener = selectGoodsListener;
     }
 
     public SelectedGoodsList(Context context) {
@@ -48,6 +50,7 @@ public class SelectedGoodsList extends FrameLayout {
     public SelectedGoodsList(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         selectedGoodsAdapter = new SelectedGoodsAdapter(getContext());
+        selectedGoodsAdapter.setSelectGoodsListener(this);
         init();
         recyclerView_selected.setAdapter(selectedGoodsAdapter);
     }
@@ -64,9 +67,7 @@ public class SelectedGoodsList extends FrameLayout {
             @Override
             public void onClick(View view) {
                 togle();
-                if (clearListCallBack != null) {
-                    clearListCallBack.onClear();
-                }
+                clearList();
             }
         });
     }
@@ -76,10 +77,11 @@ public class SelectedGoodsList extends FrameLayout {
      *
      * @param selectedGoods
      */
-    public void setSelectedGoods(List<String> selectedGoods) {
+    public void setSelectedGoods(List<ByCate> selectedGoods) {
         this.selectedGoods.clear();
         this.selectedGoods.addAll(selectedGoods);
         selectedGoodsAdapter.settList(this.selectedGoods);
+        selectedGoodsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -87,7 +89,7 @@ public class SelectedGoodsList extends FrameLayout {
      *
      * @return
      */
-    public List<String> getSelectedGoods() {
+    public List<ByCate> getSelectedGoods() {
         return selectedGoods;
     }
 
@@ -96,7 +98,7 @@ public class SelectedGoodsList extends FrameLayout {
      */
     public void clearList() {
         selectedGoods.clear();
-        selectedGoodsAdapter.settList(selectedGoods);
+        selectedGoodsAdapter.clear();
     }
 
     /**
@@ -109,6 +111,13 @@ public class SelectedGoodsList extends FrameLayout {
         } else {
             isShow = true;
             setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void select(Map<String, ByCate> selectMap, int type) {
+        if (selectGoodsListener != null) {
+            selectGoodsListener.select(selectMap, type);
         }
     }
 }

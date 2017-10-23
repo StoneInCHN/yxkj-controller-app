@@ -1,6 +1,7 @@
 package com.yxkj.controller.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,23 +16,34 @@ import android.widget.TextView;
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.CurrentPageGoodsAdapter;
 import com.yxkj.controller.base.BaseObserver;
-import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.SelectGoodsInfo;
+import com.yxkj.controller.beans.VerifyStock;
+import com.yxkj.controller.beans.VerifyStockBody;
 import com.yxkj.controller.callback.BackListener;
-import com.yxkj.controller.callback.ClearListCallBack;
 import com.yxkj.controller.callback.CompleteListener;
+import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.http.HttpFactory;
+import com.yxkj.controller.tools.EndlessRecyclerOnScrollListener;
+import com.yxkj.controller.util.QRCodeUtil;
+import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
+import com.yxkj.controller.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -39,7 +51,7 @@ import io.reactivex.schedulers.Schedulers;
  * 全部商品PopupWindow
  */
 
-public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, CompleteListener, ClearListCallBack, BaseRecyclerViewAdapter.OnItemClickListener<String> {
+public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickListener, TabLayout.OnTabSelectedListener, BackListener, CompleteListener, SelectGoodsListener {
     private Context mContext;
     /*顶部导航栏*/
     private TabLayout tabLayout;
@@ -51,16 +63,24 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private SelectedGoodsList seletedGoodsList;
     /*立即支付*/
     private TextView tv_pay;
+    private TextView tv_total_price;
     private TextView iv_back_main;
     private LinearLayout back_layout;
     private TimeCountUtl timeCountUtl;
-    private int page = 1;
     private ShowPayPopupWindowListener listener;
     private RecyclerView current_goods_recycler;
     /*已选商品*/
-    private List<String> listSelectedGoods = new ArrayList<>();
+    private List<ByCate> listSelectedGoods = new ArrayList<>();
     /*商品列表适配器*/
     private CurrentPageGoodsAdapter allGoodsAdapter;
+    /*全部标签*/
+    private List<Category> categories;
+
+    private List<ByCate> goodsList = new ArrayList<>();
+    private int page = 1;
+    private Category category;
+    private SelectGoodsInfo selectGoodsInfos;
+    private boolean complete;
 
     public void setListener(ShowPayPopupWindowListener listener) {
         this.listener = listener;
@@ -78,7 +98,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         super(context, attrs, defStyleAttr);
         mContext = context;
         getCategory();
-        getByCate("", true);
         init();
         initData();
         setEvent();
@@ -93,6 +112,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         tv_selected = view.findViewById(R.id.tv_selected);
         rl_selected = view.findViewById(R.id.rl_selected);
         seletedGoodsList = view.findViewById(R.id.seletedGoodsList);
+        tv_total_price = view.findViewById(R.id.tv_total_price);
         back_layout = view.findViewById(R.id.back_layout);
         current_goods_recycler = view.findViewById(R.id.current_goods_recycler);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 770);
@@ -111,8 +131,8 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         allGoodsAdapter = new CurrentPageGoodsAdapter(mContext);
         current_goods_recycler.setLayoutManager(new GridLayoutManager(mContext, 6));
         current_goods_recycler.setAdapter(allGoodsAdapter);
-        allGoodsAdapter.setOnItemClickListener(this);
-        seletedGoodsList.setClearListCallBack(this);
+        allGoodsAdapter.setSelectGoodsListener(this);
+        seletedGoodsList.setSelectGoodsListener(this);
     }
 
     /**
@@ -138,10 +158,33 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         /*设置TabLayout切换监听*/
         tabLayout.addOnTabSelectedListener(this);
         timeCountUtl.setCompleteListener(this);
+        seletedGoodsList.setSelectGoodsListener(this);
+        current_goods_recycler.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadNextPage(View view) {
+                if (!complete) {
+                    page++;
+                    if (category == null) {
+                        getByCate("", true, page);
+                    } else {
+                        getByCate(category.id + "", false, page);
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        int pos = tab.getPosition();
+        page = 1;
+        if (pos == 0) {
+            category = null;
+            getByCate("", true, page);
+        } else {
+            category = categories.get(pos);
+            getByCate(category.id + "", false, page);
+        }
     }
 
     @Override
@@ -170,13 +213,11 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
                 seletedGoodsList.togle();
                 break;
             case R.id.tv_pay:
-                timeCountUtl.cancle();
-                PayPopupWindow payPopupWindow = new PayPopupWindow(mContext);
-                payPopupWindow.setList(seletedGoodsList.getSelectedGoods());
-                payPopupWindow.setBackListener(this);
-                if (listener != null) {
-                    listener.showPayPopWindow(payPopupWindow);
+                if (seletedGoodsList.getSelectedGoods().size() == 0) {
+                    ToastUtil.showToast("请选择商品后再支付");
+                    return;
                 }
+                verifyStock();
                 break;
             case R.id.back_layout:
                 timeCountUtl.cancle();
@@ -201,26 +242,49 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     }
 
     /**
-     * 清空列表
-     */
-    @Override
-    public void onClear() {
-        listSelectedGoods.clear();
-        tv_selected.setText(listSelectedGoods.size() + "");
-        seletedGoodsList.setSelectedGoods(listSelectedGoods);
-    }
-
-    /**
      * 已选商品
-     *
-     * @param position
-     * @param data
      */
     @Override
-    public void onItemClick(int position, String data) {
-        tv_selected.setText(listSelectedGoods.size() + "");
-        listSelectedGoods.add(data);
-        seletedGoodsList.setSelectedGoods(listSelectedGoods);
+    public void select(Map<String, ByCate> selectMap, int type) {
+        if (type == 2) {
+            allGoodsAdapter.setSelectMap(selectMap);
+        }
+        Observable.just(selectMap).concatMap(new Function<Map<String, ByCate>, ObservableSource<SelectGoodsInfo>>() {
+            @Override
+            public ObservableSource<SelectGoodsInfo> apply(@NonNull Map<String, ByCate> stringByCateMap) throws Exception {
+                SelectGoodsInfo s = new SelectGoodsInfo();
+                for (Map.Entry<String, ByCate> e : stringByCateMap.entrySet()) {
+                    ByCate b = e.getValue();
+                    s.price += b.price * b.select;
+                    s.list.add(b);
+                }
+                return Observable.just(s);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<SelectGoodsInfo>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull SelectGoodsInfo selectGoodsInfo) {
+                selectGoodsInfos = selectGoodsInfo;
+                tv_total_price.setText("合计: ￥" + StringUtil.keepNumberSecondCount(selectGoodsInfo.price));
+                tv_selected.setText(selectGoodsInfo.list.size() + "");
+                seletedGoodsList.setSelectedGoods(selectGoodsInfo.list);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
     }
 
     /**
@@ -229,8 +293,12 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private void getCategory() {
         HttpFactory.getCategory(new BaseObserver<List<Category>>() {
             @Override
-            protected void onHandleSuccess(List<Category> categories) {
-                initTabLayout(categories);
+            protected void onHandleSuccess(List<Category> categorie) {
+                Category category = new Category();
+                category.cateName = "全部";
+                categorie.add(0, category);
+                categories = categorie;
+                initTabLayout(categorie);
             }
 
             @Override
@@ -243,15 +311,126 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     /**
      * 根据分类查询商品
      */
-    private void getByCate(String id, boolean isAll) {
-        HttpFactory.getByCate("1111111111", id, "18", "1", isAll, new BaseObserver<List<ByCate>>() {
+    private void getByCate(String id, boolean isAll, int page) {
+        HttpFactory.getByCate("1111111111", id, "18", page + "", isAll, new BaseObserver<List<ByCate>>() {
             @Override
             protected void onHandleSuccess(List<ByCate> byCates) {
-                allGoodsAdapter.settList(byCates);
+                goodsList.addAll(byCates);
+                if (byCates.size() < 18) {
+                    complete = true;
+                }
+                allGoodsAdapter.settList(goodsList);
+                allGoodsAdapter.notifyDataSetChanged();
             }
 
             @Override
             protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+        });
+    }
+
+    /**
+     * 验证商品库存数量请求体
+     */
+    private void verifyStock() {
+        Observable.fromArray(seletedGoodsList.getSelectedGoods()).concatMap(new Function<List<ByCate>, ObservableSource<VerifyStockBody>>() {
+            @Override
+            public ObservableSource<VerifyStockBody> apply(@NonNull List<ByCate> sgByChannels) throws Exception {
+                VerifyStockBody body = new VerifyStockBody();
+                for (ByCate sgByChannel : sgByChannels) {
+                    body.gList.add(sgByChannel.cId + "-" + sgByChannel.select);
+                }
+                return Observable.just(body);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<VerifyStockBody>() {
+            @Override
+            public void accept(@NonNull VerifyStockBody verifyStockBody) throws Exception {
+                verifiedStock(verifyStockBody);
+            }
+        });
+    }
+
+    /**
+     * 验证商品库存数量
+     */
+    private void verifiedStock(VerifyStockBody verifyStockBody) {
+        HttpFactory.verifyStock(verifyStockBody, new BaseObserver<List<VerifyStock>>() {
+            @Override
+            protected void onHandleSuccess(List<VerifyStock> verifyStocks) {
+                getQRCodeBitmap(verifyStocks);
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+
+            @Override
+            protected void onHandleStockNotEnough(List<VerifyStock> verifyStocks) {
+                Map<String, ByCate> map = allGoodsAdapter.getSelectMap();
+                for (int i = 0; i < verifyStocks.size(); i++) {
+                    VerifyStock v = verifyStocks.get(i);
+                    ByCate sg = map.get(v.cId + "");
+                    if (sg != null) {
+                        int sub = sg.select > v.count ? v.count - sg.select : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
+                        if (sub < 0)//sub小于0移除该商品
+                            map.remove(sg);
+                        if (v.count > 0) {//库存量大于0，则添加到新集合
+                            sg.select = sg.select > v.count ? v.count : sg.select;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
+                            sg.count = v.count;
+                            sg.cId = v.cId + "";
+                        }
+                    }
+                }
+                select(map, 2);
+                timeCountUtl.cancle();
+                startCountDown();
+            }
+        });
+    }
+
+    /**
+     * 拼接二维码url、生成二维码Bitmap
+     */
+    private void getQRCodeBitmap(List<VerifyStock> verifyStocks) {
+        Observable.just(verifyStocks).concatMap(new Function<List<VerifyStock>, ObservableSource<Bitmap>>() {
+            @Override
+            public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append("1111111111/");
+                for (VerifyStock verifyStock : verifyStocks) {
+                    stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
+                }
+                String url = stringBuffer.delete(stringBuffer.length() - 1, stringBuffer.length()).toString();
+                return Observable.just(QRCodeUtil.generateBitmap(url, 166, 166));
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Bitmap>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull Bitmap bitmap) {
+                timeCountUtl.cancle();
+                PayPopupWindow payPopupWindow = new PayPopupWindow(mContext);
+                payPopupWindow.setList(seletedGoodsList.getSelectedGoods());
+                payPopupWindow.setToatalPrice(selectGoodsInfos.price);
+                payPopupWindow.setPayBitmap(bitmap);
+                payPopupWindow.setBackListener(AllGoodsPopupWindow.this);
+                if (listener != null) {
+                    listener.showPayPopWindow(payPopupWindow);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });

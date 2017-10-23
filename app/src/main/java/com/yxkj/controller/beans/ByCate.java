@@ -24,7 +24,7 @@ public class ByCate implements Parcelable {
 
     public String cSn;
 
-    public int select = 1;
+    public int select;
 
     @Override
     public String toString() {

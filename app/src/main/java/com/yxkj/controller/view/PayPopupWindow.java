@@ -1,6 +1,7 @@
 package com.yxkj.controller.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -15,9 +16,11 @@ import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.PayGoodsAdapter;
+import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.SelectListener;
+import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 
 import java.util.List;
@@ -128,8 +131,9 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
      *
      * @param list
      */
-    public void setList(List<String> list) {
+    public void setList(List<ByCate> list) {
         payGoodsAdapter.settList(list);
+        payGoodsAdapter.notifyDataSetChanged();
     }
 
     public void setBackListener(BackListener completeListener) {
@@ -146,5 +150,13 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
 
     public void cancle() {
         timeCountUtl.cancle();
+    }
+
+    public void setToatalPrice(double toatalPrice) {
+        tv_totalPrice.setText("总计: ￥" + StringUtil.keepNumberSecondCount(toatalPrice));
+    }
+
+    public void setPayBitmap(Bitmap bitmap) {
+        img_pay_code.setImageBitmap(bitmap);
     }
 }

@@ -1,7 +1,12 @@
 package com.yxkj.controller.util;
 
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yxkj.controller.R;
 import com.yxkj.controller.application.MyApplication;
 
 
@@ -16,7 +21,15 @@ public class ToastUtil {
      * @param info 显示的内容
      */
     public static void showToast(String info) {
-        Toast.makeText(MyApplication.getMyApplication(), info, Toast.LENGTH_SHORT).show();
+        LayoutInflater inflater = LayoutInflater
+                .from(MyApplication.getMyApplication());
+        View view = inflater.inflate(R.layout.view_toast, null);
+        TextView textView = view.findViewById(R.id.text);
+        textView.setText(info);
+        Toast toast = Toast.makeText(MyApplication.getMyApplication(), info, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setView(view);
+        toast.show();
     }
 
     /**

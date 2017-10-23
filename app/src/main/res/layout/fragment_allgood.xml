@@ -89,11 +89,12 @@
                     android:background="@color/bg_black_90trans">
 
                     <TextView
+                        android:id="@+id/tv_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="共计: ￥25.80"
+                        android:text="共计: ￥00.00"
                         android:textColor="@color/white"
                         android:textSize="39px" />
 
@@ -103,7 +104,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/theme_orange"
                         android:gravity="center"
-                        android:text="去支付"
+                        android:text="立即支付"
                         android:textColor="@color/white"
                         android:textSize="36px" />
                 </LinearLayout>
