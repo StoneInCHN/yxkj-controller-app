@@ -31,7 +31,7 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
 
     public void setTotal_price(double total_price) {
         this.total_price += total_price;
-        EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
+        EventBus.getDefault().post(new GoodsSelectInfo(this.total_price, tList.size()));
     }
 
     public SearchGoodsAdapter(Context context) {
@@ -60,12 +60,14 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
         selcct_number.setOnButtonClickListenter(new NumberAddSubView.OnButtonClickListenter() {
             @Override
             public void onButtonAddClick(View view, int value) {
-                bean.number = value;
-                //加一，总价加一
-                total_price += bean.price;
-                //设置该项总价
-                holder.setText(R.id.tv_total_price, "￥" + StringUtil.keepNumberSecondCount(bean.price * value));
-                EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
+                if (value > bean.number) {
+                    bean.number = value;
+                    //加一，总价加一
+                    total_price += bean.price;
+                    //设置该项总价
+                    holder.setText(R.id.tv_total_price, "￥" + StringUtil.keepNumberSecondCount(bean.price * value));
+                    EventBus.getDefault().post(new GoodsSelectInfo(total_price, tList.size()));
+                }
             }
 
             @Override
@@ -91,5 +93,9 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
         });
         //设置该项总价
         holder.setText(R.id.tv_total_price, "￥" + StringUtil.keepNumberSecondCount(bean.price * selcct_number.getValue()));
+    }
+
+    public void clearTotal() {
+        total_price = 0;
     }
 }

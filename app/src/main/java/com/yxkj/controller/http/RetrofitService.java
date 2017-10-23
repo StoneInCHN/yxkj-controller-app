@@ -5,6 +5,7 @@ import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
+import com.yxkj.controller.beans.VerifyStockBody;
 import com.yxkj.controller.constant.Constant;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface RetrofitService {
 
     /*验证商品库存数量*/
     @POST(Constant.VERIFYSTOCK)
-    Observable<BaseEntity<List<VerifyStock>>> verifyStock(@Body Map<String, String> map);
+    Observable<BaseEntity<List<VerifyStock>>> verifyStock(@Body VerifyStockBody body);
 
     @POST(Constant.UPATECMDSTATUS)
     Observable<ResponseBody> updateCmdStatus(@Query("commandId") Long commandId, @Query("isSuccess") Boolean isSuccess);

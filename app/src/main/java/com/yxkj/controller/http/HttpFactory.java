@@ -5,6 +5,7 @@ import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
+import com.yxkj.controller.beans.VerifyStockBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +53,11 @@ public class HttpFactory {
      * @param pageNumber
      */
     public static void getByCate(String cImei, String cateId, String pageSize,
-                                 String pageNumber,boolean isAll, BaseObserver<List<ByCate>> observer) {
+                                 String pageNumber, boolean isAll, BaseObserver<List<ByCate>> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("cImei", cImei);
         if (!isAll)
-            map.put("cateId", 1+"");
+            map.put("cateId", 1 + "");
         map.put("pageSize", pageSize);
         map.put("pageNumber", pageNumber);
         autoSubscribe(RetrofitFactory.getInstance().getByCate(map), observer);
@@ -67,10 +68,8 @@ public class HttpFactory {
      *
      * @param gList 商品数组 格式[货道cId-商品数量]
      */
-    public static void verifyStock(String gList, BaseObserver<List<VerifyStock>> observer) {
-        Map<String, String> map = new HashMap<>();
-        map.put("gList", gList);
-        autoSubscribe(RetrofitFactory.getInstance().verifyStock(map), observer);
+    public static void verifyStock(VerifyStockBody gList, BaseObserver<List<VerifyStock>> observer) {
+        autoSubscribe(RetrofitFactory.getInstance().verifyStock(gList), observer);
     }
 
     /**

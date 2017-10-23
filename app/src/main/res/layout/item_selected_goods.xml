@@ -13,6 +13,7 @@
         android:paddingLeft="46px">
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="373px"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -23,6 +24,7 @@
             android:textSize="24px" />
 
         <TextView
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="131px"
@@ -31,6 +33,7 @@
             android:textSize="24px" />
 
         <com.yxkj.controller.view.NumberAddSubView
+            android:id="@+id/selcct_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"

@@ -10,9 +10,13 @@ import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.base.BaseViewHolder;
 import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.util.GlideUtil;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.view.NumberAddSubView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -20,6 +24,21 @@ import com.yxkj.controller.view.NumberAddSubView;
  */
 
 public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
+    private SelectGoodsListener selectGoodsListener;
+    private Map<String, ByCate> selectMap = new HashMap<>();
+
+    public Map<String, ByCate> getSelectMap() {
+        return selectMap;
+    }
+
+    public void setSelectMap(Map<String, ByCate> selectMap) {
+        this.selectMap = selectMap;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectGoodsListener(SelectGoodsListener selectGoodsListener) {
+        this.selectGoodsListener = selectGoodsListener;
+    }
 
     public CurrentPageGoodsAdapter(Context context) {
         super(context);
@@ -33,10 +52,20 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
 
     @Override
     public void onCorvert(BaseViewHolder holder, int position, ByCate bean) {
+        ByCate byCate = selectMap.get(bean.cId);
+        if (byCate != null) {
+            setByCate(holder, byCate);
+        } else {
+            setByCate(holder, bean);
+        }
+
+    }
+
+    private void setByCate(BaseViewHolder holder, final ByCate bean) {
         //设置商品名称
         holder.setText(R.id.tv_goods_name, bean.gName);
         //设置商品价格
-        holder.setText(R.id.tv_price, "￥"+StringUtil.keepNumberSecondCount(bean.price));
+        holder.setText(R.id.tv_price, "￥" + StringUtil.keepNumberSecondCount(bean.price));
         //设置原价
         TextView tv_old_price = holder.getView(R.id.tv_old_price);
         tv_old_price.setVisibility(View.GONE);
@@ -57,7 +86,31 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
         NumberAddSubView select_number = holder.getView(R.id.select_number);
         select_number.setMaxValue(bean.count);
         select_number.setValue(bean.select);
+        select_number.setOnButtonClickListenter(new NumberAddSubView.OnButtonClickListenter() {
+            @Override
+            public void onButtonAddClick(View view, int value) {
+                if (selectGoodsListener != null) {
+                    bean.select = value;
+                    selectMap.put(bean.cId, bean);
+                    selectGoodsListener.select(selectMap, 1);
+                }
+            }
 
+            @Override
+            public void onButtonSubClick(View view, int value) {
+                if (selectGoodsListener != null) {
+                    bean.select = value;
+                    switch (value) {
+                        case 0:
+                            selectMap.remove(bean.cId);
+                            break;
+                        default:
+                            selectMap.put(bean.cId, bean);
+                            break;
+                    }
+                    selectGoodsListener.select(selectMap, 1);
+                }
+            }
+        });
     }
-
 }

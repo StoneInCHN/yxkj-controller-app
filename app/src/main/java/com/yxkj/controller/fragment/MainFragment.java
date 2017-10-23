@@ -1,6 +1,7 @@
 package com.yxkj.controller.fragment;
 
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +18,10 @@ import com.yxkj.controller.adapter.SearchGoodsAdapter;
 import com.yxkj.controller.base.BaseFragment;
 import com.yxkj.controller.base.BaseObserver;
 import com.yxkj.controller.beans.GoodsSelectInfo;
+import com.yxkj.controller.beans.SearchHandleInfo;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
+import com.yxkj.controller.beans.VerifyStockBody;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.InputEndListener;
@@ -27,8 +30,7 @@ import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.GlideUtil;
-import com.yxkj.controller.util.GsonUtil;
-import com.yxkj.controller.util.LogUtil;
+import com.yxkj.controller.util.QRCodeUtil;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
@@ -43,8 +45,10 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -225,21 +229,77 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             @Override
             protected void onHandleSuccess(SgByChannel sgByChannel) {
                 if (sgByChannel != null) {
-                    sgByChannel.number = 1;
-                    goods.add(sgByChannel);
-                    adapter.settList(goods);
-                    adapter.setTotal_price(sgByChannel.price * sgByChannel.number);
-                    adapter.setEnable(true);
-                    keyboardView.clear();
-                    afterInput();
+                    handleData(sgByChannel);
                 }
             }
 
             @Override
             protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+                keyboardView.clear();
+            }
+
+            @Override
+            protected void onHandleStockNotEnough(SgByChannel value) {
+                super.onHandleStockNotEnough(value);
+                keyboardView.clear();
+            }
+        });
+    }
+
+    /**
+     * 处理数据避免重复（用户连续输入两个相同的商品码）
+     */
+    private void handleData(SgByChannel sgByChannel) {
+        Observable.just(sgByChannel).concatMap(new Function<SgByChannel, ObservableSource<SearchHandleInfo>>() {
+            @Override
+            public ObservableSource<SearchHandleInfo> apply(@NonNull SgByChannel sgByChannel) throws Exception {
+                SearchHandleInfo searchHandleInfo = new SearchHandleInfo();
+                for (SgByChannel sgByChannel1 : goods) {
+                    if (sgByChannel1.cId == sgByChannel.cId) {
+                        searchHandleInfo.isContains = true;
+                        if (sgByChannel1.number + 1 > sgByChannel1.count) {
+                            searchHandleInfo.isCount = true;
+                        } else {
+                            sgByChannel1.number++;
+                        }
+                        searchHandleInfo.sgByChannel = sgByChannel1;
+                    }
+                }
+                if (!searchHandleInfo.isContains) {
+                    searchHandleInfo.sgByChannel = sgByChannel;
+                    goods.add(sgByChannel);
+                }
+                return Observable.just(searchHandleInfo);
+            }
+        }).subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<SearchHandleInfo>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull SearchHandleInfo searchHandleInfo) {
+                if (!searchHandleInfo.isContains || (searchHandleInfo.isContains && !searchHandleInfo.isCount)) {
+                    adapter.settList(goods);
+                    adapter.setTotal_price(sgByChannel.price);
+                }
+                adapter.setEnable(true);
+                keyboardView.clear();
+                afterInput();
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
+
     }
 
     /**
@@ -262,6 +322,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     public void onSure() {
         goods.clear();/*清空商品数据*/
         adapter.settList(goods);/*刷新列表*/
+        adapter.clearTotal();/*总价清零*/
         tv_totall_gray.setVisibility(View.GONE);//隐藏灰色总价
         botom_layout.setVisibility(View.GONE);/*隐藏立即支付按钮*/
         layout_canclePay.setVisibility(View.GONE);
@@ -362,25 +423,95 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     }
 
     /**
-     * 验证商品库存数量
+     * 验证商品库存数量请求体
      */
     private void verifyStock() {
-        Observable.fromArray(goods).concatMap(new Function<List<SgByChannel>, ObservableSource<String>>() {
+        Observable.fromArray(goods).concatMap(new Function<List<SgByChannel>, ObservableSource<VerifyStockBody>>() {
             @Override
-            public ObservableSource<String> apply(@NonNull List<SgByChannel> sgByChannels) throws Exception {
-                List<String> list = new ArrayList<String>();
+            public ObservableSource<VerifyStockBody> apply(@NonNull List<SgByChannel> sgByChannels) throws Exception {
+                VerifyStockBody body = new VerifyStockBody();
                 for (SgByChannel sgByChannel : sgByChannels) {
-                    list.add(sgByChannel.cId + "-" + sgByChannel.number);
+                    body.gList.add(sgByChannel.cId + "-" + sgByChannel.number);
                 }
-                return Observable.just(GsonUtil.listToJson(list));
+                return Observable.just(body);
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<VerifyStockBody>() {
             @Override
-            public void accept(@NonNull String string) throws Exception {
-                LogUtil.e("String" + string);
-                HttpFactory.verifyStock(string, new BaseObserver<List<VerifyStock>>() {
+            public void accept(@NonNull VerifyStockBody verifyStockBody) throws Exception {
+
+            }
+        });
+    }
+
+    /**
+     * 验证商品库存数量
+     *
+     * @param verifyStockBody
+     */
+    private void verifiedStock(VerifyStockBody verifyStockBody) {
+        HttpFactory.verifyStock(verifyStockBody, new BaseObserver<List<VerifyStock>>() {
+            @Override
+            protected void onHandleSuccess(List<VerifyStock> verifyStocks) {
+                getQRCodeBitmap(verifyStocks);
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+
+            @Override
+            protected void onHandleStockNotEnough(List<VerifyStock> verifyStocks) {
+                List<SgByChannel> newGoods = new ArrayList<SgByChannel>();
+                for (int i = 0; i < verifyStocks.size(); i++) {
+                    SgByChannel sg = goods.get(i);
+                    VerifyStock v = verifyStocks.get(i);
+                    int sub = sg.number > v.count ? v.count - sg.number : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
+                    if (sub < 0)//sub小于0总价有变化
+                        adapter.setTotal_price(sub * sg.price);
+                    if (v.count > 0) {//库存量大于0，则添加到新集合
+                        sg.number = sg.number > v.count ? v.count : sg.number;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
+                        sg.count = v.count;
+                        sg.cId = v.cId;
+                        newGoods.add(sg);
+                    }
+                }
+                goods.clear();
+                goods.addAll(newGoods);
+                adapter.settList(goods);
+                adapter.setEnable(true);
+                payImTimeCount.cancle();
+                payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
+            }
+        });
+    }
+
+    /**
+     * 拼接二维码url、生成二维码Bitmap
+     */
+    private void getQRCodeBitmap(List<VerifyStock> verifyStocks) {
+        Observable.just(verifyStocks).concatMap(new Function<List<VerifyStock>, ObservableSource<Bitmap>>() {
+            @Override
+            public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append("1111111111/");
+                for (VerifyStock verifyStock : verifyStocks) {
+                    stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
+                }
+                String url = stringBuffer.delete(stringBuffer.length() - 1, stringBuffer.length()).toString();
+                return Observable.just(QRCodeUtil.generateBitmap(url, 129, 129));
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Bitmap>() {
                     @Override
-                    protected void onHandleSuccess(List<VerifyStock> verifyStocks) {
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Bitmap bitmap) {
+                        img_code.setImageBitmap(bitmap);
                         adapter.setEnable(false);
                         keyboardView.setVisibility(View.GONE);/*隐藏键盘*/
                         layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
@@ -391,35 +522,14 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                     }
 
                     @Override
-                    protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+                    public void onError(@NonNull Throwable e) {
 
                     }
 
                     @Override
-                    protected void onHandleStockNotEnough(List<VerifyStock> verifyStocks) {
-                        List<SgByChannel> newGoods = new ArrayList<SgByChannel>();
-                        for (int i = 0; i < verifyStocks.size(); i++) {
-                            SgByChannel sg = goods.get(i);
-                            VerifyStock v = verifyStocks.get(i);
-                            int sub = sg.number > v.count ? v.count - sg.number : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
-                            if (sub < 0)//sub小于0总价有变化
-                                adapter.setTotal_price(sub * sg.price);
-                            if (v.count > 0) {//库存量大于0，则添加到新集合
-                                sg.number = sg.number > v.count ? v.count : sg.number;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
-                                sg.count = v.count;
-                                sg.cId = v.cId;
-                                newGoods.add(sg);
-                            }
-                        }
-                        goods.clear();
-                        goods.addAll(newGoods);
-                        adapter.settList(goods);
-                        adapter.setEnable(true);
-                        payImTimeCount.cancle();
-                        payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
+                    public void onComplete() {
+
                     }
                 });
-            }
-        });
     }
 }
