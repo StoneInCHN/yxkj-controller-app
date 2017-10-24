@@ -6,6 +6,7 @@ import com.yxkj.controller.processer.AdvertisementProcessor;
 import com.yxkj.controller.processer.AppUpdateProcessor;
 import com.yxkj.controller.processer.AudioControlProcessor;
 import com.yxkj.controller.processer.OutBoundProcessor;
+import com.yxkj.controller.processer.PaymentProcessor;
 import com.yxkj.controller.processer.ProcessorWatcher;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
@@ -32,6 +33,7 @@ public class NettyClientHandler extends CustomHeartbeatHandler {
         watcher.addProcessor(new AudioControlProcessor());
         watcher.addProcessor(new AdvertisementProcessor());
         watcher.addProcessor(new AppUpdateProcessor());
+        watcher.addProcessor(new PaymentProcessor());
     }
 
     /**

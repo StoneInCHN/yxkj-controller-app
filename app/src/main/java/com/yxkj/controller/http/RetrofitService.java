@@ -43,6 +43,9 @@ public interface RetrofitService {
     @POST(Constant.UPATECMDSTATUS)
     Observable<ResponseBody> updateCmdStatus(@Query("commandId") Long commandId, @Query("isSuccess") Boolean isSuccess);
 
+    @POST(Constant.UPDATESHIPMENTSTATUS)
+    Observable<ResponseBody> updateShipmentStatus(@Query("orderItemId") Long orderId, @Query("shipmentStatus") String shipmentStatus);
+
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Call<ResponseBody> downloadFileWithDynamicUrlAsync();
 

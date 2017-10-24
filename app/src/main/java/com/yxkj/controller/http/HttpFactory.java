@@ -73,6 +73,7 @@ public class HttpFactory {
     }
 
     /**
+     * 更新命令状态
      * @param
      */
     public static void updateCmdStatus(Long comomandId, Boolean isSuccess) {
@@ -88,7 +89,23 @@ public class HttpFactory {
             }
         });
     }
+    /**
+     * 更新命令状态
+     * @param
+     */
+    public static void updateShipmentStatus(Long orderId, String shipmentStatus) {
+        RetrofitFactory.getInstance().updateShipmentStatus(orderId, shipmentStatus).subscribeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
+            @Override
+            public void accept(@NonNull ResponseBody responseBody) throws Exception {
+                System.out.println(responseBody);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
 
+            }
+        });
+    }
     /**
      * 订阅(带compse)
      */
