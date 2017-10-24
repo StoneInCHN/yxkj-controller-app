@@ -177,6 +177,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int pos = tab.getPosition();
+        goodsList.clear();
         page = 1;
         if (pos == 0) {
             category = null;

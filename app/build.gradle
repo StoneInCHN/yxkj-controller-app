@@ -19,11 +19,11 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             // 不开启混淆
-            minifyEnabled true
+            minifyEnabled false
             // 不需要ZIP优化
-            zipAlignEnabled true
+            zipAlignEnabled false
             // 不需要资源压缩
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -41,7 +41,8 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['src/jniLibs'];
+//            jni.srcDirs = []
+            jniLibs.srcDirs = ['src/jniLibs']
         }
     }
 //    compileOptions {

@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     private void setPlayFileVideo(IjkVideoView videoView, String file) {
         videoView.initVideoView(this);
-        videoView.setVideoPath(file);
+        videoView.setVideoURI(Uri.parse(file));
         videoView.start();
     }
 

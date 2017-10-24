@@ -32,7 +32,7 @@ public class PrefrenceWrapper {
         sharedPreferences.edit().putBoolean(key, vaule).commit();
     }
 
-    protected boolean getBoolean(String key, boolean defaultVaule) {
+    protected Boolean getBoolean(String key, boolean defaultVaule) {
         return sharedPreferences.getBoolean(key, defaultVaule);
     }
 

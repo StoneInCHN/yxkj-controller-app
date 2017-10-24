@@ -34,14 +34,14 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 设置顶部视频下载成功
      */
     public void setVideoTopDownloadSuceess(boolean value) {
-        setBoolean(Constant.VIDEO_TOP, value);
+        setBoolean(Constant.VIDEO_TOP_BOOLEAN, value);
     }
 
     /**
      * 获得顶部视频下载成功
      */
     public boolean getVideoTopDownloadSuceess() {
-        return getBoolean(Constant.VIDEO_TOP, false);
+        return getBoolean(Constant.VIDEO_TOP_BOOLEAN, false);
     }
 
     /**
@@ -76,14 +76,14 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 设置底部视频下载成功
      */
     public void setVideoBottomDownloadSuceess(boolean value) {
-        setBoolean(Constant.VIDEO_BOTTOM, value);
+        setBoolean(Constant.VIDEO_BOTTOM_BOOLEAN, value);
     }
 
     /**
      * 获得底部视频下载成功
      */
     public boolean getVideoBottomDownloadSuceess() {
-        return getBoolean(Constant.VIDEO_BOTTOM, false);
+        return getBoolean(Constant.VIDEO_BOTTOM_BOOLEAN, false);
     }
 
     /**

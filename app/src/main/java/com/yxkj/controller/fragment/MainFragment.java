@@ -438,7 +438,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<VerifyStockBody>() {
             @Override
             public void accept(@NonNull VerifyStockBody verifyStockBody) throws Exception {
-
+                    verifiedStock(verifyStockBody);
             }
         });
     }

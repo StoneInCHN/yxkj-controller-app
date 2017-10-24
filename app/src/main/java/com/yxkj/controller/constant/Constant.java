@@ -51,7 +51,9 @@ public class Constant {
      * 上位机指令
      */
     public static final String VIDEO_TOP = "video_top";
+    public static final String VIDEO_TOP_BOOLEAN = "video_top_boolean";
     public static final String VIDEO_BOTTOM = "video_bottom";
+    public static final String VIDEO_BOTTOM_BOOLEAN = "video_bottom_boolean";
     public static final String IMG_LEFT = "img_left";
     public static final String IMG_CENTER = "img_center";
     public static final String IMG_RIGHT = "img_right";
