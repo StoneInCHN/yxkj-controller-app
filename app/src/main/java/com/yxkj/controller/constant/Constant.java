@@ -67,4 +67,5 @@ public class Constant {
     public static final String GETBYCATE = "/goods/getByCate";//1.7.3	根据类别查询商品
     public static final String VERIFYSTOCK = "/goods/verifyStock";//1.7.4	验证商品库存数量
     public static final String UPATECMDSTATUS = "/cmd/finishCmdStatus";//1.7.4	更新命令执行结果
+    public static final String UPDATESHIPMENTSTATUS = "/orderItem/updateOrderItemShipmentStatus";//1.7.4	更新订单项出货状态
 }

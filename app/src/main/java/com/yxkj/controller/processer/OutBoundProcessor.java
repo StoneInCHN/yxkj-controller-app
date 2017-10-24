@@ -9,6 +9,8 @@ import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.common.entity.CmdMsg;
 
+import java.util.Map;
+
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -21,6 +23,10 @@ public class OutBoundProcessor implements IProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, CmdMsg cmdMsg) {
+
+        Map<String, String> contentMap = cmdMsg.getContent();
+        HttpFactory.updateShipmentStatus(Long.valueOf(contentMap.get("orderItemId")), "SHIPMENT_INPROCESS");
+
         new Thread(() -> {
             Integer physicAddress = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressPhysicMap().get(cmdMsg.getAddress());
             //如果找不到对应的物理地址则返回

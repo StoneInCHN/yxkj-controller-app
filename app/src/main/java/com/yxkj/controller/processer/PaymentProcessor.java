@@ -3,6 +3,7 @@ package com.yxkj.controller.processer;
 import com.yxkj.common.commonenum.CommonEnum;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.common.entity.CmdMsg;
+import com.yxkj.controller.util.ReciveUrlUtil;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -11,14 +12,15 @@ import io.netty.channel.ChannelHandlerContext;
  * 支付处理器
  */
 
-public class PaymentProcessor implements IProcessor{
+public class PaymentProcessor implements IProcessor {
     @Override
     public void process(ChannelHandlerContext ctx, CmdMsg msg) {
-        LogUtil.d("PaymentProcessor:"+msg.toString());
+        ReciveUrlUtil.newInstance().onPaySuccess();
+        LogUtil.d("PaymentProcessor:" + msg.toString());
     }
 
     @Override
     public boolean validateProcessor(CmdMsg msg) {
-        return msg.getType()== CommonEnum.CmdType.PAYMENT_SUCCESS;
+        return msg.getType() == CommonEnum.CmdType.PAYMENT_SUCCESS;
     }
 }
