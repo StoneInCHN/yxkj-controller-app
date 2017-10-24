@@ -33,6 +33,7 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 import static com.yxkj.controller.constant.Constant.IMG_CENTER;
 import static com.yxkj.controller.constant.Constant.IMG_LEFT;
 import static com.yxkj.controller.constant.Constant.IMG_RIGHT;
+import static com.yxkj.controller.constant.Constant.PAYSUCCESS;
 import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM;
 import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM_DEFAULT_URL;
 import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM_NAME;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     private MainFragment mainFragment;
     /* 底部广告视频*/
     private IjkVideoView downVideoView;
+    private PayPopupWindow popupWindow;
 
     @Override
     public int getContentViewId() {
@@ -78,6 +80,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     @Override
     public void setEvent() {
+
     }
 
 
@@ -221,6 +224,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
      */
     @Override
     public void showPayPopWindow(PayPopupWindow popupWindow) {
+        this.popupWindow = popupWindow;
         popupWindow.showAsDropDown(videoView);
     }
 
@@ -271,6 +275,14 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 //接到上位机指令下载右侧图片
                 SharePrefreceHelper.getInstence(this).setImageRightUrl(urlBean.url);
                 mainFragment.setImageRight(urlBean.url);//右侧图片
+                break;
+            case PAYSUCCESS://支付成功
+                if (popupWindow != null) {
+                    popupWindow.setPaySuccess();
+                }
+                if (mainFragment != null) {
+                    mainFragment.setPaySuccess();
+                }
                 break;
         }
     }

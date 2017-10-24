@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -35,7 +34,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
     /*支付成功*/
     private LinearLayout layout_success;
     /*返回首页*/
-    private Button btn_back;
+    private TextView btn_back;
     private Context mContext;
     /*已选商品列表*/
     private RecyclerView goodList;
@@ -86,6 +85,16 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         setWidth(layoutParams.width);
         setHeight(layoutParams.height);
         setContentView(view);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (backListener != null) {
+                    cancle();
+                    backListener.onBack();
+                    dismiss();
+                }
+            }
+        });
         tv_counter_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +133,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
         goodList.setAdapter(payGoodsAdapter);
         timeCountUtl.countDown(0, 120, tv_counter_down, "取消支付(%ds)");
         timeCountUtl.setCompleteListener(this);
+        backTimeUtl.setCompleteListener(this);
     }
 
     /**
@@ -150,6 +160,7 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
 
     public void cancle() {
         timeCountUtl.cancle();
+        backTimeUtl.cancle();
     }
 
     public void setToatalPrice(double toatalPrice) {
@@ -158,5 +169,15 @@ public class PayPopupWindow extends PopupWindow implements CompleteListener {
 
     public void setPayBitmap(Bitmap bitmap) {
         img_pay_code.setImageBitmap(bitmap);
+    }
+
+    /**
+     * 支付成功后
+     */
+    public void setPaySuccess() {
+        backTimeUtl.countDown(0, 5, btn_back, "返回首页(%ds)");
+        timeCountUtl.cancle();
+        layout_pay.setVisibility(View.GONE);
+        layout_success.setVisibility(View.VISIBLE);
     }
 }

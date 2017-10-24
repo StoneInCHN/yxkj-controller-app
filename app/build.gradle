@@ -19,11 +19,9 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             // 不开启混淆
-            minifyEnabled false
+            minifyEnabled true
             // 不需要ZIP优化
-            zipAlignEnabled false
-            // 不需要资源压缩
-            shrinkResources false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -32,8 +30,6 @@ android {
             minifyEnabled false
             // 不需要ZIP优化
             zipAlignEnabled false
-            // 不需要资源压缩
-            shrinkResources false
             // signingConfig
             signingConfig signingConfigs.debug
         }

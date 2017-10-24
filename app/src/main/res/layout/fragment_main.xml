@@ -132,12 +132,13 @@
                             android:textColor="@color/color_333333"
                             android:textSize="30px" />
 
-                        <Button
+                        <TextView
                             android:id="@+id/tv_close"
                             android:layout_width="420px"
                             android:layout_height="50px"
                             android:layout_marginTop="25px"
                             android:background="@drawable/btn_cancle_pay"
+                            android:gravity="center"
                             android:text="返回首页:5s"
                             android:textColor="@color/white"
                             android:textSize="30px" />

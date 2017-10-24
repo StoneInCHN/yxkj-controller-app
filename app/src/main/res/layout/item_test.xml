@@ -52,7 +52,7 @@
         android:layout_marginLeft="284px"
         app:btnAddBackground="@drawable/bg_btn_style_white"
         app:btnAddTextColor="@color/green"
-        app:btnTextSize="30px"
+        app:btnTextSize="24px"
         app:maxValue="100"
         app:minValue="0"
         app:textViewPadding="10px"

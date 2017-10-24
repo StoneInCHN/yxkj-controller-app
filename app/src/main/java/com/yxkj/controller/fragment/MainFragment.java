@@ -110,6 +110,8 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     private InputPwdView input_view;
     /*退出界面（输入管理员密码界面）*/
     private LinearLayout exit_layout;
+    /*是否显示支付成功*/
+    private boolean isShowSuccess;
 
     @Override
     public int getResource() {
@@ -164,7 +166,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     @Override
     public void setEvent() {
         /*设置点击监听*/
-        setOnClick(tv_pay_immediate, img_all, tv_better, tv_count_down, tv_clear);
+        setOnClick(tv_pay_immediate, img_all, tv_better, tv_count_down, tv_clear, tv_close);
         /*设置是否取消支付监听*/
         view_cancle_pay.setSelectListener(this);
         /*设置输入结束监听*/
@@ -204,6 +206,9 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 if (goodsAndBetterGoodsListener != null) {
                     goodsAndBetterGoodsListener.onBetterGoods();
                 }
+                break;
+            case R.id.tv_close:
+                onCancle();
                 break;
         }
     }
@@ -323,9 +328,13 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         goods.clear();/*清空商品数据*/
         adapter.settList(goods);/*刷新列表*/
         adapter.clearTotal();/*总价清零*/
+        isShowSuccess = false;
+        payTimeCount.cancle();
+        closeTimeCount.cancle();
         tv_totall_gray.setVisibility(View.GONE);//隐藏灰色总价
         botom_layout.setVisibility(View.GONE);/*隐藏立即支付按钮*/
         layout_canclePay.setVisibility(View.GONE);
+        layout_after_pay.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);//隐藏商品列表
         img_all.setVisibility(View.VISIBLE);//显示全部商品
         keyboardView.setVisibility(View.VISIBLE);/*显示键盘*/
@@ -438,7 +447,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<VerifyStockBody>() {
             @Override
             public void accept(@NonNull VerifyStockBody verifyStockBody) throws Exception {
-                    verifiedStock(verifyStockBody);
+                verifiedStock(verifyStockBody);
             }
         });
     }
@@ -517,6 +526,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                         layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
                         payTimeCount.countDown(0, 120, tv_count_down, "取消支付(%ds)");/*支付倒计时*/
                         payImTimeCount.cancle();
+                        isShowSuccess = true;
                         layout_clear.setVisibility(View.GONE);
                         tv_totall_gray.setVisibility(View.VISIBLE);
                     }
@@ -531,5 +541,17 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
 
                     }
                 });
+    }
+
+    /**
+     * 支付成功后
+     */
+    public void setPaySuccess() {
+        if (isShowSuccess) {
+            closeTimeCount.countDown(0, 5, tv_close, "返回首页(%ds)");
+            payTimeCount.cancle();
+            layout_canclePay.setVisibility(View.GONE);
+            layout_after_pay.setVisibility(View.VISIBLE);
+        }
     }
 }

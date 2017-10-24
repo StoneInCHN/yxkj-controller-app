@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.UrlBean;
+import com.yxkj.controller.constant.Constant;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,5 +50,14 @@ public class ReciveUrlUtil {
                 EventBus.getDefault().post(urlBean);
             }
         });
+    }
+
+    /**
+     * 支付成功
+     */
+    public void onPaySuccess() {
+        UrlBean urlBean = new UrlBean();
+        urlBean.key = Constant.PAYSUCCESS;
+        EventBus.getDefault().post(urlBean);
     }
 }

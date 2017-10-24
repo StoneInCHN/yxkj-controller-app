@@ -57,6 +57,7 @@ public class Constant {
     public static final String IMG_LEFT = "img_left";
     public static final String IMG_CENTER = "img_center";
     public static final String IMG_RIGHT = "img_right";
+    public static final String PAYSUCCESS = "pay_success";
     /**
      * 中控接口
      */
