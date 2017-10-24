@@ -108,7 +108,9 @@
 # Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keepattributes Signature-keepattributes Exceptions
+-keepattributes Signature
+-keepattributes Exceptions
+#
 # RxJava RxAndroid
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
@@ -126,3 +128,13 @@
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
 -keep class org.xz_sale.entity.**{*;}
+
+-keep class com.yxkj.controller.bean.**{*;}
+-keep class com.yxkj.controller.base.BaseEntity{*;}
+-keep class com.dou361.ijkplayer.** {
+*;
+}
+-keep class tv.danmaku.ijk.media.player.** { *; }
+-keep class com.easivend.** { *; }
+# 抛出异常时保留代码行号
+-keepattributes SourceFile,LineNumberTable
