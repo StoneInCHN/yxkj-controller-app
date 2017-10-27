@@ -79,6 +79,11 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
                 holder.setText(R.id.tv_type, "常温");
                 break;
         }
+        if (bean.count == 0) {
+            holder.setVisible(R.id.tv_lack, true);
+        } else {
+            holder.setVisible(R.id.tv_lack, false);
+        }
         //设置商品图片
         ImageView img_name = holder.getView(R.id.img_name);
         GlideUtil.setImage(context, img_name, bean.gImg);

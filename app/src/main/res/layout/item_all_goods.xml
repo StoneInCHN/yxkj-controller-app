@@ -98,4 +98,17 @@
         android:text="冰冻"
         android:textColor="@color/white"
         android:textSize="12px" />
+
+    <TextView
+        android:id="@+id/tv_lack"
+        android:layout_width="160px"
+        android:layout_height="225px"
+        android:layout_gravity="center"
+        android:background="@color/bg_black_90trans"
+        android:gravity="center"
+        android:text="缺货"
+        android:textColor="@color/white"
+        android:textSize="30px"
+        android:textStyle="bold"
+        android:visibility="gone" />
 </FrameLayout>

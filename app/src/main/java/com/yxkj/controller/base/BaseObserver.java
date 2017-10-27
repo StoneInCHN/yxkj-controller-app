@@ -46,6 +46,7 @@ public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
     @Override
     public void onError(Throwable e) {
         LogUtil.e("onError:" + e.toString());
+        ToastUtil.showToast("网络错误");
         try {
             if (e instanceof ConnectException
                     || e instanceof TimeoutException

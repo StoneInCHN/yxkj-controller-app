@@ -1,7 +1,5 @@
 package com.yxkj.controller.util;
 
-import android.util.Log;
-
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.body.ProgressResponseBody;
 import com.yxkj.controller.callback.ProgressListener;
@@ -24,39 +22,40 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * 视频下载类
+ * 底部视频下载类
  */
 
-public class VideoDownloadUtil implements ProgressListener {
-    private static VideoDownloadUtil videoDownLoad = null;
+public class VideoBottomDownloadUtil implements ProgressListener {
+    private static VideoBottomDownloadUtil videoDownLoad = null;
     private OkHttpClient okHttpClient;
     private Call call;
     private long downloadedLength;
     private File file;
 
-    public static VideoDownloadUtil get() {
+    public static VideoBottomDownloadUtil get() {
         if (videoDownLoad == null) {
-            videoDownLoad = new VideoDownloadUtil();
+            videoDownLoad = new VideoBottomDownloadUtil();
         }
         return videoDownLoad;
     }
 
-    private VideoDownloadUtil() {
+    private VideoBottomDownloadUtil() {
         okHttpClient = getProgressClient();
-        file = new File(Constant.VIDEO_TOP_ADDRESS);
+        file = new File(Constant.VIDEO_BOTTOM_ADDRESS);
     }
 
     /**
      * @param url 下载连接
      */
     public void download(final String url) {
-        downloadedLength = getSharePrefreceHelper().getVideoTopDownloaded();
+        LogUtil.e("BUTTOMDOWNLOAD");
+        downloadedLength = getSharePrefreceHelper().getVideoBottomDownloaded();
         call = newCall(downloadedLength, url);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (!getSharePrefreceHelper().getVideoTopDownloadSuceess())
-                    getSharePrefreceHelper().setVideoTopDownloaded(downloadedLength);
+                if (!getSharePrefreceHelper().getVideoBottomDownloadSuceess())
+                    getSharePrefreceHelper().setVideoBottomDownloaded(downloadedLength);
             }
 
             @Override
@@ -90,7 +89,7 @@ public class VideoDownloadUtil implements ProgressListener {
                 mappedBuffer.put(buffer, 0, len);
             }
             if (downloadedLength == body.contentLength()) {
-                getSharePrefreceHelper().setVideoTopDownloadSuceess(true);
+                getSharePrefreceHelper().setVideoBottomDownloadSuceess(true);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,10 +112,10 @@ public class VideoDownloadUtil implements ProgressListener {
      * 暂停下载
      */
     public void pause() {
-        if (!getSharePrefreceHelper().getVideoTopDownloadSuceess()) {
+        if (!getSharePrefreceHelper().getVideoBottomDownloadSuceess()) {
             if (call != null) {
                 call.cancel();
-                getSharePrefreceHelper().setVideoTopDownloaded(downloadedLength);
+                getSharePrefreceHelper().setVideoBottomDownloaded(downloadedLength);
             }
         }
     }
@@ -137,7 +136,7 @@ public class VideoDownloadUtil implements ProgressListener {
             public Response intercept(Chain chain) throws IOException {
                 Response originalResponse = chain.proceed(chain.request());
                 return originalResponse.newBuilder()
-                        .body(new ProgressResponseBody(originalResponse.body(), VideoDownloadUtil.this))
+                        .body(new ProgressResponseBody(originalResponse.body(), VideoBottomDownloadUtil.this))
                         .build();
             }
         };

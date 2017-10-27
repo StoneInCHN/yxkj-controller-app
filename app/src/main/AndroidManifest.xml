@@ -4,6 +4,7 @@
     package="com.yxkj.controller">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -44,6 +45,7 @@
             android:name=".service.ControllerService"
             android:enabled="true"
             android:exported="true" />
+
         <receiver
             android:name=".broadcast.RestartReceiver"
             android:enabled="true"
@@ -56,6 +58,10 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".broadcast.NetBroadCastReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

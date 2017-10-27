@@ -11,8 +11,8 @@
     <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0px" />
+        android:layout_height="0px"
+        android:layout_weight="1" />
     <!-- 内容-->
     <FrameLayout
         android:id="@+id/layout_fragments"
@@ -22,6 +22,6 @@
     <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/downVideoView"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0px" />
+        android:layout_height="0px"
+        android:layout_weight="1" />
 </LinearLayout>

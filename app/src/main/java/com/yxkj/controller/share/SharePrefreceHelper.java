@@ -31,6 +31,20 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     }
 
     /**
+     * 设置顶部视频下载进度
+     */
+    public void setVideoTopDownloaded(long videoTopDownloaded) {
+        setLong(Constant.VIDEO_TOP_CURRENTLENGTH, videoTopDownloaded);
+    }
+
+    /**
+     * 获得顶部下载进度
+     */
+    public long getVideoTopDownloaded() {
+        return getLong(Constant.VIDEO_TOP_CURRENTLENGTH);
+    }
+
+    /**
      * 设置顶部视频下载成功
      */
     public void setVideoTopDownloadSuceess(boolean value) {
@@ -70,6 +84,20 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      */
     public String getVideoTopUrl() {
         return getString(Constant.VIDEO_TOP);
+    }
+
+    /**
+     * 设置底部视频下载进度
+     */
+    public void setVideoBottomDownloaded(long videoTopDownloaded) {
+        setLong(Constant.VIDEO_BOTTOM_CURRENTLENGTH, videoTopDownloaded);
+    }
+
+    /**
+     * 获得底部下载进度
+     */
+    public long getVideoBottomDownloaded() {
+        return getLong(Constant.VIDEO_BOTTOM_CURRENTLENGTH);
     }
 
     /**
@@ -172,4 +200,48 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     public String getDeviceNo(String key) {
         return getString(key);
     }
+
+
+    /**
+     * 设置apk下载状态
+     */
+    public void setApkDownloadState(boolean state) {
+        setBoolean(Constant.APK_DOWNLOAD_STATE, state);
+    }
+
+    /**
+     * 获得apk下载状态
+     */
+    public boolean getApkDownloadState() {
+        return getBoolean(Constant.APK_DOWNLOAD_STATE, false);
+    }
+
+    /**
+     * 设置apk下载url
+     */
+    public void setApkDownloadURL(String url) {
+        putString(Constant.APK_DOWNLOAD_URL, url);
+    }
+
+    /**
+     * 获得apk下载url
+     */
+    public String getApkDownloadURL() {
+        return getString(Constant.APK_DOWNLOAD_URL);
+    }
+
+    /**
+     * 设置apk下载进度
+     */
+    public void setApkDownloaded(long apkDownloaded) {
+        setLong(Constant.APK_DOWNLOADED, apkDownloaded);
+    }
+
+    /**
+     * 获得apk下载进度
+     */
+    public long getApkDownloaded() {
+        return getLong(Constant.APK_DOWNLOADED);
+    }
+
 }

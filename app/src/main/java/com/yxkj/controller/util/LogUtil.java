@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
+import com.yxkj.controller.BuildConfig;
+
 import java.util.Locale;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Locale;
  */
 public class LogUtil {
 
-    private static boolean isLogEnabled = true;// 默认开启
+    private static boolean isLogEnabled = BuildConfig.DEBUG;// 默认开启
     private static final String defaultTag = "sincere";// log默认的 tag
     private static final String TAG_CONTENT_PRINT = "%s.%s:%d";
 

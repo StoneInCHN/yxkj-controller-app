@@ -23,7 +23,7 @@ public class RestartReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
             String packageName = intent.getDataString();
             LogUtil.e("安装了:" + packageName + "包名的程序");
-            startApp(context);
+//            startApp(context);
         }
 
         //接收卸载广播

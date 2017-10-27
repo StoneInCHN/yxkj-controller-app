@@ -36,6 +36,14 @@ public class PrefrenceWrapper {
         return sharedPreferences.getBoolean(key, defaultVaule);
     }
 
+    protected void setLong(String key, long value) {
+        sharedPreferences.edit().putLong(key, value);
+    }
+
+    protected long getLong(String key) {
+        return sharedPreferences.getLong(key, 0);
+    }
+
     /**
      * 清空sharePrefrence文件
      */

@@ -52,12 +52,17 @@ public class Constant {
      */
     public static final String VIDEO_TOP = "video_top";
     public static final String VIDEO_TOP_BOOLEAN = "video_top_boolean";
+    public static final String VIDEO_TOP_CURRENTLENGTH = "video_top_currentlength";
     public static final String VIDEO_BOTTOM = "video_bottom";
     public static final String VIDEO_BOTTOM_BOOLEAN = "video_bottom_boolean";
+    public static final String VIDEO_BOTTOM_CURRENTLENGTH = "video_bottom_currentlength";
     public static final String IMG_LEFT = "img_left";
     public static final String IMG_CENTER = "img_center";
     public static final String IMG_RIGHT = "img_right";
     public static final String PAYSUCCESS = "pay_success";
+    public static final String APK_DOWNLOADED = "apk_downloaded";
+    public static final String APK_DOWNLOAD_STATE = "apk_download_state";
+    public static final String APK_DOWNLOAD_URL = "apk_download_url";
     /**
      * 中控接口
      */

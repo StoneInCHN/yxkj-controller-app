@@ -17,7 +17,6 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
             // 不开启混淆
             minifyEnabled true
             // 不需要ZIP优化
@@ -25,7 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
             // 不开启混淆
             minifyEnabled false
             // 不需要ZIP优化
