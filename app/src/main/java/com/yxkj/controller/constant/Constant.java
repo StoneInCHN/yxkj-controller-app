@@ -18,7 +18,7 @@ public class Constant {
     public static String[] TABLES;
 //            = new String[]{UserModel.class.getName()};
 
-    public static final String BASE_URL = "http://shelf.ybjcq.com:8080";
+    public static final String BASE_URL = "http://machine.ybjcq.com/yxkj-machine/";
 
     public static final long TIMEOUT = 30;
 
@@ -67,10 +67,10 @@ public class Constant {
      * 中控接口
      */
 
-    public static final String GETSGBYCHANNEL = "/goods/getSgByChannel";//1.7.1	根据货道编号查询商品
-    public static final String GETCATEGORY = "/goods/getCategory";//1.7.2	查询商品类别
-    public static final String GETBYCATE = "/goods/getByCate";//1.7.3	根据类别查询商品
-    public static final String VERIFYSTOCK = "/goods/verifyStock";//1.7.4	验证商品库存数量
-    public static final String UPATECMDSTATUS = "/cmd/finishCmdStatus";//1.7.4	更新命令执行结果
-    public static final String UPDATESHIPMENTSTATUS = "/orderItem/updateOrderItemShipmentStatus";//1.7.4	更新订单项出货状态
+    public static final String GETSGBYCHANNEL = "goods/getSgByChannel";//1.7.1	根据货道编号查询商品
+    public static final String GETCATEGORY = "goods/getCategory";//1.7.2	查询商品类别
+    public static final String GETBYCATE = "goods/getByCate";//1.7.3	根据类别查询商品
+    public static final String VERIFYSTOCK = "goods/verifyStock";//1.7.4	验证商品库存数量
+    public static final String UPATECMDSTATUS = "cmd/finishCmdStatus";//1.7.4	更新命令执行结果
+    public static final String UPDATESHIPMENTSTATUS = "orderItem/updateOrderItemShipmentStatus";//1.7.4	更新订单项出货状态
 }

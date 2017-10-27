@@ -14,7 +14,9 @@
     <color name="orange">#FF6C00</color>
     <color name="color_ffafafaf">#ffafafaf</color>
     <color name="color_333333">#333333</color>
+    <color name="color_cccccc">#cccccc</color>
     <color name="color_FFF5F4F4">#FFF5F4F4</color>
+    <color name="color_EC1F1F">#EC1F1F</color>
     <color name="color_666666">#666666</color>
     <color name="color_eee">#eeeeee</color>
     <!--常用颜色-->
@@ -23,7 +25,7 @@
     <color name="theme_red">#FF012F</color>
     <color name="theme_gray">#EBEBEB</color>
     <color name="bg_gray">#EBEBEB</color>
-    <color name="bg_color">#F5F5F5 </color>
+    <color name="bg_color">#F5F5F5</color>
     <color name="bg_black_90trans">#E6303135</color>
     <color name="color_999">#999999</color>
 </resources>

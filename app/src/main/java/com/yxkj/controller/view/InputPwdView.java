@@ -19,7 +19,7 @@ import com.yxkj.controller.callback.InputManagerPwdListener;
  */
 
 public class InputPwdView extends LinearLayout {
-    private Button btn_cancle, btn_sure;
+    private Button btn_sure;
     private TextView tv_pwd_error;
     private EditText et_pwd;
     private ImageView img_cancle;
@@ -49,17 +49,7 @@ public class InputPwdView extends LinearLayout {
         et_pwd = view.findViewById(R.id.et_pwd);
         tv_pwd_error = view.findViewById(R.id.tv_pwd_error);
         btn_sure = view.findViewById(R.id.btn_sure);
-        btn_cancle = view.findViewById(R.id.btn_cancle);
         addView(view);
-        btn_cancle.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                et_pwd.setText("");
-                if (inputManagerPwdListener != null) {
-                    inputManagerPwdListener.onClickCancle();
-                }
-            }
-        });
         img_cancle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +76,4 @@ public class InputPwdView extends LinearLayout {
         });
 
     }
-
-
 }

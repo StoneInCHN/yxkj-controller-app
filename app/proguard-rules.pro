@@ -138,3 +138,6 @@
 -keep class com.easivend.** { *; }
 # 抛出异常时保留代码行号
 -keepattributes SourceFile,LineNumberTable
+
+#------------------去掉log------------------------------------
+-assumenosideeffects class android.util.Log{ public static *** d(...); public static *** i(...); public static *** v(...); }

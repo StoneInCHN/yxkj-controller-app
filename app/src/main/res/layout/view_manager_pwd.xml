@@ -1,79 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="600px"
-        android:layout_height="300px"
+        android:id="@+id/layout"
+        android:layout_width="440px"
+        android:layout_height="260px"
+        android:layout_marginTop="30px"
         android:background="@drawable/pwd_exit_bg"
+        android:gravity="center"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_cancle"
-            android:layout_width="50px"
-            android:layout_height="50px"
-            android:layout_gravity="right"
-            android:padding="10px"
-            android:src="@color/orange" />
 
         <EditText
             android:id="@+id/et_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="70px"
+            android:layout_width="337px"
+            android:layout_height="60px"
             android:layout_gravity="center"
-            android:layout_marginLeft="40px"
-            android:layout_marginRight="40px"
-            android:background="@drawable/selector_number_add_sub"
+            android:background="@drawable/exit_input"
             android:gravity="center_vertical"
             android:hint="请输入管理员密码"
             android:inputType="textPassword|number"
-            android:paddingLeft="10px"
-            android:textSize="30px" />
+            android:paddingLeft="16px"
+            android:textSize="21px" />
 
         <TextView
             android:id="@+id/tv_pwd_error"
             android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40px"
-            android:layout_marginRight="40px"
-            android:layout_marginTop="10px"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="密码输入错误"
-            android:textColor="@color/theme_red"
-            android:textSize="30px"
+            android:paddingBottom="7px"
+            android:paddingLeft="52px"
+            android:paddingTop="7px"
+            android:text="* 密码输入错误"
+            android:textColor="@color/color_EC1F1F"
+            android:textSize="16px"
             android:visibility="invisible" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70px"
-            android:layout_gravity="center"
-            android:layout_marginTop="10px"
-            android:gravity="center">
 
-            <Button
-                android:id="@+id/btn_cancle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="50px"
-                android:layout_weight="1"
-                android:background="@drawable/pwd_exit_bg"
-                android:text="取消"
-                android:textSize="30px" />
-
-            <Button
-                android:id="@+id/btn_sure"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="50px"
-                android:layout_marginRight="50px"
-                android:layout_weight="1"
-                android:background="@drawable/pwd_exit_bg"
-                android:text="确认"
-                android:textSize="30px" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="337px"
+            android:layout_height="60px"
+            android:background="@drawable/exit_sure"
+            android:text="确认"
+            android:textColor="@color/white"
+            android:textSize="22px" />
     </LinearLayout>
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_cancle"
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:layout_marginLeft="408px"
+        android:src="@mipmap/delete_exit" />
+</RelativeLayout>
