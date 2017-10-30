@@ -314,7 +314,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 根据分类查询商品
      */
     private void getByCate(String id, boolean isAll, int page) {
-        HttpFactory.getByCate("1111111111", id, "18", page + "", isAll, new BaseObserver<List<SgByChannel>>() {
+        HttpFactory.getByCate(id, "18", page + "", isAll, new BaseObserver<List<SgByChannel>>() {
             @Override
             protected void onHandleSuccess(List<SgByChannel> byCates) {
                 goodsList.addAll(byCates);

@@ -231,7 +231,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     @Override
     public void onEnd(String param) {
         /*获取商品*/
-        HttpFactory.getSgByChannel("1111111111", param, new BaseObserver<SgByChannel>() {
+        HttpFactory.getSgByChannel(param, new BaseObserver<SgByChannel>() {
             @Override
             protected void onHandleSuccess(SgByChannel sgByChannel) {
                 if (sgByChannel != null) {

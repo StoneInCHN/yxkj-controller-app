@@ -3,14 +3,11 @@ package com.yxkj.controller.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.EVJsonResponse;
 import com.yxkj.controller.service.handler.NettyClientBootstrap;
-import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;

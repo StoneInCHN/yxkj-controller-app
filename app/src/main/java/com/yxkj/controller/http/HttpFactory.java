@@ -18,7 +18,6 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import retrofit2.http.HEAD;
 
 /**
  * 请求类
@@ -28,10 +27,10 @@ public class HttpFactory {
     /**
      * 根据货道编号查询商品
      *
-     * @param cImei 中控唯一标识imei编号
+     *  cImei 中控唯一标识imei编号
      * @param cSn   货道(商品)编号
      */
-    public static void getSgByChannel(String cImei, String cSn, BaseObserver<SgByChannel> baseObsver) {
+    public static void getSgByChannel(String cSn, BaseObserver<SgByChannel> baseObsver) {
         Map<String, String> map = new HashMap<>();
         map.put("cImei", DisplayUtil.getImei());
         map.put("cSn", cSn);
@@ -48,12 +47,12 @@ public class HttpFactory {
     /**
      * 根据类别查询商品
      *
-     * @param cImei      中控唯一标识imei编号
+     *  cImei      中控唯一标识imei编号
      * @param cateId     商品类别ID
      * @param pageSize
      * @param pageNumber
      */
-    public static void getByCate(String cImei, String cateId, String pageSize,
+    public static void getByCate(String cateId, String pageSize,
                                  String pageNumber, boolean isAll, BaseObserver<List<SgByChannel>> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("cImei", DisplayUtil.getImei());
