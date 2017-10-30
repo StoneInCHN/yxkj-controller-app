@@ -5,6 +5,7 @@ import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.beans.VerifyStockBody;
+import com.yxkj.controller.util.DisplayUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
+import retrofit2.http.HEAD;
 
 /**
  * 请求类
@@ -31,7 +33,7 @@ public class HttpFactory {
      */
     public static void getSgByChannel(String cImei, String cSn, BaseObserver<SgByChannel> baseObsver) {
         Map<String, String> map = new HashMap<>();
-        map.put("cImei", "863010031227460");
+        map.put("cImei", DisplayUtil.getImei());
         map.put("cSn", cSn);
         autoSubscribe(RetrofitFactory.getInstance().getSgByChannel(map), baseObsver);
     }
@@ -54,7 +56,7 @@ public class HttpFactory {
     public static void getByCate(String cImei, String cateId, String pageSize,
                                  String pageNumber, boolean isAll, BaseObserver<List<SgByChannel>> observer) {
         Map<String, String> map = new HashMap<>();
-        map.put("cImei", "863010031227460");
+        map.put("cImei", DisplayUtil.getImei());
         if (!isAll)
             map.put("cateId", 1 + "");
         map.put("pageSize", pageSize);
@@ -73,6 +75,7 @@ public class HttpFactory {
 
     /**
      * 更新命令状态
+     *
      * @param
      */
     public static void updateCmdStatus(Long comomandId, Boolean isSuccess) {
@@ -88,8 +91,10 @@ public class HttpFactory {
             }
         });
     }
+
     /**
      * 更新命令状态
+     *
      * @param
      */
     public static void updateShipmentStatus(Long orderId, String shipmentStatus) {
@@ -105,6 +110,7 @@ public class HttpFactory {
             }
         });
     }
+
     /**
      * 订阅(带compse)
      */

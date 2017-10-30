@@ -11,6 +11,7 @@ import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.EVJsonResponse;
 import com.yxkj.controller.service.handler.NettyClientBootstrap;
 import com.yxkj.controller.share.SharePrefreceHelper;
+import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 
@@ -46,12 +47,7 @@ public class ControllerService extends Service {
     public void onCreate() {
         super.onCreate();
         //从本地获取DeviceNo
-        String imei = SharePrefreceHelper.getInstence(this).getDeviceNo("imei");
-        if (imei == null || TextUtils.isEmpty(imei)) {
-            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-            imei = telephonyManager.getDeviceId();
-            SharePrefreceHelper.getInstence(this).setDeviceNo("imei", imei);
-        }
+        String imei = DisplayUtil.getImei();
         MyApplication.getMyApplication().configBean.getDeviceInfo().setDeviceNo(imei);
         LogUtil.d("imei:" + imei);
         // TODO: 2017/9/29 register 串口

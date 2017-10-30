@@ -29,6 +29,7 @@ import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
 import com.yxkj.controller.http.HttpFactory;
+import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.GlideUtil;
 import com.yxkj.controller.util.QRCodeUtil;
 import com.yxkj.controller.util.StringUtil;
@@ -395,21 +396,21 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      * 设置左侧图片
      */
     public void setImageLeft(String url) {
-        GlideUtil.setImage(getActivity(), img_left, url, R.mipmap.banner_left);
+        GlideUtil.setImageAdvert(getActivity(), img_left, url, R.mipmap.banner_left);
     }
 
     /**
      * 设置中间图片
      */
     public void setImageCenter(String url) {
-        GlideUtil.setImage(getActivity(), img_center, url, R.mipmap.banner_center);
+        GlideUtil.setImageAdvert(getActivity(), img_center, url, R.mipmap.banner_center);
     }
 
     /**
      * 设置右侧图片
      */
     public void setImageRight(String url) {
-        GlideUtil.setImage(getActivity(), img_right, url, R.mipmap.banner_right);
+        GlideUtil.setImageAdvert(getActivity(), img_right, url, R.mipmap.banner_right);
     }
 
     /**
@@ -503,7 +504,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             @Override
             public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
                 StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append("1111111111/");
+                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append(DisplayUtil.getImei()).append("/");
                 for (VerifyStock verifyStock : verifyStocks) {
                     stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
                 }
@@ -551,6 +552,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             closeTimeCount.countDown(0, 5, tv_close, "返回首页(%ds)");
             payTimeCount.cancle();
             layout_canclePay.setVisibility(View.GONE);
+            layout_pay.setVisibility(View.GONE);
             layout_after_pay.setVisibility(View.VISIBLE);
         }
     }

@@ -1,5 +1,6 @@
 package com.yxkj.controller.service.handler;
 
+import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.util.LogUtil;
 
 import java.net.InetSocketAddress;
@@ -23,12 +24,14 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
+import static com.yxkj.controller.constant.Constant.BASE_RECEIVER_URL;
+
 /**
  * Created by huyong on 2017/9/13.
  */
 public class NettyClientBootstrap {
     private int port = 3331;
-    private String host = "10.1.0.143";
+    //    private String host = "10.1.0.143";
     public SocketChannel socketChannel;
 
     public void startNetty() {
@@ -37,7 +40,7 @@ public class NettyClientBootstrap {
         bootstrap.channel(NioSocketChannel.class);
         bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
         bootstrap.group(eventLoopGroup);
-        bootstrap.remoteAddress(host, port);
+        bootstrap.remoteAddress(BASE_RECEIVER_URL, port);
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -54,7 +57,7 @@ public class NettyClientBootstrap {
         });
 
         try {
-            ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
+            ChannelFuture future = bootstrap.connect(new InetSocketAddress(BASE_RECEIVER_URL, port)).sync();
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();
                 LogUtil.d("connect server  成功---------");
