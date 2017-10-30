@@ -6,6 +6,7 @@ import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.beans.VerifyStockBody;
+import com.yxkj.controller.util.DisplayUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class HttpFactory {
      */
     public static void getSgByChannel(String cImei, String cSn, BaseObserver<SgByChannel> baseObsver) {
         Map<String, String> map = new HashMap<>();
-        map.put("cImei", cImei);
+        map.put("cImei", DisplayUtil.getImei());
         map.put("cSn", cSn);
         autoSubscribe(RetrofitFactory.getInstance().getSgByChannel(map), baseObsver);
     }
@@ -55,7 +56,7 @@ public class HttpFactory {
     public static void getByCate(String cImei, String cateId, String pageSize,
                                  String pageNumber, boolean isAll, BaseObserver<List<ByCate>> observer) {
         Map<String, String> map = new HashMap<>();
-        map.put("cImei", cImei);
+        map.put("cImei", DisplayUtil.getImei());
         if (!isAll)
             map.put("cateId", 1 + "");
         map.put("pageSize", pageSize);

@@ -27,6 +27,7 @@ import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.tools.EndlessRecyclerOnScrollListener;
+import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.QRCodeUtil;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
@@ -399,7 +400,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
             @Override
             public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
                 StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append("1111111111/");
+                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append(DisplayUtil.getImei()).append("/");
                 for (VerifyStock verifyStock : verifyStocks) {
                     stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
                 }

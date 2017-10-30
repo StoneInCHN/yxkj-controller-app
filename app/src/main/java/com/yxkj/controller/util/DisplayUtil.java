@@ -3,7 +3,14 @@ package com.yxkj.controller.util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+
+import com.yxkj.controller.application.MyApplication;
+import com.yxkj.controller.share.SharePrefreceHelper;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
  * 屏幕分辨率等参数获取
@@ -141,5 +148,13 @@ public class DisplayUtil {
         return height;
 
     }
-
+    public static String getImei(){
+        String imei = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getDeviceNo("imei");
+        if (imei == null || TextUtils.isEmpty(imei)) {
+            TelephonyManager telephonyManager = (TelephonyManager)MyApplication.getMyApplication().getSystemService(TELEPHONY_SERVICE);
+            imei = telephonyManager.getDeviceId();
+            SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setDeviceNo("imei", imei);
+        }
+        return imei;
+    }
 }
