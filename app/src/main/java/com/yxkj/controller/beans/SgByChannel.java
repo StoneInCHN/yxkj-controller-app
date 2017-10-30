@@ -22,7 +22,10 @@ public class SgByChannel implements Parcelable {
 
     public int cId;
 
-    public int number = 1;
+    public int number;
+
+    public int cTemp;
+
 
     @Override
     public String toString() {

@@ -16,9 +16,9 @@ import android.widget.TextView;
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.CurrentPageGoodsAdapter;
 import com.yxkj.controller.base.BaseObserver;
-import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SelectGoodsInfo;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.beans.VerifyStockBody;
 import com.yxkj.controller.callback.BackListener;
@@ -70,13 +70,13 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private ShowPayPopupWindowListener listener;
     private RecyclerView current_goods_recycler;
     /*已选商品*/
-    private List<ByCate> listSelectedGoods = new ArrayList<>();
+    private List<SgByChannel> listSelectedGoods = new ArrayList<>();
     /*商品列表适配器*/
     private CurrentPageGoodsAdapter allGoodsAdapter;
     /*全部标签*/
     private List<Category> categories;
 
-    private List<ByCate> goodsList = new ArrayList<>();
+    private List<SgByChannel> goodsList = new ArrayList<>();
     private int page = 1;
     private Category category;
     private SelectGoodsInfo selectGoodsInfos;
@@ -246,17 +246,17 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 已选商品
      */
     @Override
-    public void select(Map<String, ByCate> selectMap, int type) {
+    public void select(Map<String, SgByChannel> selectMap, int type) {
         if (type == 2) {
             allGoodsAdapter.setSelectMap(selectMap);
         }
-        Observable.just(selectMap).concatMap(new Function<Map<String, ByCate>, ObservableSource<SelectGoodsInfo>>() {
+        Observable.just(selectMap).concatMap(new Function<Map<String, SgByChannel>, ObservableSource<SelectGoodsInfo>>() {
             @Override
-            public ObservableSource<SelectGoodsInfo> apply(@NonNull Map<String, ByCate> stringByCateMap) throws Exception {
+            public ObservableSource<SelectGoodsInfo> apply(@NonNull Map<String, SgByChannel> stringByCateMap) throws Exception {
                 SelectGoodsInfo s = new SelectGoodsInfo();
-                for (Map.Entry<String, ByCate> e : stringByCateMap.entrySet()) {
-                    ByCate b = e.getValue();
-                    s.price += b.price * b.select;
+                for (Map.Entry<String, SgByChannel> e : stringByCateMap.entrySet()) {
+                    SgByChannel b = e.getValue();
+                    s.price += b.price * b.number;
                     s.list.add(b);
                 }
                 return Observable.just(s);
@@ -313,9 +313,9 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 根据分类查询商品
      */
     private void getByCate(String id, boolean isAll, int page) {
-        HttpFactory.getByCate("1111111111", id, "18", page + "", isAll, new BaseObserver<List<ByCate>>() {
+        HttpFactory.getByCate("1111111111", id, "18", page + "", isAll, new BaseObserver<List<SgByChannel>>() {
             @Override
-            protected void onHandleSuccess(List<ByCate> byCates) {
+            protected void onHandleSuccess(List<SgByChannel> byCates) {
                 goodsList.addAll(byCates);
                 if (byCates.size() < 18) {
                     complete = true;
@@ -335,12 +335,12 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
      * 验证商品库存数量请求体
      */
     private void verifyStock() {
-        Observable.fromArray(seletedGoodsList.getSelectedGoods()).concatMap(new Function<List<ByCate>, ObservableSource<VerifyStockBody>>() {
+        Observable.fromArray(seletedGoodsList.getSelectedGoods()).concatMap(new Function<List<SgByChannel>, ObservableSource<VerifyStockBody>>() {
             @Override
-            public ObservableSource<VerifyStockBody> apply(@NonNull List<ByCate> sgByChannels) throws Exception {
+            public ObservableSource<VerifyStockBody> apply(@NonNull List<SgByChannel> sgByChannels) throws Exception {
                 VerifyStockBody body = new VerifyStockBody();
-                for (ByCate sgByChannel : sgByChannels) {
-                    body.gList.add(sgByChannel.cId + "-" + sgByChannel.select);
+                for (SgByChannel sgByChannel : sgByChannels) {
+                    body.gList.add(sgByChannel.cId + "-" + sgByChannel.number);
                 }
                 return Observable.just(body);
             }
@@ -369,18 +369,18 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
 
             @Override
             protected void onHandleStockNotEnough(List<VerifyStock> verifyStocks) {
-                Map<String, ByCate> map = allGoodsAdapter.getSelectMap();
+                Map<String, SgByChannel> map = allGoodsAdapter.getSelectMap();
                 for (int i = 0; i < verifyStocks.size(); i++) {
                     VerifyStock v = verifyStocks.get(i);
-                    ByCate sg = map.get(v.cId + "");
+                    SgByChannel sg = map.get(v.cId + "");
                     if (sg != null) {
-                        int sub = sg.select > v.count ? v.count - sg.select : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
+                        int sub = sg.number > v.count ? v.count - sg.number : 0;//如果选中数量>库存，则减少数量为选中数量-库存，反之则减少数量为0
                         if (sub < 0)//sub小于0移除该商品
                             map.remove(sg);
                         if (v.count > 0) {//库存量大于0，则添加到新集合
-                            sg.select = sg.select > v.count ? v.count : sg.select;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
+                            sg.number = sg.number > v.count ? v.count : sg.number;//如果选中数量>库存，则选择数量为库存，反之则选中数量不变
                             sg.count = v.count;
-                            sg.cId = v.cId + "";
+                            sg.cId = v.cId;
                         }
                     }
                 }
@@ -415,14 +415,15 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
             @Override
             public void onNext(@NonNull Bitmap bitmap) {
                 timeCountUtl.cancle();
-                PayPopupWindow payPopupWindow = new PayPopupWindow(mContext);
-                payPopupWindow.setList(seletedGoodsList.getSelectedGoods());
-                payPopupWindow.setToatalPrice(selectGoodsInfos.price);
-                payPopupWindow.setPayBitmap(bitmap);
-                payPopupWindow.setBackListener(AllGoodsPopupWindow.this);
+//                PayPopupWindow payPopupWindow = new PayPopupWindow(mContext);
+//                payPopupWindow.setList(seletedGoodsList.getSelectedGoods());
+//                payPopupWindow.setToatalPrice(selectGoodsInfos.price);
+//                payPopupWindow.setPayBitmap(bitmap);
+//                payPopupWindow.setBackListener(AllGoodsPopupWindow.this);
                 if (listener != null) {
-                    listener.showPayPopWindow(payPopupWindow);
+                    listener.showPayPopWindow(seletedGoodsList.getSelectedGoods(), selectGoodsInfos.price, bitmap);
                 }
+                dismiss();
             }
 
             @Override

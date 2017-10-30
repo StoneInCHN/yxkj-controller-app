@@ -6,7 +6,7 @@ import android.view.View;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.base.BaseViewHolder;
-import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.view.NumberAddSubView;
@@ -18,9 +18,9 @@ import java.util.Map;
  * 已选择商品列表
  */
 
-public class SelectedGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
+public class SelectedGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
     private SelectGoodsListener selectGoodsListener;
-    private Map<String, ByCate> selectMap = new HashMap<>();
+    private Map<String, SgByChannel> selectMap = new HashMap<>();
 
     public void setSelectGoodsListener(SelectGoodsListener selectGoodsListener) {
         this.selectGoodsListener = selectGoodsListener;
@@ -36,36 +36,40 @@ public class SelectedGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
     }
 
     @Override
-    public void onCorvert(BaseViewHolder holder, int position, ByCate bean) {
-        selectMap.put(bean.cId, bean);
+    public void onCorvert(BaseViewHolder holder, int position, SgByChannel bean) {
+        selectMap.put(bean.cId + "", bean);
         holder.setText(R.id.tv_name, bean.gName);
         holder.setText(R.id.tv_price, "￥" + StringUtil.keepNumberSecondCount(bean.price));
         NumberAddSubView numberAddSubView = holder.getView(R.id.selcct_number);
-        numberAddSubView.setValue(bean.select);
+        numberAddSubView.setValue(bean.number);
         numberAddSubView.setMaxValue(bean.count);
         numberAddSubView.setOnButtonClickListenter(new NumberAddSubView.OnButtonClickListenter() {
             @Override
             public void onButtonAddClick(View view, int value) {
                 if (selectGoodsListener != null) {
-                    bean.select = value;
-                    selectMap.put(bean.cId, bean);
-                    selectGoodsListener.select(selectMap, 2);
+                    if (bean.number != value) {
+                        bean.number = value;
+                        selectMap.put(bean.cId + "", bean);
+                        selectGoodsListener.select(selectMap, 2);
+                    }
                 }
             }
 
             @Override
             public void onButtonSubClick(View view, int value) {
                 if (selectGoodsListener != null) {
-                    bean.select = value;
-                    switch (value) {
-                        case 0:
-                            selectMap.remove(bean.cId);
-                            break;
-                        default:
-                            selectMap.put(bean.cId, bean);
-                            break;
+                    if (bean.number != value) {
+                        bean.number = value;
+                        switch (value) {
+                            case 0:
+                                selectMap.remove(bean.cId + "");
+                                break;
+                            default:
+                                selectMap.put(bean.cId + "", bean);
+                                break;
+                        }
+                        selectGoodsListener.select(selectMap, 2);
                     }
-                    selectGoodsListener.select(selectMap, 2);
                 }
             }
         });

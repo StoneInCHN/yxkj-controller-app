@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseRecyclerViewAdapter;
 import com.yxkj.controller.base.BaseViewHolder;
-import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.util.GlideUtil;
 import com.yxkj.controller.util.StringUtil;
@@ -23,15 +23,15 @@ import java.util.Map;
  * 全部商品列表
  */
 
-public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
+public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
     private SelectGoodsListener selectGoodsListener;
-    private Map<String, ByCate> selectMap = new HashMap<>();
+    private Map<String, SgByChannel> selectMap = new HashMap<>();
 
-    public Map<String, ByCate> getSelectMap() {
+    public Map<String, SgByChannel> getSelectMap() {
         return selectMap;
     }
 
-    public void setSelectMap(Map<String, ByCate> selectMap) {
+    public void setSelectMap(Map<String, SgByChannel> selectMap) {
         this.selectMap = selectMap;
         notifyDataSetChanged();
     }
@@ -51,8 +51,8 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
     }
 
     @Override
-    public void onCorvert(BaseViewHolder holder, int position, ByCate bean) {
-        ByCate byCate = selectMap.get(bean.cId);
+    public void onCorvert(BaseViewHolder holder, int position, SgByChannel bean) {
+        SgByChannel byCate = selectMap.get(bean.cId + "");
         if (byCate != null) {
             setByCate(holder, byCate);
         } else {
@@ -61,7 +61,7 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
 
     }
 
-    private void setByCate(BaseViewHolder holder, final ByCate bean) {
+    private void setByCate(BaseViewHolder holder, final SgByChannel bean) {
         //设置商品名称
         holder.setText(R.id.tv_goods_name, bean.gName);
         //设置商品价格
@@ -74,9 +74,10 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
         switch (bean.cTemp) {
             case 0://冷冻
                 holder.setText(R.id.tv_type, "冷冻");
+                holder.setVisible(R.id.tv_type, true);
                 break;
             case 1://常温
-                holder.setText(R.id.tv_type, "常温");
+                holder.setVisible(R.id.tv_type, false);
                 break;
         }
         if (bean.count == 0) {
@@ -90,30 +91,34 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<ByCate> {
         //设置商品选择数量
         NumberAddSubView select_number = holder.getView(R.id.select_number);
         select_number.setMaxValue(bean.count);
-        select_number.setValue(bean.select);
+        select_number.setValue(bean.number);
         select_number.setOnButtonClickListenter(new NumberAddSubView.OnButtonClickListenter() {
             @Override
             public void onButtonAddClick(View view, int value) {
                 if (selectGoodsListener != null) {
-                    bean.select = value;
-                    selectMap.put(bean.cId, bean);
-                    selectGoodsListener.select(selectMap, 1);
+                    if (bean.number != value) {
+                        bean.number = value;
+                        selectMap.put(bean.cId + "", bean);
+                        selectGoodsListener.select(selectMap, 1);
+                    }
                 }
             }
 
             @Override
             public void onButtonSubClick(View view, int value) {
                 if (selectGoodsListener != null) {
-                    bean.select = value;
-                    switch (value) {
-                        case 0:
-                            selectMap.remove(bean.cId);
-                            break;
-                        default:
-                            selectMap.put(bean.cId, bean);
-                            break;
+                    if (bean.number != value) {
+                        bean.number = value;
+                        switch (value) {
+                            case 0:
+                                selectMap.remove(bean.cId);
+                                break;
+                            default:
+                                selectMap.put(bean.cId + "", bean);
+                                break;
+                        }
+                        selectGoodsListener.select(selectMap, 1);
                     }
-                    selectGoodsListener.select(selectMap, 1);
                 }
             }
         });

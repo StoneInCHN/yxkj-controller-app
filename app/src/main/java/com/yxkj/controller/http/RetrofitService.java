@@ -1,7 +1,6 @@
 package com.yxkj.controller.http;
 
 import com.yxkj.controller.base.BaseEntity;
-import com.yxkj.controller.beans.ByCate;
 import com.yxkj.controller.beans.Category;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
@@ -34,7 +33,7 @@ public interface RetrofitService {
 
     /*根据类别查询商品*/
     @POST(Constant.GETBYCATE)
-    Observable<BaseEntity<List<ByCate>>> getByCate(@Body Map<String, String> map);
+    Observable<BaseEntity<List<SgByChannel>>> getByCate(@Body Map<String, String> map);
 
     /*验证商品库存数量*/
     @POST(Constant.VERIFYSTOCK)

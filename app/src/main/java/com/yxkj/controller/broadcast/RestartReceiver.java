@@ -18,14 +18,13 @@ public class RestartReceiver extends BroadcastReceiver {
             if (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED")) {
                 Toast.makeText(context, "升级了一个安装包，重新启动此程序", Toast.LENGTH_LONG).show();
                 LogUtil.e("升级了一个安装包，重新启动此程序");
-                startApp(context);
+//                startApp(context);
             }
 
             // 接收安装广播
             if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
                 String packageName = intent.getDataString();
                 LogUtil.e("安装了:" + packageName + "包名的程序");
-//            startApp(context);
             }
 
             //接收卸载广播

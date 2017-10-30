@@ -83,7 +83,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
     /*清空列表*/
     private LinearLayout botom_layout;
     private LinearLayout layout_clear;
-    private TextView tv_clear;
+    private ImageView tv_clear;
     /*购买商品总价*/
     private TextView tv_total_price;
     /*立即支付按钮*/
@@ -255,6 +255,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      * 处理数据避免重复（用户连续输入两个相同的商品码）
      */
     private void handleData(SgByChannel sgByChannel) {
+        sgByChannel.number = 1;
         Observable.just(sgByChannel).concatMap(new Function<SgByChannel, ObservableSource<SearchHandleInfo>>() {
             @Override
             public ObservableSource<SearchHandleInfo> apply(@NonNull SgByChannel sgByChannel) throws Exception {
@@ -422,9 +423,8 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             } else {
                 payImTimeCount.cancle();
                 payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
-                //  "恭喜您！您的手机跑分为<font color='#F50057'><big><big><big>888888分</big></big></big></font>，已经超过全国<font color='#00E676'><big><big><big>99%</big></big></big></font>的Android手机。";
-                String str = "共计: <font color='#FF6C00'><big><big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big></big></font>";
-                tv_total_price.setText(Html.fromHtml(str));
+                String str = "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price);
+                tv_total_price.setText(str);
                 String text = "共计: <big><big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big></big>";
                 tv_totall_gray.setText(Html.fromHtml(text));
             }
@@ -553,5 +553,22 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             layout_canclePay.setVisibility(View.GONE);
             layout_after_pay.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void fromAllGoods(List<SgByChannel> byCateList, double price, Bitmap bitmap) {
+        adapter.settList(byCateList);
+        adapter.setTotal_price(price);
+        img_code.setImageBitmap(bitmap);
+        adapter.setEnable(false);
+        keyboardView.setVisibility(View.GONE);/*隐藏键盘*/
+        layout_pay.setVisibility(View.VISIBLE)/*显示支付页面*/;
+        payTimeCount.countDown(0, 120, tv_count_down, "取消支付(%ds)");/*支付倒计时*/
+        payImTimeCount.cancle();
+        isShowSuccess = true;
+        layout_clear.setVisibility(View.GONE);
+        img_all.setVisibility(View.GONE);//隐藏全部商品
+        recyclerView.setVisibility(View.VISIBLE);//显示商品列表
+        tv_totall_gray.setVisibility(View.VISIBLE);
+        botom_layout.setVisibility(View.VISIBLE);//显示立即支付
     }
 }

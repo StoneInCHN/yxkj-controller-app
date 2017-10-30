@@ -6,7 +6,7 @@
     <string name="better_goods">优选商品</string>
     <string name="no_select_goods">没有该编号商品，请重新输入</string>
     <string name="clear_list">清空列表</string>
-    <string name="total_price">总计:24.5</string>
+    <string name="total_price">￥24.50</string>
     <string name="immediate_pay">立即支付60s</string>
     <string name="selct_pay_way">选择支付方式</string>
     <string name="wx_pay_way">微信支付</string>

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.yxkj.controller.R;
 import com.yxkj.controller.adapter.SelectedGoodsAdapter;
-import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.callback.SelectGoodsListener;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
     /*清空列表*/
     private TextView tv_clear;
     /*选择商品列表*/
-    private List<ByCate> selectedGoods = new ArrayList<>();
+    private List<SgByChannel> selectedGoods = new ArrayList<>();
     /*判断是否显示*/
     private boolean isShow;
 
@@ -77,7 +77,7 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
      *
      * @param selectedGoods
      */
-    public void setSelectedGoods(List<ByCate> selectedGoods) {
+    public void setSelectedGoods(List<SgByChannel> selectedGoods) {
         this.selectedGoods.clear();
         this.selectedGoods.addAll(selectedGoods);
         selectedGoodsAdapter.settList(this.selectedGoods);
@@ -89,7 +89,7 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
      *
      * @return
      */
-    public List<ByCate> getSelectedGoods() {
+    public List<SgByChannel> getSelectedGoods() {
         return selectedGoods;
     }
 
@@ -115,7 +115,7 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
     }
 
     @Override
-    public void select(Map<String, ByCate> selectMap, int type) {
+    public void select(Map<String, SgByChannel> selectMap, int type) {
         if (selectGoodsListener != null) {
             selectGoodsListener.select(selectMap, type);
         }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SelectGoodsInfo {
     public double price;
-    public List<ByCate> list = new ArrayList<>();
+    public List<SgByChannel> list = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -37,10 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10px"
+            android:ellipsize="end"
             android:gravity="center_vertical"
+            android:lines="1"
             android:text="同意冰红茶"
             android:textColor="@color/color_333333"
-            android:textSize="24px" />
+            android:textSize="20px" />
     </LinearLayout>
 
 
@@ -52,10 +54,11 @@
         android:layout_marginLeft="284px"
         app:btnAddBackground="@drawable/bg_btn_style_white"
         app:btnAddTextColor="@color/green"
+        app:btnSize="36px"
         app:btnTextSize="24px"
         app:maxValue="100"
         app:minValue="0"
-        app:textViewPadding="10px"
+        app:textViewPadding="15px"
         app:textViewSize="24px"
         app:value="1" />
 
@@ -65,10 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20px"
-        android:gravity="center"
+        android:layout_marginRight="27px"
         android:text="￥10.00"
         android:textColor="@color/orange"
-        android:textSize="26px"
-        android:textStyle="bold" />
+        android:textSize="24px" />
 </RelativeLayout>

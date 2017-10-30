@@ -1,6 +1,6 @@
 package com.yxkj.controller.callback;
 
-import com.yxkj.controller.beans.ByCate;
+import com.yxkj.controller.beans.SgByChannel;
 
 import java.util.Map;
 
@@ -9,5 +9,5 @@ import java.util.Map;
  */
 
 public interface SelectGoodsListener {
-    void select(Map<String, ByCate> selectMap, int type);
+    void select(Map<String, SgByChannel> selectMap, int type);
 }

@@ -2,6 +2,7 @@ package com.yxkj.controller.activity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.dou361.ijkplayer.widget.IjkVideoView;
 import com.easivend.evprotocol.EVprotocol;
 import com.yxkj.controller.R;
 import com.yxkj.controller.base.BaseActivity;
+import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.UrlBean;
 import com.yxkj.controller.broadcast.NetBroadCastReceiver;
 import com.yxkj.controller.callback.AllGoodsAndBetterGoodsListener;
@@ -22,11 +24,12 @@ import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
-import com.yxkj.controller.view.PayPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -48,7 +51,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     private MainFragment mainFragment;
     /* 底部广告视频*/
     private IjkVideoView downVideoView;
-    private PayPopupWindow popupWindow;
     protected NetBroadCastReceiver receiver;
     private MainActivityPresenter mainActivityPresenter;
 
@@ -126,13 +128,12 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
 
     /**
      * 显示支付PopWindow
-     *
-     * @param popupWindow
      */
     @Override
-    public void showPayPopWindow(PayPopupWindow popupWindow) {
-        this.popupWindow = popupWindow;
-        popupWindow.showAsDropDown(videoView);
+    public void showPayPopWindow(List<SgByChannel> byCateList, double price, Bitmap bitmap) {
+        if (mainFragment != null) {
+            mainFragment.fromAllGoods(byCateList, price, bitmap);
+        }
     }
 
     @Override
@@ -177,9 +178,6 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 mainFragment.setImageRight(urlBean.url);//右侧图片
                 break;
             case PAYSUCCESS://支付成功
-                if (popupWindow != null) {
-                    popupWindow.setPaySuccess();
-                }
                 if (mainFragment != null) {
                     mainFragment.setPaySuccess();
                 }
