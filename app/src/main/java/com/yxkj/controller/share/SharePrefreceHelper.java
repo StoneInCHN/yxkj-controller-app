@@ -247,16 +247,16 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
     /**
      * 设置重启
      *
-     * @param restart
+     * @param recorid_id
      */
-    public void setRestart(boolean restart) {
-        setBoolean(Constant.RESTARTSYSTEM, restart);
+    public void setRestart(long recorid_id) {
+        setLong(Constant.RESTARTSYSTEM, recorid_id);
     }
 
     /**
      * 获得重启
      */
-    public void getRestart() {
-        getBoolean(Constant.RESTARTSYSTEM, false);
+    public long getRestart() {
+        return getLong(Constant.RESTARTSYSTEM);
     }
 }

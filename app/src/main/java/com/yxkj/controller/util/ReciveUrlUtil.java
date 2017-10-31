@@ -5,6 +5,7 @@ import android.content.Context;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.beans.UrlBean;
 import com.yxkj.controller.constant.Constant;
+import com.yxkj.controller.share.SharePrefreceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -64,9 +65,11 @@ public class ReciveUrlUtil {
     /**
      * 重启
      */
-    public void reStartSystem() {
+    public void reStartSystem(long record_id) {
         UrlBean urlBean = new UrlBean();
         urlBean.key = Constant.RESTARTSYSTEM;
+        urlBean.record_id = record_id;
+        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(urlBean.record_id);
         EventBus.getDefault().post(urlBean);
     }
 }

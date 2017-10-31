@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.yxkj.controller.BuildConfig;
 import com.yxkj.controller.activity.MainActivity;
+import com.yxkj.controller.http.HttpFactory;
+import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.LogUtil;
 
 public class RestartReceiver extends BroadcastReceiver {
@@ -18,6 +20,11 @@ public class RestartReceiver extends BroadcastReceiver {
             if (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED")) {
                 Toast.makeText(context, "升级了一个安装包，重新启动此程序", Toast.LENGTH_LONG).show();
                 LogUtil.e("升级了一个安装包，重新启动此程序");
+                long record_id = SharePrefreceHelper.getInstence(context).getRestart();
+                if (record_id != -1) {
+                    HttpFactory.updateCmdStatus(record_id, true);
+                    SharePrefreceHelper.getInstence(context).setRestart(-1);
+                }
 //                startApp(context);
             }
 

@@ -15,7 +15,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class RebootProcessor implements IProcessor {
     @Override
     public void process(ChannelHandlerContext ctx, CmdMsg msg) {
-        ReciveUrlUtil.newInstance().reStartSystem();
+        ReciveUrlUtil.newInstance().reStartSystem(msg.getId());
         LogUtil.d("RebootProcessor:" + msg.toString());
     }
 

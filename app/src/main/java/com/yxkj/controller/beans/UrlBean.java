@@ -10,12 +10,14 @@ import android.os.Parcelable;
 public class UrlBean implements Parcelable {
     public String key;
     public String url;
+    public long record_id;
 
     @Override
     public String toString() {
         return "UrlBean{" +
                 "key='" + key + '\'' +
                 ", url='" + url + '\'' +
+                ", record_id=" + record_id +
                 '}';
     }
 
@@ -28,6 +30,7 @@ public class UrlBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.key);
         dest.writeString(this.url);
+        dest.writeLong(this.record_id);
     }
 
     public UrlBean() {
@@ -36,6 +39,7 @@ public class UrlBean implements Parcelable {
     protected UrlBean(Parcel in) {
         this.key = in.readString();
         this.url = in.readString();
+        this.record_id = in.readLong();
     }
 
     public static final Parcelable.Creator<UrlBean> CREATOR = new Parcelable.Creator<UrlBean>() {
