@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.yxkj.controller.activity.MainActivity;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.share.SharePrefreceHelper;
+import com.yxkj.controller.util.LogUtil;
 
 /**
  *
@@ -22,6 +23,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             //MainActivity就是开机显示的界面
             long record_id = SharePrefreceHelper.getInstence(context).getRestart();
+            LogUtil.d("record_id:" + record_id);
             if (record_id != -1) {
                 HttpFactory.updateCmdStatus(record_id, true);
                 SharePrefreceHelper.getInstence(context).setRestart(-1);
