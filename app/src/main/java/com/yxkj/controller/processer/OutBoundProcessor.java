@@ -31,25 +31,26 @@ public class OutBoundProcessor implements IProcessor {
             }
             Integer physicAddress = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressPhysicMap().get(cmdMsg.getAddress());
             //如果找不到对应的物理地址则返回
-            if (physicAddress == null || physicAddress < 0) ;
-            int portId = MyApplication.getMyApplication()
-                    .getRegisterPort()
-                    .get(MyApplication.getMyApplication().configBean.getDeviceInfo().getSerialPorts().get(physicAddress - 1));
-            synchronized (this) {
-                String response = null;
-                if (cmdMsg.getAddressType() == 0) {
-                    //根据货道号获取物理地址
-                    int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(cmdMsg.getBox());
-                    response = EVprotocol.EVtrade(portId, 1, physicAddress, box, 1);
-                    EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
-                    HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 0);
-                } else if (cmdMsg.getAddressType() == 1) {
-                    response = EVprotocol.EVBentoOpen(portId, physicAddress, cmdMsg.getBox());
-                    EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
-                    HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 1);
-                }
+            if (physicAddress != null && physicAddress != 0) {
+                int portId = MyApplication.getMyApplication()
+                        .getRegisterPort()
+                        .get(MyApplication.getMyApplication().configBean.getDeviceInfo().getSerialPorts().get(physicAddress - 1));
+                synchronized (this) {
+                    String response = null;
+                    if (cmdMsg.getAddressType() == 0) {
+                        //根据货道号获取物理地址
+                        int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(cmdMsg.getBox());
+                        response = EVprotocol.EVtrade(portId, 1, physicAddress, box, 1);
+                        EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
+                        HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 0 && jsonRsp.getEV_json().getIs_success() == 1);
+                    } else if (cmdMsg.getAddressType() == 1) {
+                        response = EVprotocol.EVBentoOpen(portId, physicAddress, cmdMsg.getBox());
+                        EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
+                        HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 1 && jsonRsp.getEV_json().getIs_success() == 1);
+                    }
 
-                LogUtil.d(response);
+                    LogUtil.d(response);
+                }
             }
         }).start();
     }

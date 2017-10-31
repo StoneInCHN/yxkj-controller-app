@@ -19,7 +19,7 @@ public class Constant {
 //            = new String[]{UserModel.class.getName()};
 
 //    public static final String BASE_URL = "http://machine.ybjcq.com/yxkj-machine/";
-    public static final String BASE_URL = "http://10.1.0.143/";
+    public static final String BASE_URL = "http://10.1.0.143:8080/";
 //    public static final String BASE_RECEIVER_URL = "101.132.144.100";
     public static final String BASE_RECEIVER_URL = "10.1.0.143";
 
@@ -78,4 +78,5 @@ public class Constant {
     public static final String VERIFYSTOCK = "goods/verifyStock";//1.7.4	验证商品库存数量
     public static final String UPATECMDSTATUS = "cmd/finishCmdStatus";//1.7.4	更新命令执行结果
     public static final String UPDATESHIPMENTSTATUS = "orderItem/updateOrderItemShipmentStatus";//1.7.4	更新订单项出货状态
+    public static final String INITMACHINESTATUS = "cmd/initStatus";//1.7.4	更新订单项出货状态
 }

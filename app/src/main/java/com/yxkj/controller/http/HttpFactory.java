@@ -2,6 +2,7 @@ package com.yxkj.controller.http;
 
 import com.yxkj.controller.base.BaseObserver;
 import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.MachineInfoRequest;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.beans.VerifyStockBody;
@@ -100,6 +101,25 @@ public class HttpFactory {
      */
     public static void updateShipmentStatus(Long orderId, String shipmentStatus) {
         RetrofitFactory.getInstance().updateShipmentStatus(orderId, shipmentStatus).subscribeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
+            @Override
+            public void accept(@NonNull ResponseBody responseBody) throws Exception {
+                System.out.println(responseBody);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+
+            }
+        });
+    }
+
+    /**
+     * 更新命令状态
+     *
+     * @param
+     */
+    public static void initMachineStatus(MachineInfoRequest request) {
+        RetrofitFactory.getInstance().initMachineStatus(request).subscribeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
             @Override
             public void accept(@NonNull ResponseBody responseBody) throws Exception {
                 System.out.println(responseBody);

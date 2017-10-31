@@ -69,7 +69,8 @@ public class ReciveUrlUtil {
         UrlBean urlBean = new UrlBean();
         urlBean.key = Constant.RESTARTSYSTEM;
         urlBean.record_id = record_id;
-        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(urlBean.record_id);
+        LogUtil.d("record:" + record_id);
+        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(record_id);
         EventBus.getDefault().post(urlBean);
     }
 }

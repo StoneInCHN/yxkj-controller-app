@@ -2,6 +2,7 @@ package com.yxkj.controller.http;
 
 import com.yxkj.controller.base.BaseEntity;
 import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.MachineInfoRequest;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
 import com.yxkj.controller.beans.VerifyStockBody;
@@ -44,6 +45,9 @@ public interface RetrofitService {
 
     @POST(Constant.UPDATESHIPMENTSTATUS)
     Observable<ResponseBody> updateShipmentStatus(@Query("orderItemId") Long orderId, @Query("shipmentStatus") String shipmentStatus);
+
+    @POST(Constant.INITMACHINESTATUS)
+    Observable<ResponseBody> initMachineStatus(@Body MachineInfoRequest request);
 
     @GET("wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk")
     Call<ResponseBody> downloadFileWithDynamicUrlAsync();
