@@ -4,48 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:minHeight="100px"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="98px"
+        android:layout_height="@dimen/px_98"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:paddingBottom="10px"
-        android:paddingLeft="30px"
-        android:paddingTop="10px">
+        android:paddingBottom="@dimen/px_10"
+        android:paddingLeft="@dimen/px_30"
+        android:paddingTop="@dimen/px_10">
 
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="316px"
+            android:layout_width="@dimen/px_316"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="同意冰红茶"
+            android:lines="@dimen/number_1"
+            android:text="@string/goods_name"
             android:textColor="@color/color_333333"
-            android:textSize="24px" />
+            android:textSize="@dimen/px_24" />
 
         <TextView
             android:id="@+id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="143px"
+            android:layout_marginLeft="@dimen/px_143"
             android:gravity="center_vertical"
-            android:text="A21"
+            android:text="@string/goods_number"
             android:textColor="@color/color_333333"
-            android:textSize="21px" />
+            android:textSize="@dimen/px_21" />
 
         <TextView
             android:id="@+id/tv_nums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="160px"
+            android:layout_marginLeft="@dimen/px_160"
             android:gravity="right"
-            android:text="X2"
+            android:text="@string/select_num"
             android:textColor="@color/color_666666"
-            android:textSize="22px" />
+            android:textSize="@dimen/px_22" />
 
         <TextView
             android:id="@+id/tv_total_price"
@@ -53,15 +52,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="75px"
-            android:layout_weight="1"
+            android:layout_weight="@dimen/number_1"
             android:gravity="right"
-            android:text="￥10"
+            android:text="@string/price"
             android:textColor="@color/orange"
-            android:textSize="26px" />
+            android:textSize="@dimen/px_26" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/px_2"
         android:background="@color/line_color" />
 </LinearLayout>

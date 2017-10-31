@@ -7,12 +7,12 @@
 
     <TextView
         android:id="@+id/text_img"
-        android:layout_width="90px"
-        android:layout_height="45px"
-        android:layout_marginLeft="20px"
+        android:layout_width="@dimen/px_90"
+        android:layout_height="@dimen/px_45"
+        android:layout_marginLeft="@dimen/px_20"
         android:background="@drawable/selector_number_add_sub"
         android:gravity="center"
-        android:text="重置"
+        android:text="@string/reset"
         android:textColor="@color/color_333333"
-        android:textSize="24px" />
+        android:textSize="@dimen/px_24" />
 </RelativeLayout>

@@ -34,6 +34,11 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
     private List<SgByChannel> selectedGoods = new ArrayList<>();
     /*判断是否显示*/
     private boolean isShow;
+    private OnShowListener onShowListener;
+
+    public void setOnShowListener(OnShowListener onShowListener) {
+        this.onShowListener = onShowListener;
+    }
 
     public void setSelectGoodsListener(SelectGoodsListener selectGoodsListener) {
         this.selectGoodsListener = selectGoodsListener;
@@ -112,6 +117,9 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
             isShow = true;
             setVisibility(VISIBLE);
         }
+        if (onShowListener != null) {
+            onShowListener.onShow(isShow);
+        }
     }
 
     @Override
@@ -119,5 +127,9 @@ public class SelectedGoodsList extends FrameLayout implements SelectGoodsListene
         if (selectGoodsListener != null) {
             selectGoodsListener.select(selectMap, type);
         }
+    }
+
+    public interface OnShowListener {
+        void onShow(boolean isShow);
     }
 }

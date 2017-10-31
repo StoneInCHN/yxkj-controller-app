@@ -37,4 +37,11 @@ public class ControlAudioManager {
         int curVolume = (int) (maxVolume * percent);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume, 0);
     }
+
+    /**
+     * 获取当前音量
+     */
+    public int getCurrentStreamVolume() {
+        return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
 }

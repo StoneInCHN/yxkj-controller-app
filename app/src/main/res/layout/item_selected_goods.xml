@@ -7,48 +7,48 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120px"
+        android:layout_height="@dimen/px_120"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:paddingLeft="46px">
+        android:paddingLeft="@dimen/px_46">
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="373px"
+            android:layout_width="@dimen/px_373"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="农夫山泉"
+            android:lines="@dimen/number_1"
+            android:text="@string/goods_name"
             android:textColor="@color/color_333333"
-            android:textSize="24px" />
+            android:textSize="@dimen/px_24" />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="131px"
-            android:text="￥2.50"
+            android:layout_marginLeft="@dimen/px_131"
+            android:text="@string/price"
             android:textColor="@color/theme_orange"
-            android:textSize="24px" />
+            android:textSize="@dimen/px_24" />
 
         <com.yxkj.controller.view.NumberAddSubView
             android:id="@+id/selcct_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginLeft="247px"
-            app:btnSize="30px"
-            app:btnTextSize="24px"
-            app:maxValue="100"
-            app:minValue="0"
-            app:textViewPadding="40px"
-            app:textViewSize="24px"
-            app:value="0" />
+            android:layout_marginLeft="@dimen/px_247"
+            app:btnSize="@dimen/px_30"
+            app:btnTextSize="@dimen/px_24"
+            app:maxValue="@dimen/number_100"
+            app:minValue="@dimen/number_0"
+            app:textViewPadding="@dimen/px_40"
+            app:textViewSize="@dimen/px_24"
+            app:value="@dimen/number_0" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/px_2"
         android:background="@color/color_eee" />
 </LinearLayout>

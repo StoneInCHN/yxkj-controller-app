@@ -8,21 +8,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80px"
-        android:background="@color/bg_color"
+        android:layout_height="@dimen/px_80"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/back_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="21px">
+            android:layout_marginLeft="@dimen/px_21">
 
             <ImageView
-                android:layout_width="14px"
+                android:layout_width="@dimen/px_14"
                 android:layout_height="match_parent"
-                android:paddingBottom="25px"
-                android:paddingTop="25px"
+                android:paddingBottom="@dimen/px_25"
+                android:paddingTop="@dimen/px_25"
                 android:src="@mipmap/return_main" />
 
             <TextView
@@ -30,22 +30,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4px"
+                android:layout_marginLeft="@dimen/px_4"
                 android:gravity="center"
-                android:text="返回首页(120s)"
+                android:text="@string/return_main"
                 android:textColor="@color/orange"
-                android:textSize="18px" />
+                android:textSize="@dimen/px_18" />
         </LinearLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="30px"
+            android:layout_marginLeft="@dimen/px_30"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/theme_green"
-            app:tabIndicatorHeight="4px"
-            app:tabMinWidth="180px"
+            app:tabIndicatorHeight="@dimen/px_4"
+            app:tabMinWidth="@dimen/px_180"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/theme_green"
             app:tabTextAppearance="@style/TabLayoutTextStyle" />
@@ -55,15 +55,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="@dimen/number_1"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/current_goods_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white" />
+            android:layout_weight="@dimen/number_1"
+            android:background="@color/color_20cccccc"
+            android:paddingLeft="@dimen/px_20"
+            android:paddingRight="@dimen/px_4" />
         <!--支付信息模块-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,65 +76,75 @@
                 android:id="@+id/seletedGoodsList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="@dimen/number_1"
                 android:background="@color/white"
                 android:visibility="gone" />
 
             <RelativeLayout
+                android:id="@+id/pay_layout"
                 android:layout_width="match_parent"
-                android:layout_height="75px">
+                android:layout_height="@dimen/px_75"
+                android:background="@color/color_20cccccc">
 
                 <LinearLayout
+                    android:id="@+id/layout"
                     android:layout_width="match_parent"
-                    android:layout_height="60px"
+                    android:layout_height="@dimen/px_60"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/bg_black_90trans">
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/tv_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
+                        android:layout_weight="@dimen/number_1"
+                        android:gravity="center_vertical|right"
+                        android:paddingRight="@dimen/px_62"
                         android:text="共计: ￥00.00"
-                        android:textColor="@color/white"
-                        android:textSize="39px" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/px_36" />
 
                     <TextView
                         android:id="@+id/tv_pay"
-                        android:layout_width="366px"
+                        android:layout_width="@dimen/px_366"
                         android:layout_height="match_parent"
                         android:background="@color/theme_orange"
                         android:gravity="center"
                         android:text="立即支付"
                         android:textColor="@color/white"
-                        android:textSize="36px" />
+                        android:textSize="@dimen/px_36" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px_1"
+                    android:layout_above="@id/layout"
+                    android:background="@color/color_cccccc" />
 
                 <RelativeLayout
                     android:id="@+id/rl_selected"
-                    android:layout_width="75px"
-                    android:layout_height="75px"
+                    android:layout_width="@dimen/px_75"
+                    android:layout_height="@dimen/px_75"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="42px">
+                    android:layout_marginLeft="@dimen/px_42">
 
                     <ImageView
-                        android:layout_width="69px"
-                        android:layout_height="69px"
+                        android:layout_width="@dimen/px_69"
+                        android:layout_height="@dimen/px_69"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/cart_logo" />
 
                     <TextView
                         android:id="@+id/tv_selected"
-                        android:layout_width="24px"
-                        android:layout_height="24px"
+                        android:layout_width="@dimen/px_24"
+                        android:layout_height="@dimen/px_24"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
                         android:background="@drawable/bg_tv_round_red"
                         android:gravity="center"
-                        android:text="0"
+                        android:text="@string/zero"
                         android:textColor="@color/white"
-                        android:textSize="18px" />
+                        android:textSize="@dimen/px_18" />
 
                 </RelativeLayout>
             </RelativeLayout>

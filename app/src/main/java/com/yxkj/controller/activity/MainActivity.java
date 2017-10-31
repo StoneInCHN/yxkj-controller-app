@@ -37,6 +37,7 @@ import static com.yxkj.controller.constant.Constant.IMG_CENTER;
 import static com.yxkj.controller.constant.Constant.IMG_LEFT;
 import static com.yxkj.controller.constant.Constant.IMG_RIGHT;
 import static com.yxkj.controller.constant.Constant.PAYSUCCESS;
+import static com.yxkj.controller.constant.Constant.RESTARTSYSTEM;
 import static com.yxkj.controller.constant.Constant.VIDEO_BOTTOM;
 import static com.yxkj.controller.constant.Constant.VIDEO_TOP;
 
@@ -180,6 +181,14 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             case PAYSUCCESS://支付成功
                 if (mainFragment != null) {
                     mainFragment.setPaySuccess();
+                }
+                break;
+            case RESTARTSYSTEM://重启系统
+                try {
+                    Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot -p"});  //关机
+                    proc.waitFor();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
                 break;
         }

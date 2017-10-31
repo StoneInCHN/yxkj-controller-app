@@ -9,13 +9,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="770px"
+        android:layout_height="@dimen/px_772"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="@dimen/number_1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:gravity="center_vertical">
 
                 <RelativeLayout
-                    android:layout_width="530px"
+                    android:layout_width="@dimen/px_530"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
@@ -34,15 +34,15 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="283px"
-                            android:layout_height="56px"
+                            android:layout_width="@dimen/px_283"
+                            android:layout_height="@dimen/px_56"
                             android:src="@mipmap/logo" />
 
                         <ImageView
                             android:id="@+id/img_all"
-                            android:layout_width="380px"
-                            android:layout_height="200px"
-                            android:layout_marginTop="38px"
+                            android:layout_width="@dimen/px_380"
+                            android:layout_height="@dimen/px_200"
+                            android:layout_marginTop="@dimen/px_38"
                             android:src="@mipmap/merchandise" />
 
                         <TextView
@@ -74,7 +74,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="550px"
+                    android:layout_width="@dimen/px_550"
                     android:layout_height="match_parent"
                     android:background="@mipmap/keyboard">
 
@@ -93,21 +93,21 @@
                         <!--支付二维码-->
                         <ImageView
                             android:id="@+id/img_code"
-                            android:layout_width="129px"
-                            android:layout_height="129px"
+                            android:layout_width="@dimen/px_129"
+                            android:layout_height="@dimen/px_129"
                             android:scaleType="fitXY"
                             android:src="@mipmap/banner_center" />
 
                         <TextView
                             android:id="@+id/tv_count_down"
-                            android:layout_width="386px"
-                            android:layout_height="50px"
-                            android:layout_marginTop="27px"
+                            android:layout_width="@dimen/px_386"
+                            android:layout_height="@dimen/px_50"
+                            android:layout_marginTop="@dimen/px_27"
                             android:background="@drawable/btn_cancle_pay"
                             android:gravity="center"
                             android:text="@string/count_down"
                             android:textColor="@color/white"
-                            android:textSize="26px" />
+                            android:textSize="@dimen/px_26" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -119,36 +119,36 @@
                         android:visibility="gone">
 
                         <ImageView
-                            android:layout_width="155px"
-                            android:layout_height="108px"
+                            android:layout_width="@dimen/px_155"
+                            android:layout_height="@dimen/px_108"
                             android:src="@mipmap/icon_pay" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="50px"
+                            android:layout_marginTop="@dimen/px_50"
                             android:gravity="center"
-                            android:text="支付成功，请及时取走商品"
+                            android:text="@string/pay_after"
                             android:textColor="@color/color_333333"
-                            android:textSize="30px" />
+                            android:textSize="@dimen/px_30" />
 
                         <TextView
                             android:id="@+id/tv_close"
-                            android:layout_width="420px"
-                            android:layout_height="50px"
-                            android:layout_marginTop="25px"
+                            android:layout_width="@dimen/px_420"
+                            android:layout_height="@dimen/px_50"
+                            android:layout_marginTop="@dimen/px_25"
                             android:background="@drawable/btn_cancle_pay"
                             android:gravity="center"
-                            android:text="返回首页:5s"
+                            android:text="@string/return_main_5"
                             android:textColor="@color/white"
-                            android:textSize="30px" />
+                            android:textSize="@dimen/px_30" />
                     </LinearLayout>
 
                     <RelativeLayout
                         android:id="@+id/layout_canclePay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#20000000"
+                        android:background="@color/color_20000000"
                         android:visibility="gone">
                         <!--取消支付弹窗-->
                         <com.yxkj.controller.view.CanclePayView
@@ -164,7 +164,7 @@
                 android:id="@+id/exit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#50000000"
+                android:background="@color/color_50000000"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -179,30 +179,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200px"
+            android:layout_height="@dimen/px_200"
             android:background="@mipmap/shelf"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/img_left"
-                android:layout_width="340px"
-                android:layout_height="166px"
+                android:layout_width="@dimen/px_340"
+                android:layout_height="@dimen/px_166"
                 android:scaleType="fitXY"
                 android:src="@mipmap/banner_left" />
 
             <ImageView
                 android:id="@+id/img_center"
-                android:layout_width="340px"
-                android:layout_height="166px"
-                android:layout_marginLeft="16px"
+                android:layout_width="@dimen/px_340"
+                android:layout_height="@dimen/px_166"
+                android:layout_marginLeft="@dimen/px_16"
                 android:scaleType="fitXY"
                 android:src="@mipmap/banner_center" />
 
             <ImageView
                 android:id="@+id/img_right"
-                android:layout_width="340px"
-                android:layout_height="166px"
-                android:layout_marginLeft="16px"
+                android:layout_width="@dimen/px_340"
+                android:layout_height="@dimen/px_166"
+                android:layout_marginLeft="@dimen/px_16"
                 android:scaleType="fitXY"
                 android:src="@mipmap/banner_right" />
         </LinearLayout>

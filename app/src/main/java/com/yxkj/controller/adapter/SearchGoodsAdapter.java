@@ -47,7 +47,14 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
     public void onCorvert(BaseViewHolder holder, int position, SgByChannel bean) {
         ImageView img_name = holder.getView(R.id.img_name);
         NumberAddSubView selcct_number = holder.getView(R.id.selcct_number);
-        selcct_number.setBtnEnable(enable);
+        if (enable) {
+            holder.setVisible(R.id.tv_number, false);
+            holder.setVisible(R.id.selcct_number, true);
+        } else {
+            holder.setVisible(R.id.tv_number, true);
+            holder.setVisible(R.id.selcct_number, false);
+        }
+        holder.setText(R.id.tv_number, "x " + bean.number);
         //显示图片
         GlideUtil.setImage(context, img_name, bean.gImg);
         //商品编号

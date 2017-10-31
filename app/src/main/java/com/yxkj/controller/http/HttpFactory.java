@@ -26,9 +26,10 @@ import okhttp3.ResponseBody;
 public class HttpFactory {
     /**
      * 根据货道编号查询商品
+     * <p>
+     * cImei 中控唯一标识imei编号
      *
-     *  cImei 中控唯一标识imei编号
-     * @param cSn   货道(商品)编号
+     * @param cSn 货道(商品)编号
      */
     public static void getSgByChannel(String cSn, BaseObserver<SgByChannel> baseObsver) {
         Map<String, String> map = new HashMap<>();
@@ -46,8 +47,9 @@ public class HttpFactory {
 
     /**
      * 根据类别查询商品
+     * <p>
+     * cImei      中控唯一标识imei编号
      *
-     *  cImei      中控唯一标识imei编号
      * @param cateId     商品类别ID
      * @param pageSize
      * @param pageNumber
@@ -57,7 +59,7 @@ public class HttpFactory {
         Map<String, String> map = new HashMap<>();
         map.put("cImei", DisplayUtil.getImei());
         if (!isAll)
-            map.put("cateId", 1 + "");
+            map.put("cateId", cateId);
         map.put("pageSize", pageSize);
         map.put("pageNumber", pageNumber);
         autoSubscribe(RetrofitFactory.getInstance().getByCate(map), observer);

@@ -28,12 +28,14 @@ import com.yxkj.controller.callback.InputEndListener;
 import com.yxkj.controller.callback.InputManagerPwdListener;
 import com.yxkj.controller.callback.SelectListener;
 import com.yxkj.controller.callback.ShowInputPwdCallBack;
+import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.util.DisplayUtil;
 import com.yxkj.controller.util.GlideUtil;
 import com.yxkj.controller.util.QRCodeUtil;
 import com.yxkj.controller.util.StringUtil;
 import com.yxkj.controller.util.TimeCountUtl;
+import com.yxkj.controller.util.ToastUtil;
 import com.yxkj.controller.view.AllGoodsPopupWindow;
 import com.yxkj.controller.view.CanclePayView;
 import com.yxkj.controller.view.InputPwdView;
@@ -235,6 +237,11 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             @Override
             protected void onHandleSuccess(SgByChannel sgByChannel) {
                 if (sgByChannel != null) {
+                    if (sgByChannel.count == 0) {
+                        ToastUtil.showToast("对不起，该商品库存不足");
+                        keyboardView.clear();
+                        return;
+                    }
                     handleData(sgByChannel);
                 }
             }
@@ -426,7 +433,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
                 payImTimeCount.countDown(0, 60, tv_pay_immediate, "立即支付(%ds)");
                 String str = "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price);
                 tv_total_price.setText(str);
-                String text = "共计: <big><big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big></big>";
+                String text = "共计: <big>" + "￥" + StringUtil.keepNumberSecondCount(goodsSelectInfo.total_price) + "</big>";
                 tv_totall_gray.setText(Html.fromHtml(text));
             }
         }
@@ -504,7 +511,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
             @Override
             public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
                 StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append(DisplayUtil.getImei()).append("/");
+                stringBuffer.append(Constant.QRCODE).append(DisplayUtil.getImei()).append("/");
                 for (VerifyStock verifyStock : verifyStocks) {
                     stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
                 }

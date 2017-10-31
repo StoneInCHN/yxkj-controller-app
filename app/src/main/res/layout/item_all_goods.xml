@@ -3,42 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingTop="19px">
+    android:layout_marginRight="@dimen/px_16"
+    android:layout_marginTop="@dimen/px_16"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="160px"
-        android:layout_height="225px"
+        android:layout_width="@dimen/px_160"
+        android:layout_height="@dimen/px_225"
         android:layout_gravity="center"
-        android:background="@color/bg_color"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="11px"
-        android:paddingRight="11px">
+        android:paddingLeft="@dimen/px_11"
+        android:paddingRight="@dimen/px_11">
 
 
-        <ImageView
-            android:id="@+id/img_name"
-            android:layout_width="137px"
-            android:layout_height="137px"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/test" />
+        <LinearLayout
+            android:layout_width="@dimen/px_137"
+            android:layout_height="@dimen/px_137"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_name"
+                android:layout_width="@dimen/px_100"
+                android:layout_height="@dimen/px_100"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/test" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10px"
+            android:layout_marginTop="@dimen/px_15"
             android:ellipsize="end"
-            android:lines="1"
+            android:lines="@dimen/number_1"
             android:text="农夫山泉有点甜天天天天天"
-            android:textSize="14px" />
+            android:textSize="@dimen/px_14" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16px"
+            android:layout_marginTop="@dimen/px_16"
             android:gravity="center_vertical">
 
             <LinearLayout
@@ -53,9 +59,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="￥2.50"
+                    android:text="@string/price"
                     android:textColor="@color/theme_orange"
-                    android:textSize="14px" />
+                    android:textSize="@dimen/px_14" />
 
 
                 <TextView
@@ -63,9 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="￥2.50"
+                    android:text="@string/price"
                     android:textColor="@color/color_999"
-                    android:textSize="12px" />
+                    android:textSize="@dimen/px_12" />
 
             </LinearLayout>
 
@@ -76,13 +82,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:btnSize="24px"
-                app:btnTextSize="14px"
-                app:maxValue="100"
-                app:minValue="0"
-                app:textViewPadding="5px"
-                app:textViewSize="14px"
-                app:value="1" />
+                app:btnSize="@dimen/px_24"
+                app:btnTextSize="@dimen/px_14"
+                app:maxValue="@dimen/number_100"
+                app:minValue="@dimen/number_0"
+                app:textViewPadding="@dimen/px_5"
+                app:textViewSize="@dimen/px_14"
+                app:value="@dimen/number_1" />
 
         </RelativeLayout>
 
@@ -90,25 +96,25 @@
 
     <TextView
         android:id="@+id/tv_type"
-        android:layout_width="47px"
-        android:layout_height="16px"
+        android:layout_width="@dimen/px_47"
+        android:layout_height="@dimen/px_16"
         android:layout_gravity="center_horizontal"
         android:background="@color/green"
         android:gravity="center"
         android:text="冰冻"
         android:textColor="@color/white"
-        android:textSize="12px" />
+        android:textSize="@dimen/px_12" />
 
     <TextView
         android:id="@+id/tv_lack"
-        android:layout_width="160px"
-        android:layout_height="225px"
+        android:layout_width="@dimen/px_160"
+        android:layout_height="@dimen/px_225"
         android:layout_gravity="center"
-        android:background="@color/bg_black_90trans"
+        android:background="@color/color_50000000"
         android:gravity="center"
-        android:text="缺货"
+        android:text="@string/queshao"
         android:textColor="@color/white"
-        android:textSize="30px"
+        android:textSize="@dimen/px_30"
         android:textStyle="bold"
         android:visibility="gone" />
 </FrameLayout>

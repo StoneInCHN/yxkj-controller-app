@@ -11,17 +11,17 @@
     <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1" />
+        android:layout_height="@dimen/px_0"
+        android:layout_weight="@dimen/number_1" />
     <!-- 内容-->
     <FrameLayout
         android:id="@+id/layout_fragments"
         android:layout_width="match_parent"
-        android:layout_height="772px" />
+        android:layout_height="@dimen/px_772" />
 
     <com.dou361.ijkplayer.widget.IjkVideoView
         android:id="@+id/downVideoView"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1" />
+        android:layout_height="@dimen/px_0"
+        android:layout_weight="@dimen/number_1" />
 </LinearLayout>

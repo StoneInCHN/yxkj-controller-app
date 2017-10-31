@@ -3,15 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="12px">
+    android:padding="@dimen/px_12">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="40px"
-        android:layout_height="50px"
+        android:layout_width="@dimen/px_40"
+        android:layout_height="@dimen/px_50"
         android:background="@drawable/keyboard_item_bg"
         android:gravity="center"
         android:textColor="@color/color_333333"
-        android:textSize="28px" />
+        android:textSize="@dimen/px_28" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.yxkj.controller.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.yxkj.controller.callback.BackListener;
 import com.yxkj.controller.callback.CompleteListener;
 import com.yxkj.controller.callback.SelectGoodsListener;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
+import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.tools.EndlessRecyclerOnScrollListener;
 import com.yxkj.controller.util.DisplayUtil;
@@ -68,6 +70,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     private TextView iv_back_main;
     private LinearLayout back_layout;
     private TimeCountUtl timeCountUtl;
+    private RelativeLayout pay_layout;
     private ShowPayPopupWindowListener listener;
     private RecyclerView current_goods_recycler;
     /*已选商品*/
@@ -116,6 +119,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         tv_total_price = view.findViewById(R.id.tv_total_price);
         back_layout = view.findViewById(R.id.back_layout);
         current_goods_recycler = view.findViewById(R.id.current_goods_recycler);
+        pay_layout = view.findViewById(R.id.pay_layout);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 770);
         tv_pay = view.findViewById(R.id.tv_pay);
         iv_back_main = view.findViewById(R.id.iv_back_main);
@@ -160,6 +164,16 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         tabLayout.addOnTabSelectedListener(this);
         timeCountUtl.setCompleteListener(this);
         seletedGoodsList.setSelectGoodsListener(this);
+        seletedGoodsList.setOnShowListener(new SelectedGoodsList.OnShowListener() {
+            @Override
+            public void onShow(boolean isShow) {
+                if (isShow) {
+                    pay_layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                } else {
+                    pay_layout.setBackgroundColor(Color.parseColor("#20cccccc"));
+                }
+            }
+        });
         current_goods_recycler.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadNextPage(View view) {
@@ -178,7 +192,6 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int pos = tab.getPosition();
-        goodsList.clear();
         page = 1;
         if (pos == 0) {
             category = null;
@@ -317,6 +330,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
         HttpFactory.getByCate(id, "18", page + "", isAll, new BaseObserver<List<SgByChannel>>() {
             @Override
             protected void onHandleSuccess(List<SgByChannel> byCates) {
+                goodsList.clear();
                 goodsList.addAll(byCates);
                 if (byCates.size() < 18) {
                     complete = true;
@@ -400,7 +414,7 @@ public class AllGoodsPopupWindow extends PopupWindow implements View.OnClickList
             @Override
             public ObservableSource<Bitmap> apply(@NonNull List<VerifyStock> verifyStocks) throws Exception {
                 StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append("http://test.ybjcq.com/h5/cntr/").append(DisplayUtil.getImei()).append("/");
+                stringBuffer.append(Constant.QRCODE).append(DisplayUtil.getImei()).append("/");
                 for (VerifyStock verifyStock : verifyStocks) {
                     stringBuffer.append(verifyStock.cId).append("-").append(verifyStock.count).append(":");
                 }

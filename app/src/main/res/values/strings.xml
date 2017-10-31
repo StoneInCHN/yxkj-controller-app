@@ -13,6 +13,7 @@
     <string name="ali_pay_way">支付宝支付</string>
     <string name="cancle_pay">取消支付</string>
     <string name="count_down">取消支付120s</string>
+    <string name="return_main">返回首页(120s)</string>
     <string name="sure_to_cancle_pay">您确定要取消支付吗？</string>
     <string name="sure">确定</string>
     <string name="cancle">取消</string>
@@ -20,5 +21,16 @@
     <string name="close">关闭5s</string>
     <string name="main">返回首页</string>
     <string name="goods_selecte">已选商品</string>
+    <string name="zero">0</string>
+    <string name="pay_after">支付成功，请及时取走商品</string>
+    <string name="return_main_5">返回首页:5s</string>
+    <string name="total_all">共计:</string>
+    <string name="total_all_price">共计: ￥21.00</string>
+    <string name="price">￥2.50</string>
+    <string name="queshao">缺货</string>
+    <string name="reset">重置</string>
+    <string name="goods_name">同意冰红茶</string>
+    <string name="goods_number">A21</string>
+    <string name="select_num">X2</string>
 
 </resources>

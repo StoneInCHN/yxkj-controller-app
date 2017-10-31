@@ -5,22 +5,22 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center_vertical"
-    android:paddingBottom="13px"
-    android:paddingTop="13px">
+    android:paddingBottom="@dimen/px_13"
+    android:paddingTop="@dimen/px_13">
 
     <ImageView
         android:id="@+id/img_name"
-        android:layout_width="42px"
-        android:layout_height="66px"
+        android:layout_width="@dimen/px_42"
+        android:layout_height="@dimen/px_66"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="30px"
+        android:layout_marginLeft="@dimen/px_30"
         android:src="@color/colorAccent" />
 
     <LinearLayout
-        android:layout_width="155px"
+        android:layout_width="@dimen/px_155"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="94px"
+        android:layout_marginLeft="@dimen/px_94"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -28,21 +28,21 @@
             android:id="@+id/tv_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="A21"
+            android:text="@string/goods_number"
             android:textColor="@color/color_333333"
-            android:textSize="20px" />
+            android:textSize="@dimen/px_20" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10px"
+            android:layout_marginTop="@dimen/px_10"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:lines="1"
-            android:text="同意冰红茶"
+            android:text="@string/goods_name"
             android:textColor="@color/color_333333"
-            android:textSize="20px" />
+            android:textSize="@dimen/px_20" />
     </LinearLayout>
 
 
@@ -51,16 +51,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="284px"
+        android:layout_marginLeft="@dimen/px_283"
         app:btnAddBackground="@drawable/bg_btn_style_white"
         app:btnAddTextColor="@color/green"
-        app:btnSize="36px"
-        app:btnTextSize="24px"
+        app:btnSize="@dimen/px_36"
+        app:btnTextSize="@dimen/px_24"
         app:maxValue="100"
         app:minValue="0"
-        app:textViewPadding="15px"
-        app:textViewSize="24px"
+        app:textViewPadding="@dimen/px_15"
+        app:textViewSize="@dimen/px_24"
         app:value="1" />
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/px_280"
+        android:text="@string/select_num"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/px_24"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_total_price"
@@ -68,8 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="27px"
-        android:text="￥10.00"
+        android:layout_marginRight="@dimen/px_27"
+        android:text="@string/price"
         android:textColor="@color/orange"
-        android:textSize="24px" />
+        android:textSize="@dimen/px_24" />
 </RelativeLayout>

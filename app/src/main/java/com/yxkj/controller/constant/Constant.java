@@ -24,7 +24,8 @@ public class Constant {
 
     public static final long TIMEOUT = 30;
 
-    public static String url_sougou = "http://wap.dl.pinyin.sogou.com/";
+    public static String QRCODE = "http://test.ybjcq.com/h5/cntr/";
+
     /**
      * 顶部、底部默认视频地址
      */
@@ -62,6 +63,7 @@ public class Constant {
     public static final String IMG_CENTER = "img_center";
     public static final String IMG_RIGHT = "img_right";
     public static final String PAYSUCCESS = "pay_success";
+    public static final String RESTARTSYSTEM = "restart_system";
     public static final String APK_DOWNLOADED = "apk_downloaded";
     public static final String APK_DOWNLOAD_STATE = "apk_download_state";
     public static final String APK_DOWNLOAD_URL = "apk_download_url";

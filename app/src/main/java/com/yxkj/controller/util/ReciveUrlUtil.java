@@ -60,4 +60,13 @@ public class ReciveUrlUtil {
         urlBean.key = Constant.PAYSUCCESS;
         EventBus.getDefault().post(urlBean);
     }
+
+    /**
+     * 重启
+     */
+    public void reStartSystem() {
+        UrlBean urlBean = new UrlBean();
+        urlBean.key = Constant.RESTARTSYSTEM;
+        EventBus.getDefault().post(urlBean);
+    }
 }

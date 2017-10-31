@@ -6,40 +6,40 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1px"
         android:background="@color/vertical_line_color" />
 
     <LinearLayout
         android:id="@+id/layout_clear"
         android:layout_width="match_parent"
-        android:layout_height="60px"
+        android:layout_height="@dimen/px_60"
         android:background="@drawable/layout_bg"
         android:gravity="center_vertical"
         android:visibility="visible">
         <!--价格总览与清空列表-->
         <LinearLayout
-            android:layout_width="300px"
+            android:layout_width="@dimen/px_300"
             android:layout_height="match_parent"
             android:background="@color/white">
 
             <ImageView
                 android:id="@+id/tv_clear"
-                android:layout_width="66px"
+                android:layout_width="@dimen/px_66"
                 android:layout_height="60px"
                 android:layout_gravity="center_vertical"
-                android:paddingBottom="16px"
-                android:paddingLeft="20px"
-                android:paddingRight="20px"
-                android:paddingTop="16px"
+                android:paddingBottom="@dimen/px_16"
+                android:paddingLeft="@dimen/px_20"
+                android:paddingRight="@dimen/px_20"
+                android:paddingTop="@dimen/px_16"
                 android:src="@mipmap/icon_clear" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="@dimen/px_1"
                 android:layout_height="match_parent"
                 android:background="@color/vertical_line_color" />
 
             <LinearLayout
-                android:layout_width="245px"
+                android:layout_width="@dimen/px_245"
                 android:layout_height="match_parent"
                 android:gravity="center">
 
@@ -47,44 +47,45 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="共计:"
+                    android:text="@string/total_all"
                     android:textColor="@color/black"
-                    android:textSize="24px" />
+                    android:textSize="@dimen/px_24" />
 
                 <TextView
                     android:id="@+id/tv_total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="18px"
+                    android:layout_marginLeft="@dimen/px_18"
                     android:gravity="center"
                     android:text="@string/total_price"
                     android:textColor="@color/black"
-                    android:textSize="28px" />
+                    android:textSize="@dimen/px_28" />
             </LinearLayout>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_pay_immediate"
-            android:layout_width="230px"
+            android:layout_width="@dimen/px_230"
             android:layout_height="match_parent"
             android:background="@color/orange"
             android:gravity="center"
             android:text="@string/immediate_pay"
             android:textColor="@color/white"
-            android:textSize="28px"
+            android:textSize="@dimen/px_28"
             android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_totall_gray"
         android:layout_width="match_parent"
-        android:layout_height="60px"
-        android:background="@color/color_ffafafaf"
-        android:gravity="center"
-        android:text="共计: ￥21.00"
-        android:textColor="@color/white"
-        android:textSize="18px"
+        android:layout_height="@dimen/px_60"
+        android:background="@color/white"
+        android:gravity="right|center_vertical"
+        android:paddingRight="@dimen/px_25"
+        android:text="@string/total_all_price"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/px_24"
         android:textStyle="bold"
         android:visibility="gone" />
 </LinearLayout>

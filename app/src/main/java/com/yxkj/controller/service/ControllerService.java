@@ -52,14 +52,14 @@ public class ControllerService extends Service {
         //注册串口
         List<String> serialPorts = MyApplication.getMyApplication().configBean.getDeviceInfo().getSerialPorts();
 
-        for (String serialPost : serialPorts) {
-            EVprotocol.EVPortRegister(serialPost);
-            String response = EVprotocol.EVPortRegister(serialPost);
-            EVJsonResponse evPortRegisterResponse = GsonUtil.getInstance().convertJsonStringToObject(response.replace("\\n", "").replace("\\t", ""), EVJsonResponse.class);
-            if (evPortRegisterResponse.getEV_json().getPort_id() < 0) return;
-            MyApplication.getMyApplication().getRegisterPort().put(evPortRegisterResponse.getEV_json().getPort(), evPortRegisterResponse.getEV_json().getPort_id());
-            LogUtil.d(response);
-        }
+//        for (String serialPost : serialPorts) {
+//            EVprotocol.EVPortRegister(serialPost);
+//            String response = EVprotocol.EVPortRegister(serialPost);
+//            EVJsonResponse evPortRegisterResponse = GsonUtil.getInstance().convertJsonStringToObject(response.replace("\\n", "").replace("\\t", ""), EVJsonResponse.class);
+//            if (evPortRegisterResponse.getEV_json().getPort_id() < 0) return;
+//            MyApplication.getMyApplication().getRegisterPort().put(evPortRegisterResponse.getEV_json().getPort(), evPortRegisterResponse.getEV_json().getPort_id());
+//            LogUtil.d(response);
+//        }
         new Thread(() -> {
             nettyStart.startNetty();
         }).start();
