@@ -17,8 +17,6 @@ import static android.content.Context.TELEPHONY_SERVICE;
  */
 public class DisplayUtil {
 
-    private static final String TAG = "DisplayUtil";
-
     /**
      * dip转px
      *

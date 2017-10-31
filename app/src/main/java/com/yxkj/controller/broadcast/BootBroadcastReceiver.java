@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.yxkj.controller.activity.MainActivity;
-import com.yxkj.controller.http.HttpFactory;
-import com.yxkj.controller.share.SharePrefreceHelper;
-import com.yxkj.controller.util.LogUtil;
 
 /**
  *

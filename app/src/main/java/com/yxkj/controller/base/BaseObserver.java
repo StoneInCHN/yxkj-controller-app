@@ -17,7 +17,6 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
 
-    private static final String TAG = "BaseObserver";
 
     protected BaseObserver() {
 

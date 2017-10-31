@@ -380,7 +380,7 @@ public class MainFragment extends BaseFragment implements InputEndListener<Strin
      */
     @Override
     public void onClickSure() {
-        getActivity().finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**

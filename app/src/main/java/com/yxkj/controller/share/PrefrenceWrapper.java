@@ -37,7 +37,7 @@ public class PrefrenceWrapper {
     }
 
     protected void setLong(String key, long value) {
-        sharedPreferences.edit().putLong(key, value);
+        sharedPreferences.edit().putLong(key, value).commit();
     }
 
     protected long getLong(String key) {
