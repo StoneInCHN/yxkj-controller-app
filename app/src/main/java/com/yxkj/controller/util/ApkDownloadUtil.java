@@ -7,6 +7,7 @@ import android.util.Log;
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.body.ProgressResponseBody;
 import com.yxkj.controller.callback.ProgressListener;
+import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.share.SharePrefreceHelper;
 
 import java.io.DataOutputStream;
@@ -137,10 +138,20 @@ public class ApkDownloadUtil implements ProgressListener {
                     // 失败
                 } else if (value == 1) {
                     Log.i("TAG", "安装失败！");
+                    long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
+                    if (record_id != -1) {
+                        HttpFactory.updateCmdStatus(record_id, false);
+                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(-1);
+                    }
                     result = false;
                     // 未知情况
                 } else {
                     Log.i("TAG", "未知情况！");
+                    long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
+                    if (record_id != -1) {
+                        HttpFactory.updateCmdStatus(record_id, false);
+                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(-1);
+                    }
                     result = false;
                 }
             } catch (IOException e) {
