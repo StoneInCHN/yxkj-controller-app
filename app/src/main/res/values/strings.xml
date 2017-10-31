@@ -32,5 +32,10 @@
     <string name="goods_name">同意冰红茶</string>
     <string name="goods_number">A21</string>
     <string name="select_num">X2</string>
+    <string name="sub">-</string>
+    <string name="add">+</string>
+    <string name="all_day">24H 便利店</string>
+    <string name="input_pwd">请输入管理员密码</string>
+    <string name="pwd_error">* 密码输入错误</string>
 
 </resources>

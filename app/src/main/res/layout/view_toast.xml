@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/toast_bg"
     android:gravity="center"
-    android:minHeight="100px"
-    android:padding="20px"
+    android:minHeight="@dimen/px_100"
+    android:padding="@dimen/px_20"
     android:textColor="@color/white"
     android:textSize="@dimen/px_36">
 

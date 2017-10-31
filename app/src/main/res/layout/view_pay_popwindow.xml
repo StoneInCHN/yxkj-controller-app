@@ -22,37 +22,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/goodList"
-            android:layout_marginRight="50px"
-            android:text="总计:￥25.80"
+            android:layout_marginRight="@dimen/px_50"
+            android:text="@string/total_all_price"
             android:textColor="@color/orange"
-            android:textSize="30px" />
+            android:textSize="@dimen/px_30" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#30000000">
+            android:background="@color/color_30000000">
 
             <ImageView
                 android:id="@+id/img_pay_code"
-                android:layout_width="166px"
-                android:layout_height="166px"
+                android:layout_width="@dimen/px_166"
+                android:layout_height="@dimen/px_166"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="179px"
+                android:layout_marginTop="@dimen/px_179"
                 android:scaleType="fitXY"
                 android:src="@mipmap/banner_right" />
 
             <TextView
                 android:id="@+id/tv_counter_down"
-                android:layout_width="320px"
-                android:layout_height="50px"
+                android:layout_width="@dimen/px_320"
+                android:layout_height="@dimen/px_50"
                 android:layout_below="@id/img_pay_code"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="29px"
+                android:layout_marginTop="@dimen/px_29"
                 android:background="@drawable/btn_cancle_pay"
                 android:gravity="center"
-                android:text="取消支付120s"
                 android:textColor="@color/white"
-                android:textSize="28px" />
+                android:textSize="@dimen/px_28" />
 
 
             <com.yxkj.controller.view.CanclePayView
@@ -60,8 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginRight="355px"
-                android:layout_marginTop="195px"
+                android:layout_marginRight="@dimen/px_355"
+                android:layout_marginTop="@dimen/px_195"
                 android:visibility="gone" />
         </RelativeLayout>
 
@@ -77,29 +76,28 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="155px"
-            android:layout_height="108px"
-            android:layout_marginTop="300px"
+            android:layout_width="@dimen/px_155"
+            android:layout_height="@dimen/px_108"
+            android:layout_marginTop="@dimen/px_300"
             android:src="@mipmap/icon_pay" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="@dimen/px_50"
             android:gravity="center"
-            android:text="支付成功，请及时取走商品"
+            android:text="@string/pay_after"
             android:textColor="@color/color_333333"
-            android:textSize="30px" />
+            android:textSize="@dimen/px_30" />
 
         <TextView
             android:id="@+id/btn_back"
-            android:layout_width="420px"
-            android:layout_height="50px"
-            android:layout_marginTop="25px"
+            android:layout_width="@dimen/px_420"
+            android:layout_height="@dimen/px_50"
+            android:layout_marginTop="@dimen/px_25"
             android:background="@drawable/btn_cancle_pay"
-            android:text="返回首页:5s"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="30px" />
+            android:textSize="@dimen/px_30" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70px">
+    android:layout_height="@dimen/px_70">
 
     <TextView
         android:id="@+id/tv_rest_time"
@@ -9,14 +9,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/count_down"
-        android:textSize="27px" />
+        android:textSize="@dimen/px_27" />
 
     <ImageView
         android:id="@+id/img_back"
-        android:layout_width="23px"
+        android:layout_width="@dimen/px_23"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="23px"
-        android:layout_height="44px"
+        android:layout_marginLeft="@dimen/px_23"
+        android:layout_height="@dimen/px_44"
         android:src="@mipmap/back" />
 
     <TextView
@@ -26,6 +26,6 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/img_back"
         android:text="@string/main"
-        android:textSize="27px" />
+        android:textSize="@dimen/px_27" />
 
 </RelativeLayout>

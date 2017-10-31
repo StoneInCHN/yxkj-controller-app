@@ -7,15 +7,15 @@
 
     <Button
         android:id="@+id/btn_sub"
-        android:layout_width="36px"
-        android:layout_height="36px"
+        android:layout_width="@dimen/px_36"
+        android:layout_height="@dimen/px_36"
         android:layout_gravity="center"
         android:background="@drawable/bg_btn_style_white"
         android:gravity="center"
-        android:padding="0px"
-        android:text="-"
+        android:padding="@dimen/px_0"
+        android:text="@string/sub"
         android:textColor="@color/green"
-        android:textSize="24px"
+        android:textSize="@dimen/px_24"
         android:textStyle="bold" />
 
     <TextView
@@ -24,21 +24,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="2"
         android:textColor="@color/green"
         android:textSize="24px" />
 
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="36px"
-        android:layout_height="36px"
+        android:layout_width="@dimen/px_36"
+        android:layout_height="@dimen/px_36"
         android:layout_gravity="center"
         android:background="@drawable/bg_tv_round_green"
         android:gravity="center"
-        android:padding="0px"
-        android:text="+"
+        android:padding="@dimen/px_0"
+        android:text="@string/add"
         android:textColor="@color/white"
-        android:textSize="24px"
+        android:textSize="@dimen/px_24"
         android:textStyle="bold" />
 
 </LinearLayout>

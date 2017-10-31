@@ -184,6 +184,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
                 }
                 break;
             case RESTARTSYSTEM://重启系统
+                SharePrefreceHelper.getInstence(this).setRestart(true);
                 try {
                     Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot -p"});  //关机
                     proc.waitFor();

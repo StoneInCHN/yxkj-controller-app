@@ -244,4 +244,19 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
         return getLong(Constant.APK_DOWNLOADED);
     }
 
+    /**
+     * 设置重启
+     *
+     * @param restart
+     */
+    public void setRestart(boolean restart) {
+        setBoolean(Constant.RESTARTSYSTEM, restart);
+    }
+
+    /**
+     * 获得重启
+     */
+    public void getRestart() {
+        getBoolean(Constant.RESTARTSYSTEM, false);
+    }
 }

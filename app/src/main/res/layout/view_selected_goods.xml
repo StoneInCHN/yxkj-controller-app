@@ -6,20 +6,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60px"
+        android:layout_height="@dimen/px_60"
         android:background="@color/theme_gray"
-        android:paddingLeft="20px"
-        android:paddingRight="20px">
+        android:paddingLeft="@dimen/px_20"
+        android:paddingRight="@dimen/px_20">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/dot_green"
-            android:drawablePadding="15px"
+            android:drawablePadding="@dimen/px_15"
             android:text="@string/goods_selecte"
             android:textColor="@color/color_333333"
-            android:textSize="28px" />
+            android:textSize="@dimen/px_28" />
 
         <TextView
             android:id="@+id/tv_clear"
@@ -28,10 +28,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/clear_cart"
-            android:drawablePadding="15px"
+            android:drawablePadding="@dimen/px_15"
             android:text="@string/clear_list"
             android:textColor="@color/color_333333"
-            android:textSize="28px" />
+            android:textSize="@dimen/px_28" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
