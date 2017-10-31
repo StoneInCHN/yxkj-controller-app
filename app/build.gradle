@@ -97,7 +97,7 @@ dependencies {
     compile "com.android.volley:volley:${volley_version}"
     compile project(path: ':jjdxm-ijkplayer')
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.yxkj:common-entity:0.0.10-SNAPSHOT'
-    compile 'com.yxkj:yxkj-receiver:1.0-SNAPSHOT'
+    compile 'com.yxkj:common-entity:0.0.12-SNAPSHOT'
+    compile 'com.yxkj:yxkj-receiver:0.0.4-SNAPSHOT'
     compile files('src/jniLibs/core-3.2.1.jar')
 }

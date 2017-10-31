@@ -13,7 +13,6 @@
     <dimen name="px_772">772px</dimen>
     <dimen name="px_180">180px</dimen>
     <dimen name="px_20">20px</dimen>
-    <dimen name="number_1">1</dimen>
     <dimen name="px_75">75px</dimen>
     <dimen name="px_60">60px</dimen>
     <dimen name="px_62">62px</dimen>
@@ -51,8 +50,6 @@
     <dimen name="px_100">100px</dimen>
     <dimen name="px_15">15px</dimen>
     <dimen name="px_12">12px</dimen>
-    <dimen name="number_100">100</dimen>
-    <dimen name="number_0">0</dimen>
     <dimen name="px_5">5px</dimen>
     <dimen name="px_47">47px</dimen>
     <dimen name="px_65">65px</dimen>

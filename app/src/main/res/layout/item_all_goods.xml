@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px_15"
             android:ellipsize="end"
-            android:lines="@dimen/number_1"
+            android:lines="1"
             android:text="农夫山泉有点甜天天天天天"
             android:textSize="@dimen/px_14" />
 
@@ -84,11 +84,11 @@
                 android:layout_centerVertical="true"
                 app:btnSize="@dimen/px_24"
                 app:btnTextSize="@dimen/px_14"
-                app:maxValue="@dimen/number_100"
-                app:minValue="@dimen/number_0"
+                app:maxValue="100"
+                app:minValue="0"
                 app:textViewPadding="@dimen/px_5"
                 app:textViewSize="@dimen/px_14"
-                app:value="@dimen/number_1" />
+                app:value="1" />
 
         </RelativeLayout>
 

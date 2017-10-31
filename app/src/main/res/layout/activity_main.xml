@@ -12,7 +12,7 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px_0"
-        android:layout_weight="@dimen/number_1" />
+        android:layout_weight="1" />
     <!-- 内容-->
     <FrameLayout
         android:id="@+id/layout_fragments"
@@ -23,5 +23,5 @@
         android:id="@+id/downVideoView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px_0"
-        android:layout_weight="@dimen/number_1" />
+        android:layout_weight="1" />
 </LinearLayout>

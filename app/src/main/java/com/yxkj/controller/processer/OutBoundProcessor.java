@@ -24,13 +24,14 @@ public class OutBoundProcessor implements IProcessor {
     @Override
     public void process(ChannelHandlerContext ctx, CmdMsg cmdMsg) {
 
-        Map<String, String> contentMap = cmdMsg.getContent();
-        HttpFactory.updateShipmentStatus(Long.valueOf(contentMap.get("orderItemId")), "SHIPMENT_INPROCESS");
-
         new Thread(() -> {
+            Map<String, String> contentMap = cmdMsg.getContent();
+            if (cmdMsg.getType().equals(CommonEnum.CmdType.SELL_OUT)) {
+                HttpFactory.updateShipmentStatus(Long.valueOf(contentMap.get("orderItemId")), "SHIPMENT_INPROCESS");
+            }
             Integer physicAddress = MyApplication.getMyApplication().configBean.getDeviceInfo().getAddressPhysicMap().get(cmdMsg.getAddress());
             //如果找不到对应的物理地址则返回
-            if (physicAddress == null || physicAddress < 0) return;
+            if (physicAddress == null || physicAddress < 0) ;
             int portId = MyApplication.getMyApplication()
                     .getRegisterPort()
                     .get(MyApplication.getMyApplication().configBean.getDeviceInfo().getSerialPorts().get(physicAddress - 1));
@@ -55,6 +56,6 @@ public class OutBoundProcessor implements IProcessor {
 
     @Override
     public boolean validateProcessor(CmdMsg cmdMsg) {
-        return cmdMsg.getType() == CommonEnum.CmdType.SELL_OUT;
+        return cmdMsg.getType() == CommonEnum.CmdType.SELL_OUT || cmdMsg.getType() == CommonEnum.CmdType.SELL_OUT_TEST;
     }
 }

@@ -55,14 +55,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="@dimen/number_1"
+        android:layout_weight="11"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/current_goods_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="@dimen/number_1"
+            android:layout_weight="1"
             android:background="@color/color_20cccccc"
             android:paddingLeft="@dimen/px_20"
             android:paddingRight="@dimen/px_4" />
@@ -76,7 +76,7 @@
                 android:id="@+id/seletedGoodsList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="@dimen/number_1"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:visibility="gone" />
 
@@ -97,7 +97,7 @@
                         android:id="@+id/tv_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="@dimen/number_1"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|right"
                         android:paddingRight="@dimen/px_62"
                         android:text="共计: ￥00.00"

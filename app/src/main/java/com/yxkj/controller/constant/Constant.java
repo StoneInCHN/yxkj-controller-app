@@ -18,9 +18,10 @@ public class Constant {
     public static String[] TABLES;
 //            = new String[]{UserModel.class.getName()};
 
-    public static final String BASE_URL = "http://machine.ybjcq.com/yxkj-machine/";
-    public static final String BASE_RECEIVER_URL = "101.132.144.100";
-//    public static final String BASE_RECEIVER_URL = "10.1.0.143";
+//    public static final String BASE_URL = "http://machine.ybjcq.com/yxkj-machine/";
+    public static final String BASE_URL = "http://10.1.0.143/";
+//    public static final String BASE_RECEIVER_URL = "101.132.144.100";
+    public static final String BASE_RECEIVER_URL = "10.1.0.143";
 
     public static final long TIMEOUT = 30;
 

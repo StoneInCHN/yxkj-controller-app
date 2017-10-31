@@ -21,7 +21,7 @@
             android:layout_width="@dimen/px_316"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="@dimen/number_1"
+            android:lines="1"
             android:text="@string/goods_name"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/px_24" />
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="75px"
-            android:layout_weight="@dimen/number_1"
+            android:layout_weight="1"
             android:gravity="right"
             android:text="@string/price"
             android:textColor="@color/orange"
