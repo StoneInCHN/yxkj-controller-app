@@ -134,23 +134,28 @@ public class ApkDownloadUtil implements ProgressListener {
                 // 代表成功
                 if (value == 0) {
                     Log.i("TAG", "安装成功！");
+                    long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
+                    if (record_id != 0) {
+                        HttpFactory.updateCmdStatus(record_id, true);
+                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
+                    }
                     result = true;
                     // 失败
                 } else if (value == 1) {
                     Log.i("TAG", "安装失败！");
                     long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
-                    if (record_id != -1) {
+                    if (record_id != 0) {
                         HttpFactory.updateCmdStatus(record_id, false);
-                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(-1);
+                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
                     }
                     result = false;
                     // 未知情况
                 } else {
                     Log.i("TAG", "未知情况！");
                     long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
-                    if (record_id != -1) {
+                    if (record_id != 0) {
                         HttpFactory.updateCmdStatus(record_id, false);
-                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(-1);
+                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
                     }
                     result = false;
                 }

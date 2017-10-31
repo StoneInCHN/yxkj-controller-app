@@ -19,6 +19,7 @@ import com.yxkj.controller.callback.NetStateChangeCallback;
 import com.yxkj.controller.callback.ShowPayPopupWindowListener;
 import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.fragment.MainFragment;
+import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.service.ControllerService;
 import com.yxkj.controller.share.SharePrefreceHelper;
 import com.yxkj.controller.util.LogUtil;
@@ -64,6 +65,11 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
     public void beforeInitView() {
         EventBus.getDefault().register(this);
         mainActivityPresenter = new MainActivityPresenterIml();
+        long record_id = SharePrefreceHelper.getInstence(this).getRestart();
+        if (record_id != 0) {
+            HttpFactory.updateCmdStatus(record_id, true);
+            SharePrefreceHelper.getInstence(this).setRestart(0);
+        }
     }
 
     @Override
