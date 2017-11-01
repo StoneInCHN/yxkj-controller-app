@@ -23,7 +23,7 @@ public class AudioControlProcessor implements IProcessor {
         LogUtil.d("AudioControlProcessor:" + cmdMsg.getContent());
         Map<String, String> contentMap = cmdMsg.getContent();
         ControlAudioManager.newInstance().setVolume(Float.parseFloat(contentMap.get("volume")));
-        HttpFactory.updateCmdStatus(cmdMsg.getId(), true);
+        HttpFactory.updateCmdStatus(cmdMsg.getId(), true, null);
     }
 
     @Override

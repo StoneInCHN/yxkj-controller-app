@@ -66,9 +66,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         EventBus.getDefault().register(this);
         mainActivityPresenter = new MainActivityPresenterIml();
         long record_id = SharePrefreceHelper.getInstence(this).getRestart();
-        LogUtil.e("record_id" + record_id);
+        LogUtil.e("record_id"+record_id);
         if (record_id != 0) {
-            HttpFactory.updateCmdStatus(record_id, true);
+            HttpFactory.updateCmdStatus(record_id, true,null);
             SharePrefreceHelper.getInstence(this).setRestart(0);
         }
     }

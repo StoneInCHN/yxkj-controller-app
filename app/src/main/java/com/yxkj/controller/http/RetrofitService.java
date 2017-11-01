@@ -2,6 +2,7 @@ package com.yxkj.controller.http;
 
 import com.yxkj.controller.base.BaseEntity;
 import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.CommandRequest;
 import com.yxkj.controller.beans.MachineInfoRequest;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
@@ -41,7 +42,7 @@ public interface RetrofitService {
     Observable<BaseEntity<List<VerifyStock>>> verifyStock(@Body VerifyStockBody body);
 
     @POST(Constant.UPATECMDSTATUS)
-    Observable<ResponseBody> updateCmdStatus(@Query("commandId") Long commandId, @Query("isSuccess") Boolean isSuccess);
+    Observable<ResponseBody> updateCmdStatus(@Body CommandRequest request);
 
     @POST(Constant.UPDATESHIPMENTSTATUS)
     Observable<ResponseBody> updateShipmentStatus(@Query("orderItemId") Long orderId, @Query("shipmentStatus") String shipmentStatus);

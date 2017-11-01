@@ -18,7 +18,7 @@ public class AdvertisementProcessor implements IProcessor {
     public void process(ChannelHandlerContext ctx, CmdMsg msg) {
         LogUtil.d("AdvertisementProcessor:" + msg.getContent());
         ReciveUrlUtil.newInstance().getJson(msg.getContent());
-        HttpFactory.updateCmdStatus(msg.getId(), true);
+        HttpFactory.updateCmdStatus(msg.getId(), true, null);
     }
 
     @Override

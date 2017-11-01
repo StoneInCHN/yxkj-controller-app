@@ -2,6 +2,7 @@ package com.yxkj.controller.http;
 
 import com.yxkj.controller.base.BaseObserver;
 import com.yxkj.controller.beans.Category;
+import com.yxkj.controller.beans.CommandRequest;
 import com.yxkj.controller.beans.MachineInfoRequest;
 import com.yxkj.controller.beans.SgByChannel;
 import com.yxkj.controller.beans.VerifyStock;
@@ -80,8 +81,9 @@ public class HttpFactory {
      *
      * @param
      */
-    public static void updateCmdStatus(Long comomandId, Boolean isSuccess) {
-        RetrofitFactory.getInstance().updateCmdStatus(comomandId, isSuccess).subscribeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
+    public static void updateCmdStatus(Long comomandId, Boolean isSuccess, String extMsg) {
+
+        RetrofitFactory.getInstance().updateCmdStatus(new CommandRequest(comomandId, isSuccess, extMsg)).subscribeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
             @Override
             public void accept(@NonNull ResponseBody responseBody) throws Exception {
                 System.out.println(responseBody);
