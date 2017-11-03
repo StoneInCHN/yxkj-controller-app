@@ -9,6 +9,7 @@ import com.yxkj.controller.util.GsonUtil;
 import com.yxkj.controller.util.LogUtil;
 import com.yxkj.common.entity.CmdMsg;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -42,11 +43,28 @@ public class OutBoundProcessor implements IProcessor {
                         int box = MyApplication.getMyApplication().configBean.getDeviceInfo().getBoxMap().get(cmdMsg.getBox());
                         response = EVprotocol.EVtrade(portId, 1, physicAddress, box, 1);
                         EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
-                        HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 0 && jsonRsp.getEV_json().getIs_success() == 1);
+                        boolean isSuccess = jsonRsp.getEV_json().getResult() == 0 && jsonRsp.getEV_json().getIs_success() == 1;
+                        if (isSuccess){
+                            HttpFactory.updateCmdStatus(cmdMsg.getId(),isSuccess,null);
+                        }else {
+                            Map<String, String> extMsgMap = new HashMap<String, String>();
+                            if (jsonRsp.getEV_json().getResult() == 33){ //未检测到货物落下
+                                HttpFactory.updateCmdStatus(cmdMsg.getId(),isSuccess,"LACK_GOODS");
+                            }else {
+                                HttpFactory.updateCmdStatus(cmdMsg.getId(),isSuccess,"DEVICE_EXCEPTION");
+                            }
+
+                        }
+
                     } else if (cmdMsg.getAddressType() == 1) {
                         response = EVprotocol.EVBentoOpen(portId, physicAddress, cmdMsg.getBox());
                         EVJsonResponse jsonRsp = GsonUtil.getInstance().convertJsonStringToObject(response, EVJsonResponse.class);
-                        HttpFactory.updateCmdStatus(cmdMsg.getId(), jsonRsp.getEV_json().getResult() == 1 && jsonRsp.getEV_json().getIs_success() == 1);
+                        boolean isSuccess = jsonRsp.getEV_json().getResult() == 1 && jsonRsp.getEV_json().getIs_success() == 1;
+                        if (isSuccess) {
+                            HttpFactory.updateCmdStatus(cmdMsg.getId(), isSuccess, null);
+                        } else {
+                            HttpFactory.updateCmdStatus(cmdMsg.getId(), isSuccess, "DEVICE_EXCEPTION");
+                        }
                     }
 
                     LogUtil.d(response);

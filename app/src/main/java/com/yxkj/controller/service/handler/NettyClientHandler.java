@@ -91,7 +91,7 @@ public class NettyClientHandler extends CustomHeartbeatHandler {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        new Thread(() -> nettyClientBootstrap.startNetty()).start();
+        new Thread(() -> nettyClientBootstrap.connect()).start();
         ctx.close();
     }
 

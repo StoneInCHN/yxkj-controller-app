@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ControllerService extends Service {
-    NettyClientBootstrap nettyStart = new NettyClientBootstrap();
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,6 +45,7 @@ public class ControllerService extends Service {
     public void onCreate() {
         super.onCreate();
         //从本地获取DeviceNo
+        NettyClientBootstrap nettyStart = NettyClientBootstrap.getInstance();
         String imei = DisplayUtil.getImei();
         MyApplication.getMyApplication().configBean.getDeviceInfo().setDeviceNo(imei);
         LogUtil.d("imei:" + imei);
