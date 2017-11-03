@@ -13,14 +13,14 @@ import com.yxkj.controller.constant.Constant;
 
 public class GlideUtil {
     public static void setImage(Context context, ImageView imageView, String url) {
-        Glide.with(context).load(Constant.BASE_URL + url).centerCrop().error(R.mipmap.ic_launcher).into(imageView);
+        Glide.with(context).load(Constant.BASE_URL + url).fitCenter().error(R.mipmap.ic_launcher).into(imageView);
     }
 
     public static void setImage(Context context, ImageView imageView, String url, int error_id) {
-        Glide.with(context).load(Constant.BASE_URL + url).centerCrop().error(error_id).into(imageView);
+        Glide.with(context).load(Constant.BASE_URL + url).fitCenter().error(error_id).into(imageView);
     }
 
     public static void setImageAdvert(Context context, ImageView imageView, String url, int error_id) {
-        Glide.with(context).load( url).centerCrop().error(error_id).into(imageView);
+        Glide.with(context).load(url).centerCrop().error(error_id).into(imageView);
     }
 }

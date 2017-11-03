@@ -56,7 +56,7 @@ public class SearchGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel> {
         }
         holder.setText(R.id.tv_number, "x " + bean.number);
         //显示图片
-        GlideUtil.setImage(context, img_name, bean.gImg);
+        GlideUtil.setImageAdvert(context, img_name, bean.gImg, R.mipmap.img_default);
         //商品编号
         holder.setText(R.id.tv_num, bean.cSn);
         //商品名称

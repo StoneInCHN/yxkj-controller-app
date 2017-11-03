@@ -91,4 +91,5 @@
     <dimen name="px_195">195px</dimen>
     <dimen name="px_23">23px</dimen>
     <dimen name="px_44">44px</dimen>
+    <dimen name="px_150">150px</dimen>
 </resources>

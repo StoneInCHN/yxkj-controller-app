@@ -7,51 +7,59 @@
         android:id="@+id/layout"
         android:layout_width="@dimen/px_440"
         android:layout_height="@dimen/px_260"
-        android:layout_marginTop="@dimen/px_30"
         android:background="@drawable/pwd_exit_bg"
-        android:gravity="center"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_pwd"
-            android:layout_width="@dimen/px_337"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/px_60"
-            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/px_50"
+            android:layout_marginRight="@dimen/px_50"
+            android:layout_marginTop="@dimen/px_50"
             android:background="@drawable/exit_input"
             android:gravity="center_vertical"
             android:hint="@string/input_pwd"
             android:inputType="textPassword|number"
-            android:paddingLeft="@dimen/px_16"
+            android:paddingLeft="@dimen/px_18"
             android:textSize="@dimen/px_21" />
 
         <TextView
             android:id="@+id/tv_pwd_error"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="42px"
+            android:layout_marginLeft="@dimen/px_50"
+            android:layout_marginRight="@dimen/px_50"
             android:gravity="center_vertical"
-            android:paddingBottom="@dimen/px_7"
-            android:paddingLeft="@dimen/px_52"
-            android:paddingTop="@dimen/px_7"
             android:text="@string/pwd_error"
             android:textColor="@color/color_EC1F1F"
             android:textSize="@dimen/px_16"
             android:visibility="invisible" />
 
 
-        <Button
-            android:id="@+id/btn_sure"
-            android:layout_width="@dimen/px_337"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="@dimen/px_60"
-            android:background="@drawable/exit_sure"
-            android:text="@string/sure"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px_22" />
-    </LinearLayout>
+            android:gravity="center">
 
-    <ImageView
-        android:id="@+id/img_cancle"
-        android:layout_width="@dimen/px_60"
-        android:layout_height="@dimen/px_60"
-        android:layout_marginLeft="@dimen/px_408"
-        android:src="@mipmap/delete_exit" />
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="@dimen/px_150"
+                android:layout_height="match_parent"
+                android:background="@drawable/exit_input"
+                android:text="@string/cancle"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/px_22" />
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="@dimen/px_150"
+                android:layout_height="match_parent"
+                android:background="@drawable/exit_input"
+                android:text="@string/sure"
+                android:layout_marginLeft="@dimen/px_40"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/px_22" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Controller.iml" filepath="$PROJECT_DIR$/Controller.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" filepath="$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/yxkj-controller-app.iml" filepath="$PROJECT_DIR$/yxkj-controller-app.iml" />
     </modules>
   </component>
 </project>

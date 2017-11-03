@@ -6,17 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yxkj.controller.R;
-import com.yxkj.controller.base.BaseRecyclerViewAdapter;
-import com.yxkj.controller.base.BaseViewHolder;
-import com.yxkj.controller.beans.SgByChannel;
-import com.yxkj.controller.callback.SelectGoodsListener;
-import com.yxkj.controller.util.GlideUtil;
-import com.yxkj.controller.util.StringUtil;
-import com.yxkj.controller.view.NumberAddSubView;
-
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -87,7 +77,7 @@ public class CurrentPageGoodsAdapter extends BaseRecyclerViewAdapter<SgByChannel
         }
         //设置商品图片
         ImageView img_name = holder.getView(R.id.img_name);
-        GlideUtil.setImage(context, img_name, bean.gImg);
+        GlideUtil.setImageAdvert(context, img_name, bean.gImg,R.mipmap.img_default_all_goods);
         //设置商品选择数量
         NumberAddSubView select_number = holder.getView(R.id.select_number);
         select_number.setMaxValue(bean.count);

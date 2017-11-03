@@ -10,10 +10,11 @@
 
     <ImageView
         android:id="@+id/img_name"
-        android:layout_width="@dimen/px_42"
-        android:layout_height="@dimen/px_66"
+        android:layout_width="@dimen/px_62"
+        android:layout_height="@dimen/px_62"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/px_30"
+        android:layout_marginLeft="@dimen/px_14"
+        android:scaleType="fitCenter"
         android:src="@color/colorAccent" />
 
     <LinearLayout
