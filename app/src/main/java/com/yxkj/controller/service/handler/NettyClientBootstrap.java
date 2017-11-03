@@ -1,6 +1,5 @@
 package com.yxkj.controller.service.handler;
 
-import com.yxkj.controller.constant.Constant;
 import com.yxkj.controller.util.LogUtil;
 
 import java.net.InetSocketAddress;
@@ -18,7 +17,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
@@ -34,9 +32,21 @@ public class NettyClientBootstrap {
     //    private String host = "10.1.0.143";
     public SocketChannel socketChannel;
 
+    private static final NettyClientBootstrap single = new NettyClientBootstrap();
+
+    private Bootstrap bootstrap;
+
+    private NettyClientBootstrap() {
+        bootstrap = new Bootstrap();
+    }
+
+    public static NettyClientBootstrap getInstance() {
+        return single;
+    }
+
     public void startNetty() {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap();
+
         bootstrap.channel(NioSocketChannel.class);
         bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
         bootstrap.group(eventLoopGroup);
@@ -55,9 +65,13 @@ public class NettyClientBootstrap {
                 p.addLast(new NettyClientHandler(NettyClientBootstrap.this));
             }
         });
+        connect();
+    }
 
+    public void connect() {
+        ChannelFuture future = null;
         try {
-            ChannelFuture future = bootstrap.connect(new InetSocketAddress(BASE_RECEIVER_URL, port)).sync();
+            future = bootstrap.connect(new InetSocketAddress(BASE_RECEIVER_URL, port)).sync();
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();
                 LogUtil.d("connect server  成功---------");
@@ -71,20 +85,21 @@ public class NettyClientBootstrap {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    startNetty();
+                    connect();
                 }).start();
             }
         } catch (Exception e) {
 //            e.printStackTrace();
             LogUtil.e(e.getMessage());
-            new Thread(() -> {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException e1) {
-                    e.printStackTrace();
-                }
-                startNetty();
-            }).start();
+            if (future != null && future.channel() != null) {
+                future.channel().closeFuture();
+            }
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e1) {
+                e.printStackTrace();
+            }
+            connect();
         }
     }
 }
