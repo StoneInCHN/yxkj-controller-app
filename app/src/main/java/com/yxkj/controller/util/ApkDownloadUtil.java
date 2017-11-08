@@ -10,10 +10,12 @@ import com.yxkj.controller.callback.ProgressListener;
 import com.yxkj.controller.http.HttpFactory;
 import com.yxkj.controller.share.SharePrefreceHelper;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
@@ -111,9 +113,15 @@ public class ApkDownloadUtil implements ProgressListener {
         boolean result = false;
         Process process = null;
         OutputStream out = null;
+
+        BufferedReader successResult = null;
+        BufferedReader errorResult = null;
+        StringBuilder successMsg = null;
+        StringBuilder errorMsg = null;
+
         Log.i("TAG", "file.getPath()：" + file.getPath());
         if (file.exists()) {
-            System.out.println(file.getPath() + "==");
+            LogUtil.w(file.getPath() + "==");
             try {
                 process = Runtime.getRuntime().exec("su");
                 out = process.getOutputStream();
@@ -131,18 +139,43 @@ public class ApkDownloadUtil implements ProgressListener {
                 out.close();
                 int value = process.waitFor();
 
+                successMsg = new StringBuilder();
+                errorMsg = new StringBuilder();
+                successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                String s;
+                while ((s = successResult.readLine()) != null) {
+                    successMsg.append(s);
+                }
+                while ((s = errorResult.readLine()) != null) {
+                    errorMsg.append(s);
+                }
+                LogUtil.w("TAG 成功消息：" + successMsg.toString() + "\n" + "错误消息: " + errorMsg.toString());
                 // 代表成功
                 if (value == 0) {
-                    Log.i("TAG", "安装成功！");
-                    long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
-                    if (record_id != 0) {
-                        HttpFactory.updateCmdStatus(record_id, true, null);
-                        SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
+                    file.delete();
+                    if (successMsg.toString().contains("Success") && !errorMsg.toString().contains("Failure")) {
+                        Log.i("TAG", "安装成功！");
+                        long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
+                        if (record_id != 0) {
+                            HttpFactory.updateCmdStatus(record_id, true, null);
+                            SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
+                        }
+                        result = true;
+                    } else {
+                        Log.i("TAG", "安装失败！");
+                        file.delete();
+                        long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
+                        if (record_id != 0) {
+                            HttpFactory.updateCmdStatus(record_id, false, null);
+                            SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).setRestart(0);
+                        }
+                        result = false;
                     }
-                    result = true;
                     // 失败
                 } else if (value == 1) {
                     Log.i("TAG", "安装失败！");
+                    file.delete();
                     long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
                     if (record_id != 0) {
                         HttpFactory.updateCmdStatus(record_id, false, null);
@@ -152,6 +185,7 @@ public class ApkDownloadUtil implements ProgressListener {
                     // 未知情况
                 } else {
                     Log.i("TAG", "未知情况！");
+                    file.delete();
                     long record_id = SharePrefreceHelper.getInstence(MyApplication.getMyApplication()).getRestart();
                     if (record_id != 0) {
                         HttpFactory.updateCmdStatus(record_id, false, null);

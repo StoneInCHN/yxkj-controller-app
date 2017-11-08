@@ -6,7 +6,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yxkj.controller.R;
+import com.yxkj.controller.base.BaseRecyclerViewAdapter;
+import com.yxkj.controller.base.BaseViewHolder;
+import com.yxkj.controller.beans.SgByChannel;
+import com.yxkj.controller.callback.SelectGoodsListener;
+import com.yxkj.controller.util.GlideUtil;
+import com.yxkj.controller.util.StringUtil;
+import com.yxkj.controller.view.NumberAddSubView;
+
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**

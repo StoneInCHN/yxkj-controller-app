@@ -22,14 +22,6 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
         return sharePrefreceHelper;
     }
 
-    public void setFirstBoolean(String key, boolean vaule) {
-        setBoolean("first", vaule);
-    }
-
-    public boolean getFirstBoolean(String key, boolean defaultVaule) {
-        return getBoolean(key, defaultVaule);
-    }
-
     /**
      * 设置顶部视频下载进度
      */
@@ -55,7 +47,7 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 获得顶部视频下载成功
      */
     public boolean getVideoTopDownloadSuceess() {
-        return getBoolean(Constant.VIDEO_TOP_BOOLEAN, false);
+        return getBoolean(Constant.VIDEO_TOP_BOOLEAN);
     }
 
     /**
@@ -69,7 +61,7 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 获得当前顶部视频在线播放状态
      */
     public boolean getVideoTopOnline() {
-        return getBoolean(Constant.VIDEO_BOTTOM_STATE, false);
+        return getBoolean(Constant.VIDEO_BOTTOM_STATE);
     }
 
     /**
@@ -111,7 +103,7 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 获得底部视频下载成功
      */
     public boolean getVideoBottomDownloadSuceess() {
-        return getBoolean(Constant.VIDEO_BOTTOM_BOOLEAN, false);
+        return getBoolean(Constant.VIDEO_BOTTOM_BOOLEAN);
     }
 
     /**
@@ -125,7 +117,7 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 获得当前底部视频在线播放状态
      */
     public boolean getVideoBottomOnline() {
-        return getBoolean(Constant.VIDEO_BOTTOM_STATE, false);
+        return getBoolean(Constant.VIDEO_BOTTOM_STATE);
     }
 
     /**
@@ -213,7 +205,7 @@ public class SharePrefreceHelper extends PrefrenceWrapper {
      * 获得apk下载状态
      */
     public boolean getApkDownloadState() {
-        return getBoolean(Constant.APK_DOWNLOAD_STATE, false);
+        return getBoolean(Constant.APK_DOWNLOAD_STATE);
     }
 
     /**

@@ -66,9 +66,9 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
         EventBus.getDefault().register(this);
         mainActivityPresenter = new MainActivityPresenterIml();
         long record_id = SharePrefreceHelper.getInstence(this).getRestart();
-        LogUtil.e("record_id"+record_id);
+        LogUtil.e("record_id" + record_id);
         if (record_id != 0) {
-            HttpFactory.updateCmdStatus(record_id, true,null);
+            HttpFactory.updateCmdStatus(record_id, true, null);
             SharePrefreceHelper.getInstence(this).setRestart(0);
         }
     }
@@ -265,8 +265,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             @Override
             public boolean onError(IMediaPlayer iMediaPlayer, int what, int extra) {
                 iMediaPlayer.reset();
-                ToastUtil.showToast("播放视频出错" + extra);
-                return true;
+                return false;
             }
         });
     }
@@ -294,8 +293,7 @@ public class MainActivity extends BaseActivity implements AllGoodsAndBetterGoods
             @Override
             public boolean onError(IMediaPlayer iMediaPlayer, int what, int extra) {
                 iMediaPlayer.reset();
-                ToastUtil.showToast("播放视频出错" + extra);
-                return true;
+                return false;
             }
         });
     }

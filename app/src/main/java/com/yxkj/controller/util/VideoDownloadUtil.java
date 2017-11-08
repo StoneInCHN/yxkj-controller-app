@@ -1,7 +1,5 @@
 package com.yxkj.controller.util;
 
-import android.util.Log;
-
 import com.yxkj.controller.application.MyApplication;
 import com.yxkj.controller.body.ProgressResponseBody;
 import com.yxkj.controller.callback.ProgressListener;

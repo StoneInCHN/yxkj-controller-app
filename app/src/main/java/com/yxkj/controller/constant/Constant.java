@@ -30,9 +30,9 @@ public class Constant {
     /**
      * 顶部、底部默认视频地址
      */
-//    public static String VIDEO_TOP_DEFAULT_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4";
-    public static String VIDEO_TOP_DEFAULT_URL = "";
-    public static String VIDEO_BOTTOM_DEFAULT_URL = "http://192.167.1.242:8082/yxkj/advertisement/machine/dytt.mp4";
+    public static String VIDEO_TOP_DEFAULT_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/14960611_9fa6dd80cff56ea0e7ed0793d38e135a.mp4";
+//    public static String VIDEO_BOTTOM_DEFAULT_URL = "http://192.167.1.242:8082/yxkj/advertisement/machine/dytt.mp4";
+    public static String VIDEO_BOTTOM_DEFAULT_URL = "http://tb-video.bdstatic.com/tieba-smallvideo-spider/8091147_4234bf66fbb5c72de53be6ce74b87b42.mp4";
     /**
      * 视频文件名字
      */
